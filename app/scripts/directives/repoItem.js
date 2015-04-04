@@ -8,15 +8,15 @@ angular.module('uiBuilderApp')
       scope: {
         model: '='
       },
-      template: '<div class="repo-item" draggable="true">{{model.name}}</div>',
+      templateUrl: 'scripts/directives/repoItem.html',
       link: function (scope, elem) {
         elem.on('dragstart', function (evt) {
           evt.dataTransfer.setData('markup', scope.model.markup);
           elem[0].classList.add('in-drag');
         });
-        elem.on('dragend', function (evt) {
+        elem.on('dragend', function () {
           elem[0].classList.remove('in-drag');
-        })
+        });
       }
     };
   });

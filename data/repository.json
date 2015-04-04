@@ -1,7 +1,39 @@
-[{
-  "name": "Box",
-  "markup": "<div class=\"box\"></div>"
-}, {
-  "name": "Item",
-  "markup": "<div class=\"item\"></div>"
-}]
+{
+  "componentsTree": {
+    "name": "My Framework",
+    "subNodes": [{
+      "name": "CSS",
+      "subNodes": [{
+        "name": "Typography",
+        "subNodes": [{
+          "name": "Heading 1",
+          "markup": "<h1>Sample heading #1</h1>"
+        }, {
+          "name": "Heading 2",
+          "markup": "<h2>Sample heading #2</h1>"
+        }]
+      }, {
+        "name": "Buttons",
+        "subNodes": [{
+          "name": "Button #1",
+          "markup": "<button>Sample button #1</button>"
+        }, {
+          "name": "Button #2",
+          "markup": "<button>Sample button #2</button>"
+        }]
+      }]
+    }, {
+      "name": "Components",
+      "subNodes": [{
+        "name": "Page title",
+        "markup": "<header><h1>Page title</h1><h2>Page subtitle</h2></header>"
+      }]
+    }, {
+      "name": "Layout",
+      "subNodes": [{
+        "name": "Tow column layout",
+        "markup": "<div><aside></aside><main></main></div>"
+      }]
+    }]
+  }
+}

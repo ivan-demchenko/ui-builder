@@ -1,0 +1,8 @@
+<ul>
+  <li ng-repeat="node in tree.subNodes">
+    <repo-item model="node"></repo-item>
+    <div ng-if="node.subNodes && node.subNodes.length > 0">
+      <repo-items-tree tree="node"></repo-items-tree>
+    </div>
+  </li>
+</ul>

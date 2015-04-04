@@ -32,6 +32,17 @@ html, body {
   background: #f0f0f0;
 }
 
+.aside ul {
+  padding: 0;
+  margin: 0;
+}
+.aside ul li {
+  list-style: none;
+}
+.aside ul li ul {
+  padding: 0 0 0 1rem;
+}
+
 .main {
   background: #F0F9FF;
   display: flex;
@@ -42,8 +53,9 @@ html, body {
   overflow: auto;
   transition: .3s;
 }
-.ui-canvas.drag {
-  background: #d0d9dd;
+.ui-canvas.drag,
+.ui-canvas .drag{
+  background: #d0d9dd !important;
 }
 
 .repo-item {
@@ -60,11 +72,13 @@ html, body {
 
 .box {
   border: solid 2px blue;
+  background: #fff;
   padding: 1rem;
   margin: 1rem;
   min-height: 100px;
 }
 .item {
+  background: #cfc;
   border: solid 2px red;
   padding: .5rem;
   margin: .5rem;

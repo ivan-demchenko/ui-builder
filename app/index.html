@@ -17,7 +17,7 @@
   <body>
     <div class="container" ng-controller="MainCtrl as main">
       <div class="aside">
-        <repo-item ng-repeat="item in main.repoItems track by $index" model="item"></repo-item>
+        <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
       </div>
       <div class="main">
         <ui-canvas></ui-canvas>
@@ -34,8 +34,10 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/services/repository.js"></script>
+    <script src="scripts/services/recursionHelper.js"></script>
     <script src="scripts/directives/repoItem.js"></script>
     <script src="scripts/directives/uiCanvas.js"></script>
+    <script src="scripts/directives/repoItemsTree.js"></script>
     <!-- endbuild -->
 </body>
 </html>

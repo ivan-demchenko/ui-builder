@@ -35,18 +35,18 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
       },
       jsTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        tasks: ['jshint:test', 'karma']
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        tasks: ['copy:styles', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -79,7 +79,6 @@ module.exports = function (grunt) {
               connect.static('.tmp'),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/data', connect.static('./data')),
-              connect().use('/app/styles', connect.static('./app/styles')),
               connect.static(appConfig.app)
             ];
           }

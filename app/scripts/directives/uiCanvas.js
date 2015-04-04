@@ -16,15 +16,15 @@ angular.module('uiBuilderApp')
         });
         elem.on('dragend', function (evt) {
           evt.preventDefault();
-          elem[0].classList.remove('drag');
+          evt.target.classList.remove('drag');
         });
         elem.on('dragover', function (evt) {
           evt.preventDefault();
-          elem[0].classList.add('drag');
+          evt.target.classList.add('drag');
         });
         elem.on('dragleave', function (evt) {
           evt.preventDefault();
-          elem[0].classList.remove('drag');
+          evt.target.classList.remove('drag');
         });
       }
     };
