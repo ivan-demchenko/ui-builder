@@ -1,0 +1,7 @@
+[{
+  "name": "Box",
+  "markup": "<div class=\"box\"></div>"
+}, {
+  "name": "Item",
+  "markup": "<div class=\"item\"></div>"
+}]

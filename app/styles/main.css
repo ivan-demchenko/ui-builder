@@ -1,0 +1,71 @@
+[draggable] {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: element;
+}
+
+.full-width, html, body, .main, .ui-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.pad, .aside, .main {
+  padding: 1rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100%;
+}
+
+.aside {
+  max-width: 14rem;
+  min-width: 14rem;
+  background: #f0f0f0;
+}
+
+.main {
+  background: #F0F9FF;
+  display: flex;
+}
+
+.ui-canvas {
+  border: solid 1px #ccc;
+  overflow: auto;
+  transition: .3s;
+}
+.ui-canvas.drag {
+  background: #d0d9dd;
+}
+
+.repo-item {
+  padding: .5rem;
+  margin-bottom: .5rem;
+  background: #ddd;
+  transition: .3s;
+}
+.repo-item.in-drag {
+  background: #bbb;
+}
+
+
+
+.box {
+  border: solid 2px blue;
+  padding: 1rem;
+  margin: 1rem;
+  min-height: 100px;
+}
+.item {
+  border: solid 2px red;
+  padding: .5rem;
+  margin: .5rem;
+}
