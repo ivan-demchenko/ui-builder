@@ -15,12 +15,23 @@
     <!-- endbuild -->
   </head>
   <body>
-    <div class="container" ng-controller="MainCtrl as main">
-      <div class="aside">
-        <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
-      </div>
-      <div class="main">
-        <ui-canvas></ui-canvas>
+    <div class="uib-app-container" ng-controller="MainCtrl as main">
+      <header class="uib-app-header">
+        <span class="uib-app-logo">ui builder</span>
+        <span class="uib-v-div"></span>
+        <span class="uib-app-logo">Show html</span>
+      </header>
+      <div class="uib-app-wrapper">
+        <div class="uib-app-aside">
+          <repo-items-tree
+            ng-show="main.asideViewState==='repo'"
+            tree="main.repoItems.componentsTree"></repo-items-tree>
+          <item-properties-view
+            data="main.editableElement"></item-properties-view>
+        </div>
+        <div class="uib-app-main">
+          <ui-canvas></ui-canvas>
+        </div>
       </div>
     </div>
 
@@ -35,9 +46,13 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/services/repository.js"></script>
     <script src="scripts/services/recursionHelper.js"></script>
+    <script src="scripts/services/itemProcess.js"></script>
+    <script src="scripts/services/domElemManipulations.js"></script>
     <script src="scripts/directives/repoItem.js"></script>
     <script src="scripts/directives/uiCanvas.js"></script>
     <script src="scripts/directives/repoItemsTree.js"></script>
+    <script src="scripts/directives/itemPropertiesView.js"></script>
+    <script src="scripts/directives/domTreeView.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -31,6 +31,15 @@
     }, {
       "name": "Layout",
       "subNodes": [{
+        "name": "Box",
+        "markup": "<div class=\"box\"></div>",
+        "params": [{
+          "name": "Class",
+          "attr": "class",
+          "values": ["big", "medium", "small"],
+          "default": "box"
+        }]
+      }, {
         "name": "Tow column layout",
         "markup": "<div><aside></aside><main></main></div>"
       }]

@@ -5,67 +5,108 @@
   -webkit-user-drag: element;
 }
 
-.full-width, html, body, .main, .ui-canvas {
+.full-width, html, body, .uib-app-main, .uib-app-canvas {
   width: 100%;
   height: 100%;
 }
 
-.pad, .aside, .main {
+.uib-app-pad, .uib-app-aside ul, .uib-app-main, .item-props-edit {
   padding: 1rem;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  font-size: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
-.container {
+.uib-v-div {
+  width: 1px;
+  border-right: 1px solid #ccc;
+}
+
+.uib-app-container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   height: 100%;
 }
 
-.aside {
+.uib-app-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.uib-app-header {
+  background: #fff;
+  box-shadow: 0 2px 3px #ccc;
+  z-index: 1;
+  font-size: .7rem;
+  flex-shrink: 0;
+}
+.uib-app-logo {
+  padding: 1rem;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.uib-app-aside {
   max-width: 14rem;
   min-width: 14rem;
   background: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.aside ul {
+.item-props-edit {
+  background: #fff;
+  min-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px #777;
+  z-index: 1;
+}
+.item-props-edit header {
+  padding-bottom: .5rem;
+}
+
+.uib-app-aside ul {
   padding: 0;
   margin: 0;
+  font-size: .85rem;
+  overflow-y: auto;
 }
-.aside ul li {
+.uib-app-aside ul li {
   list-style: none;
 }
-.aside ul li ul {
+.uib-app-aside ul li ul {
   padding: 0 0 0 1rem;
 }
 
-.main {
+.uib-app-main {
   background: #F0F9FF;
   display: flex;
 }
 
-.ui-canvas {
+.uib-app-canvas {
   border: solid 1px #ccc;
   overflow: auto;
   transition: .3s;
 }
-.ui-canvas.drag,
-.ui-canvas .drag{
+.uib-app-canvas.drag,
+.uib-app-canvas .drag{
   background: #d0d9dd !important;
 }
 
-.repo-item {
+.uib-repo-item {
   padding: .5rem;
   margin-bottom: .5rem;
   background: #ddd;
   transition: .3s;
 }
-.repo-item.in-drag {
+.uib-repo-item.in-drag {
   background: #bbb;
+  transform: scale3d(1.1,1.1,1.1);
+  box-shadow: 0 0 6px #aaa;
 }
 
 
@@ -76,6 +117,18 @@ html, body {
   padding: 1rem;
   margin: 1rem;
   min-height: 100px;
+}
+.box.small {
+  max-width: 200px;
+}
+.box.red {
+  background: #fcc;
+}
+.box.at-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 .item {
   background: #cfc;

@@ -11,7 +11,11 @@ angular.module('uiBuilderApp')
       templateUrl: 'scripts/directives/repoItem.html',
       link: function (scope, elem) {
         elem.on('dragstart', function (evt) {
-          evt.dataTransfer.setData('markup', scope.model.markup);
+          if (!scope.model.markup) {
+            evt.preventDefault();
+            return;
+          }
+          evt.dataTransfer.setData('elemModel', JSON.stringify(scope.model));
           elem[0].classList.add('in-drag');
         });
         elem.on('dragend', function () {

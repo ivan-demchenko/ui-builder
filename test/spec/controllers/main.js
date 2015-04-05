@@ -6,17 +6,17 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('uiBuilderApp'));
 
   var MainCtrl,
+    $httpBackend,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
     MainCtrl = $controller('MainCtrl', {
       $scope: scope
     });
   }));
 
   it('should have an empty array for components', function () {
-    expect(scope.repoItems).toBeDefined();
+    expect(MainCtrl.repoItems).toBe(null);
   });
 });
