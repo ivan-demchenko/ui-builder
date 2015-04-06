@@ -1,7 +1,34 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('itemProcess', function (domElemManioulations) {
+  .service('dropProcess', function (domElemManioulations, domTreeParser, $rootScope) {
+
+    this.dropElement = function (target, elemData) {
+      target = angular.element(target);
+      var elemModel = JSON.parse(elemData);
+      var insElem = this.buildElementToDrop(elemModel);
+      target.removeClass('drag').append(insElem);
+      $rootScope.$emit('uib:elem:dropped', insElem);
+    };
+
+    this.unmarkTarget = function (target) {
+      target.classList.remove('drag');
+    };
+
+    this.markTarget = function (target) {
+      target.classList.add('drag');
+    };
+
+    this.startEditElem = function (elem) {
+      if (elem.uibRemovable) {
+        $rootScope.$emit('uib:elem:edit', elem);
+      }
+    };
+
+    this.removeElem = function (elem) {
+      elem.remove();
+    };
+
     /**
      * This method accept element description as input param, check it's validity and
      * return new Angular element to be injected.

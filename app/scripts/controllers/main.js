@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .controller('MainCtrl', function ($scope, $timeout, Repository) {
+  .controller('MainCtrl', function (Repository) {
     this.repoItems = null;
     this.domTreeRoot = {};
 

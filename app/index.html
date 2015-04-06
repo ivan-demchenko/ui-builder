@@ -32,6 +32,9 @@
         <div class="uib-app-main">
           <ui-canvas></ui-canvas>
         </div>
+        <div class="uib-app-aside">
+          <dom-tree-view root-selector=".uib-app-canvas" tree="main.domTreeRoot"></dom-tree-view>
+        </div>
       </div>
     </div>
 
@@ -46,8 +49,9 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/services/repository.js"></script>
     <script src="scripts/services/recursionHelper.js"></script>
-    <script src="scripts/services/itemProcess.js"></script>
+    <script src="scripts/services/dropProcess.js"></script>
     <script src="scripts/services/domElemManipulations.js"></script>
+    <script src="scripts/services/domTreeParser.js"></script>
     <script src="scripts/directives/repoItem.js"></script>
     <script src="scripts/directives/uiCanvas.js"></script>
     <script src="scripts/directives/repoItemsTree.js"></script>

@@ -1,0 +1,8 @@
+<ul>
+  <li ng-repeat="node in tree.children">
+    <div class="uib-tree-item">{{ node.name }}</div>
+    <div ng-if="node.children.length > 0">
+      <dom-tree-view tree="node"></dom-tree-view>
+    </div>
+  </li>
+</ul>
