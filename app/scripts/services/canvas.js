@@ -9,6 +9,13 @@ angular.module('uiBuilderApp')
       this.iframe = iframe;
     };
 
+    this.getSource = function () {
+      if (!this.iframe) {
+        throw 'IFrame is not registered';
+      }
+      return this.getIframeBody().innerHTML;
+    };
+
     this.getIframeHead = function () {
       if (!this.iframe) {
         throw 'IFrame is not registered';

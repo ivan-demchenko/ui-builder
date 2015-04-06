@@ -5,6 +5,14 @@ angular.module('uiBuilderApp')
     this.repoItems = null;
     this.domTreeRoot = {};
 
+    this.viewSourse = false;
+    this.sourse = '';
+
+    this.toggleSourceView = function () {
+      this.sourse = canvas.getSource();
+      this.viewSourse = !this.viewSourse;
+    };
+
     this.addCSS = function () {
       var url = prompt('Enter URL to CSS File');
       if (url) {
