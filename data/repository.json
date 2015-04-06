@@ -41,7 +41,7 @@
         }]
       }, {
         "name": "Tow column layout",
-        "markup": "<div><aside></aside><main></main></div>"
+        "markup": "<div class=\"layout\"><aside></aside><main></main></div>"
       }]
     }]
   }

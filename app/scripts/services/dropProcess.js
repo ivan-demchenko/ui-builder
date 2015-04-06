@@ -9,6 +9,7 @@ angular.module('uiBuilderApp')
       var insElem = this.buildElementToDrop(elemModel);
       target.removeClass('drag').append(insElem);
       $rootScope.$emit('uib:elem:dropped', insElem);
+      return true;
     };
 
     this.unmarkTarget = function (target) {
@@ -60,6 +61,9 @@ angular.module('uiBuilderApp')
      */
     this.resetAttrsForElement = function (element) {
       var props = element.uibParams;
+      if (!props) {
+        return;
+      }
       props.forEach(function (prop) {
         if (prop.attr === 'class') {
           domElemManioulations.setClass(element, prop.value, prop.default);

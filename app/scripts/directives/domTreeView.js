@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('domTreeView', function (RecursionHelper, $rootScope, dropProcess, domTreeParser) {
+  .directive('domTreeView', function (RecursionHelper, iframeContent, $rootScope, dropProcess, domTreeParser) {
     return {
       restrict: 'E',
       replace: true,
@@ -16,14 +16,22 @@ angular.module('uiBuilderApp')
           $rootScope.$on('uib:elem:dropped', function () {
             scope.$apply(function () {
               if (rootSelector) {
-                scope.tree = domTreeParser.buildTree(document.querySelector(rootSelector));
+                var rootElem = document.querySelector(rootSelector);
+                if (rootElem.tagName === 'IFRAME') {
+                  rootElem = iframeContent.getIframeBody(rootElem);
+                }
+                scope.tree = domTreeParser.buildTree(rootElem);
               }
             });
           });
 
           $rootScope.$on('uib:elem:remove', function () {
             if (rootSelector) {
-              scope.tree = domTreeParser.buildTree(document.querySelector(rootSelector));
+              var rootElem = document.querySelector(rootSelector);
+              if (rootElem.tagName === 'IFRAME') {
+                rootElem = iframeContent.getIframeBody(rootElem);
+              }
+              scope.tree = domTreeParser.buildTree(rootElem);
             }
           });
 
@@ -50,8 +58,14 @@ angular.module('uiBuilderApp')
 
           elem.on('drop', function (evt) {
             evt.preventDefault();
-            var elem = angular.element(evt.target).scope().node.domElem;
-            dropProcess.dropElement(elem, evt.dataTransfer.getData('elemModel'));
+            var elem;
+            var angularTarget = angular.element(evt.target);
+            if (angularTarget.scope().node) {
+              elem = angularTarget.scope().node.domElem;
+              if (elem) {
+                dropProcess.dropElement(elem, evt.dataTransfer.getData('elemModel'));
+              }
+            }
           });
 
         });

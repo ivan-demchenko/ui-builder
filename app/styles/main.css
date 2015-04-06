@@ -1,16 +1,26 @@
-[draggable] {
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+[draggable],
+.uib-app-aside ul,
+.uib-app-aside ul li {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
   -webkit-user-drag: element;
 }
 
-.full-width, html, body, .uib-app-main, .uib-app-canvas {
+.uib-app-main {
   width: 100%;
-  height: 100%;
 }
 
-.uib-app-pad, .uib-app-aside ul, .uib-app-main, .item-props-edit {
+.uib-app-pad, .uib-app-aside ul, .uib-app-main, .uib-item-props-edit {
   padding: 1rem;
 }
 
@@ -58,7 +68,7 @@ html, body {
   overflow: hidden;
 }
 
-.item-props-edit {
+.uib-item-props-edit {
   background: #fff;
   min-height: 100px;
   overflow-y: auto;
@@ -66,8 +76,12 @@ html, body {
   z-index: 1;
   flex-shrink: 0;
 }
-.item-props-edit header {
-  padding-bottom: .5rem;
+.uib-item-props-edit .uib-item-props-edit-header {
+  padding: .5rem 1rem;
+  margin: -1rem -1rem 1rem -1rem;
+  background: #eee;
+  border-bottom: solid 1px #ccc;
+  text-align: right;
 }
 
 .uib-app-aside ul {
@@ -80,13 +94,26 @@ html, body {
 .uib-app-aside ul li {
   list-style: none;
 }
+.uib-app-aside ul li:hover .uib-tree-item {
+  background: #d0d0d0;
+}
 .uib-app-aside ul li ul {
   padding: 0 0 0 1rem;
 }
 
 .uib-app-main {
-  background: #F0F9FF;
+  background: #6c6c6c;
   display: flex;
+}
+.uib-app-main .uib-canvas-wrapp {
+  min-width: 100%;
+  min-height: 100%;
+}
+.uib-app-main iframe {
+  border: solid 1px #bbb;
+  background: #fff;
+  min-width: 100%;
+  min-height: calc(100vh - 4.7rem);
 }
 
 .uib-app-canvas {
@@ -103,8 +130,12 @@ html, body {
 .uib-tree-item {
   padding: .5rem;
   margin-bottom: .5rem;
-  background: #ddd;
   transition: .3s;
+}
+.uib-tree-item:before {
+  content: '\00230A';
+  padding-right: .3rem;
+  color: silver;
 }
 .uib-tree-item.in-drag {
   background: #bbb;
@@ -133,9 +164,18 @@ html, body {
   left: 0;
   right: 0;
 }
-.item {
-  background: #cfc;
-  border: solid 2px red;
-  padding: .5rem;
-  margin: .5rem;
+.bg-gray {
+  background: silver
+}
+.bg-blue {
+  background: #ccf;
+}
+.layout {
+  display: flex;
+}
+.layout aside {
+  min-width: 20%;
+}
+.layout main {
+  flex-grow: 1;
 }
