@@ -1,8 +1,14 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('dropProcess', function (domElemManioulations, domTreeParser, $rootScope) {
+  .service('dropProcess', function (domElemManipulations, domTreeParser, $rootScope) {
 
+    /**
+     * Make drop of elem to target
+     * @param  {domElement} target The element which will accept the drop event
+     * @param  {hash} elemData Description of the element beight dropped
+     * @return {boolean}
+     */
     this.dropElement = function (target, elemData) {
       target = angular.element(target);
       var elemModel = JSON.parse(elemData);
@@ -12,20 +18,40 @@ angular.module('uiBuilderApp')
       return true;
     };
 
+    /**
+     * Mark target for drop so it is clean which element will accept drop
+     * @param  {domElement} target The element on which you want to drop
+     * @return {undefined}
+     */
     this.unmarkTarget = function (target) {
       target.classList.remove('uib-drag');
     };
 
+    /**
+     * Unmark target when mouse moves away
+     * @param  {domElement} target The element on which you just wanted to drop
+     * @return {undefined}
+     */
     this.markTarget = function (target) {
       target.classList.add('uib-drag');
     };
 
+    /**
+     * Send a signal that you use wants to edit an `elem`
+     * @param  {domElement} target The element to edit
+     * @return {undefined}
+     */
     this.startEditElem = function (elem) {
       if (elem.uibRemovable) {
         $rootScope.$emit('uib:elem:edit', elem);
       }
     };
 
+    /**
+     * Removed element from DOM.
+     * @param  {domElement} target The element to be removed
+     * @return {undefined}
+     */
     this.removeElem = function (elem) {
       elem.remove();
     };
@@ -66,9 +92,9 @@ angular.module('uiBuilderApp')
       }
       props.forEach(function (prop) {
         if (prop.attr === 'class') {
-          domElemManioulations.setClass(element, prop.value, prop.default);
+          domElemManipulations.setClass(element, prop.value, prop.default);
         } else {
-          domElemManioulations.setAttr(element, prop);
+          domElemManipulations.setAttr(element, prop);
         }
       });
     };

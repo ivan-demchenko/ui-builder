@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('domElemManioulations', function () {
+  .service('domElemManipulations', function () {
 
     this.setClass = function (elem, value, defaultValue) {
       var classList = [defaultValue].concat(value ? value.split(' ') : []);

@@ -41,7 +41,7 @@ angular.module('uiBuilderApp')
       style.setAttribute('rel', 'stylesheet');
       style.setAttribute('href', url + '?' + timestamp);
 
-      this.getIframeHead(this.iframe).appendChild(style);
+      this.getIframeHead().appendChild(style);
     };
 
     this.addJS = function (url) {
@@ -49,7 +49,7 @@ angular.module('uiBuilderApp')
       var script = document.createElement('script');
       script.setAttribute('src', url + '?' + timestamp);
 
-      this.getIframeHead(this.iframe).appendChild(script);
+      this.getIframeHead().appendChild(script);
     };
 
   });
