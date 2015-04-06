@@ -1,14 +1,22 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .controller('MainCtrl', function (Repository) {
+  .controller('MainCtrl', function (Repository, canvas) {
     this.repoItems = null;
     this.domTreeRoot = {};
 
-    this.asideViewState = 'repo';
+    this.addCSS = function () {
+      var url = prompt('Enter URL to CSS File');
+      if (url) {
+        canvas.addStyles(url);
+      }
+    };
 
-    this.setAsideView = function (viewName) {
-      this.asideViewState = viewName;
+    this.addJS = function () {
+      var url = prompt('Enter URL to JS File');
+      if (url) {
+        canvas.addJS(url);
+      }
     };
 
     this.init = function () {

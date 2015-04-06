@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('domTreeView', function (RecursionHelper, iframeContent, $rootScope, dropProcess, domTreeParser) {
+  .directive('domTreeView', function (RecursionHelper, canvas, $rootScope, dropProcess, domTreeParser) {
     return {
       restrict: 'E',
       replace: true,
@@ -18,7 +18,7 @@ angular.module('uiBuilderApp')
               if (rootSelector) {
                 var rootElem = document.querySelector(rootSelector);
                 if (rootElem.tagName === 'IFRAME') {
-                  rootElem = iframeContent.getIframeBody(rootElem);
+                  rootElem = canvas.getIframeBody(rootElem);
                 }
                 scope.tree = domTreeParser.buildTree(rootElem);
               }
@@ -29,7 +29,7 @@ angular.module('uiBuilderApp')
             if (rootSelector) {
               var rootElem = document.querySelector(rootSelector);
               if (rootElem.tagName === 'IFRAME') {
-                rootElem = iframeContent.getIframeBody(rootElem);
+                rootElem = canvas.getIframeBody(rootElem);
               }
               scope.tree = domTreeParser.buildTree(rootElem);
             }

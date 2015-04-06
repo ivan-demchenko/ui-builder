@@ -20,11 +20,13 @@
         <span class="uib-app-logo">ui builder</span>
         <span class="uib-v-div"></span>
         <span class="uib-app-logo">Show html</span>
+        <span class="uib-v-div"></span>
+        <span class="uib-app-logo" ng-click="main.addCSS()">Add CSS</span>
+        <span class="uib-app-logo" ng-click="main.addJS()">Add JS</span>
       </header>
       <div class="uib-app-wrapper">
         <div class="uib-app-aside">
           <repo-items-tree
-            ng-show="main.asideViewState==='repo'"
             tree="main.repoItems.componentsTree"></repo-items-tree>
           <item-properties-view
             data="main.editableElement"></item-properties-view>
@@ -53,7 +55,7 @@
     <script src="scripts/services/dropProcess.js"></script>
     <script src="scripts/services/domElemManipulations.js"></script>
     <script src="scripts/services/domTreeParser.js"></script>
-    <script src="scripts/services/iframeContent.js"></script>
+    <script src="scripts/services/canvas.js"></script>
 
     <script src="scripts/directives/repoItem.js"></script>
     <script src="scripts/directives/uiCanvas.js"></script>

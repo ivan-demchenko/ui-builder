@@ -122,8 +122,7 @@ html, body {
   transition: .3s;
 }
 .uib-app-canvas.drag,
-.uib-tree-item.drag,
-.uib-app-canvas .drag{
+.uib-tree-item.drag{
   background: #E5CE9A !important;
 }
 

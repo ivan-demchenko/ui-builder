@@ -7,17 +7,17 @@ angular.module('uiBuilderApp')
       target = angular.element(target);
       var elemModel = JSON.parse(elemData);
       var insElem = this.buildElementToDrop(elemModel);
-      target.removeClass('drag').append(insElem);
+      target.removeClass('uib-drag').append(insElem);
       $rootScope.$emit('uib:elem:dropped', insElem);
       return true;
     };
 
     this.unmarkTarget = function (target) {
-      target.classList.remove('drag');
+      target.classList.remove('uib-drag');
     };
 
     this.markTarget = function (target) {
-      target.classList.add('drag');
+      target.classList.add('uib-drag');
     };
 
     this.startEditElem = function (elem) {

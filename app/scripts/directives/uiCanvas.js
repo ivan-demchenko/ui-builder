@@ -1,15 +1,19 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('uiCanvas', function (dropProcess, iframeContent, $rootScope) {
+  .directive('uiCanvas', function (dropProcess, canvas, $rootScope) {
     return {
       restrict: 'E',
       replace: true,
       template: '<div class="uib-canvas-wrapp"><iframe width="100%" height="100%"></iframe></div>',
       link: function (scope, elem) {
 
-        var iframe = elem[0].getElementsByTagName('iframe')[0],
-          canvasBodyElem = iframeContent.getIframeBody(iframe);
+        var iframe = elem[0].getElementsByTagName('iframe')[0];
+        canvas.register(iframe);
+
+        var canvasBodyElem = canvas.getIframeBody(iframe);
+
+        canvas.addStyles('/styles/uib-canvas.css');
 
         if (canvasBodyElem) {
 
