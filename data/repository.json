@@ -1,47 +1,96 @@
 {
+  "require": {
+    "css": [
+      "//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    ],
+    "js": [
+      "//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+    ],
+    "htmlImports": []
+  },
   "componentsTree": {
-    "name": "My Framework",
+    "name": "Bootstrap",
     "subNodes": [{
       "name": "CSS",
       "subNodes": [{
+        "name": "Grid system",
+        "subNodes": [{
+          "name": "Container",
+          "markup": "<div class=\"container\"></div>"
+        }, {
+          "name": "Fluid container",
+          "markup": "<div class=\"container-fluid\"></div>"
+        }, {
+          "name": "Row",
+          "markup": "<div class=\"row\"></div>"
+        }, {
+          "name": "Column",
+          "markup": "<div class=\"col-md-1\"></div>",
+          "params": [{
+            "name": "Class",
+            "attr": "class",
+            "default": ""
+          }]
+        }]
+      }, {
         "name": "Typography",
         "subNodes": [{
-          "name": "Heading 1",
-          "markup": "<h1>Sample heading #1</h1>"
+          "name": "Heading #1",
+          "markup": "<h1>Example haeding</h1>"
         }, {
-          "name": "Heading 2",
-          "markup": "<h2>Sample heading #2</h1>"
+          "name": "Heading #2",
+          "markup": "<h2>Example haeding</h2>"
+        }, {
+          "name": "Heading #3",
+          "markup": "<h3>Example haeding</h3>"
+        }, {
+          "name": "Heading #4",
+          "markup": "<h4>Example haeding</h4>"
+        }, {
+          "name": "Lead",
+          "markup": "<p class=\"lead\">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.</p>"
         }]
       }, {
-        "name": "Buttons",
+        "name": "Forms",
+        "markup": "<form></form>",
+        "options": [{
+          "name": "Name",
+          "attr": "name"
+        }, {
+          "name": "class",
+          "attr": "Class"
+        }]
+      }, {
+        "name": "Form group",
+        "markup": "<div class=\"form-group\"></div>"
+      }, {
+        "name": "Input group",
+        "markup": "<div class=\"input-group\"></div>"
+      }, {
+        "name": "Elements",
         "subNodes": [{
-          "name": "Button #1",
-          "markup": "<button>Sample button #1</button>"
+          "name": "Label",
+          "markup": "<label class=\"control-label\"></label>",
+          "options": [{
+            "name": "class",
+            "attr": "Class"
+          }]
         }, {
-          "name": "Button #2",
-          "markup": "<button>Sample button #2</button>"
+          "name": "Input",
+          "markup": "<input type=\"text\" class=\"form-control\" placeholder=\"Text input\">",
+          "options": [{
+            "name": "Class",
+            "attr": "class",
+            "default": "form-control"
+          }, {
+            "name": "Placeholder text",
+            "attr": "placeholder",
+            "default": "Enter here"
+          }]
+        }, {
+          "name": "Radio",
+          "markup": "<label><input type=\"checkbox\" value=\"\">Option one</label>"
         }]
-      }]
-    }, {
-      "name": "Components",
-      "subNodes": [{
-        "name": "Page title",
-        "markup": "<header><h1>Page title</h1><h2>Page subtitle</h2></header>"
-      }]
-    }, {
-      "name": "Layout",
-      "subNodes": [{
-        "name": "Box",
-        "markup": "<div class=\"box\"></div>",
-        "params": [{
-          "name": "Class",
-          "attr": "class",
-          "values": ["big", "medium", "small"],
-          "default": "box"
-        }]
-      }, {
-        "name": "Tow column layout",
-        "markup": "<div class=\"layout\"><aside></aside><main></main></div>"
       }]
     }]
   }
