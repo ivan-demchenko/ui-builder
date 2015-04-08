@@ -42,9 +42,7 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.startEditElem = function (elem) {
-      if (elem.uibRemovable) {
-        $rootScope.$emit('uib:elem:edit', elem);
-      }
+      $rootScope.$emit('uib:elem:edit', elem);
     };
 
     /**
@@ -91,7 +89,10 @@ angular.module('uiBuilderApp')
         return;
       }
       props.forEach(function (prop) {
-        if (prop.attr === 'class') {
+        if (prop.domAttr) {
+          element[prop.domAttr] = prop.value;
+        }
+        if (prop.attr && prop.attr === 'class') {
           domElemManipulations.setClass(element, prop.value, prop.default);
         } else {
           domElemManipulations.setAttr(element, prop);

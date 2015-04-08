@@ -1,12 +1,14 @@
 <div class="uib-item-props-edit" ng-show="propCtrl.elem !== null">
   <header class="uib-item-props-edit-header">
-    <button ng-click="propCtrl.done()">Done</button>
-    |
-    <button ng-click="propCtrl.remove()">Remove</button>
+    {{ propCtrl.elem.tagName }}
+    <aside>
+      <button ng-click="propCtrl.done()">Done</button>
+      <button ng-show="propCtrl.canRemove" ng-click="propCtrl.remove()">Delete</button>
+    </aside>
   </header>
   <form name="propsEditForm">
-    <div ng-repeat="rec in propCtrl.elem.uibParams">
-      {{ rec.name }}:
+    <div ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
+      <div>{{ rec.name }}:</div>
       <input type="text" name="{{rec.attr}}" ng-model="rec.value">
     </div>
   </form>

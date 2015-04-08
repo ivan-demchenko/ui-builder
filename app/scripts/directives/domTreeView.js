@@ -25,6 +25,16 @@ angular.module('uiBuilderApp')
             });
           });
 
+          $rootScope.$on('uib:elem:edit:done', function () {
+            if (rootSelector) {
+              var rootElem = document.querySelector(rootSelector);
+              if (rootElem.tagName === 'IFRAME') {
+                rootElem = canvas.getIframeBody(rootElem);
+              }
+              scope.tree = domTreeParser.buildTree(rootElem);
+            }
+          });
+
           $rootScope.$on('uib:elem:remove', function () {
             if (rootSelector) {
               var rootElem = document.querySelector(rootSelector);

@@ -81,7 +81,23 @@ html, body {
   margin: -1rem -1rem 1rem -1rem;
   background: #eee;
   border-bottom: solid 1px #ccc;
-  text-align: right;
+}
+.uib-item-props-edit .uib-item-props-edit-header aside {
+  float: right;
+}
+.uib-prop-row {
+  padding-bottom: .2rem;
+  margin-bottom: .5rem;
+}
+.uib-prop-row:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.uib-prop-row input {
+  width: 100%;
+  font-family: monospace;
+  font-size: 1rem;
+  line-height: 1rem;
 }
 
 .uib-app-aside ul {
@@ -93,9 +109,6 @@ html, body {
 }
 .uib-app-aside ul li {
   list-style: none;
-}
-.uib-app-aside ul li:hover .uib-tree-item {
-  background: #d0d0d0;
 }
 .uib-app-aside ul li ul {
   padding: 0 0 0 1rem;

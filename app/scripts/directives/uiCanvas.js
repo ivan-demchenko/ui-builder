@@ -27,7 +27,9 @@ angular.module('uiBuilderApp')
 
           canvasBodyElem.addEventListener('dblclick', function (evt) {
             evt.preventDefault();
-            dropProcess.startEditElem(evt.target);
+            if (evt.target.tagName !== 'BODY') {
+              dropProcess.startEditElem(evt.target);
+            }
           });
 
           canvasBodyElem.addEventListener('drop', function (evt) {
