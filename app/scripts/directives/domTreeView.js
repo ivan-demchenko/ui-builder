@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('domTreeView', function (RecursionHelper, canvas, $rootScope, dropProcess, domTreeParser) {
+  .directive('domTreeView', function (RecursionHelper, canvas, $rootScope, ElemManager, domTreeParser) {
     return {
       restrict: 'E',
       replace: true,
@@ -45,25 +45,19 @@ angular.module('uiBuilderApp')
             }
           });
 
-          elem.on('dblclick', function (evt) {
-            evt.preventDefault();
-            var elem = angular.element(evt.target).scope().node.domElem;
-            dropProcess.startEditElem(elem);
-          });
-
           elem.on('dragover', function (evt) {
             evt.preventDefault();
-            dropProcess.markTarget(evt.target);
+            ElemManager.markTarget(evt.target);
           });
 
           elem.on('dragend', function (evt) {
             evt.preventDefault();
-            dropProcess.unmarkTarget(evt.target);
+            ElemManager.unmarkTarget(evt.target);
           });
 
           elem.on('dragleave', function (evt) {
             evt.preventDefault();
-            dropProcess.unmarkTarget(evt.target);
+            ElemManager.unmarkTarget(evt.target);
           });
 
           elem.on('drop', function (evt) {
@@ -73,10 +67,18 @@ angular.module('uiBuilderApp')
             if (angularTarget.scope().node) {
               elem = angularTarget.scope().node.domElem;
               if (elem) {
-                dropProcess.dropElement(elem, evt.dataTransfer.getData('elemModel'));
+                ElemManager.dropElement(elem, evt.dataTransfer.getData('elemModel'));
               }
             }
           });
+
+          scope.editElem = function(node) {
+            ElemManager.startEditElem(node.domElem);
+          };
+
+          scope.removeElem = function(node) {
+            ElemManager.removeElem(node.domElem);
+          };
 
         });
       }

@@ -9,7 +9,7 @@ angular.module('uiBuilderApp')
         data: '='
       },
       templateUrl: 'scripts/directives/itemPropertiesView.html',
-      controller: function ($scope) {
+      controller: function () {
         var ctrl = this;
 
         ctrl.elem = null;
@@ -25,10 +25,8 @@ angular.module('uiBuilderApp')
         };
 
         $rootScope.$on('uib:elem:edit', function (evt, elem) {
-          $scope.$apply(function () {
-            ctrl.elem = elem;
-            domElem.updateProps(ctrl.elem);
-          });
+          ctrl.elem = elem;
+          domElem.updateProps(ctrl.elem);
         });
       },
       controllerAs: 'propCtrl'

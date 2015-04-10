@@ -16,6 +16,14 @@ html, body {
   -webkit-user-drag: element;
 }
 
+.uib-btn {
+  color: #388E3C;
+}
+.uib-btn:hover,
+.uib-btn:active {
+  color: #4CAF50;
+}
+
 .uib-app-main {
   width: 100%;
 }
@@ -32,7 +40,7 @@ html, body {
 
 .uib-v-div {
   width: 1px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #fff;
 }
 
 .uib-app-container {
@@ -46,11 +54,15 @@ html, body {
   height: 100%;
 }
 
+.uib-app-header, .uib-item-props-edit .uib-item-props-edit-header {
+  background: #43A047;
+  color: #fff;
+  box-shadow: 0 2px 3px rgba(0,0,0,.4);
+}
+
 .uib-app-header {
-  background: #fff;
-  box-shadow: 0 2px 3px #ccc;
   z-index: 1;
-  font-size: .7rem;
+  font-size: .8rem;
   flex-shrink: 0;
 }
 .uib-app-logo {
@@ -62,7 +74,7 @@ html, body {
 .uib-app-aside {
   max-width: 14rem;
   min-width: 14rem;
-  background: #f0f0f0;
+  background: #EEEEEE;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -79,11 +91,12 @@ html, body {
 .uib-item-props-edit .uib-item-props-edit-header {
   padding: .5rem 1rem;
   margin: -1rem -1rem 1rem -1rem;
-  background: #eee;
-  border-bottom: solid 1px #ccc;
 }
 .uib-item-props-edit .uib-item-props-edit-header aside {
   float: right;
+}
+.uib-item-props-edit .uib-item-props-edit-header aside .uib-btn {
+  color: #fff;
 }
 .uib-prop-row {
   padding-bottom: .2rem;
@@ -115,7 +128,7 @@ html, body {
 }
 
 .uib-app-main {
-  background: #6c6c6c;
+  background: #757575;
   display: flex;
 }
 .uib-app-main .uib-canvas-wrapp {
@@ -123,7 +136,7 @@ html, body {
   min-height: 100%;
 }
 .uib-app-main iframe {
-  border: solid 1px #bbb;
+  border: none;
   background: #fff;
   min-width: 100%;
   min-height: calc(100vh - 4.7rem);
@@ -136,12 +149,11 @@ html, body {
 }
 .uib-app-canvas.drag,
 .uib-tree-item.drag{
-  background: #E5CE9A !important;
+  background: #E3F2FD !important;
 }
 
 .uib-tree-item {
-  padding: .5rem;
-  margin-bottom: .5rem;
+  padding: .4rem;
   transition: .3s;
 }
 .uib-tree-item:before {
@@ -149,10 +161,11 @@ html, body {
   padding-right: .3rem;
   color: silver;
 }
+.uib-tree-item aside {
+  float: right;
+}
 .uib-tree-item.in-drag {
-  background: #bbb;
-  transform: scale3d(1.1,1.1,1.1);
-  box-shadow: 0 0 6px #aaa;
+  background: #FFCC80;
 }
 
 .uib-html-view {

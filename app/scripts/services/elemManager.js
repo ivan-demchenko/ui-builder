@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('dropProcess', function (domElem, domTreeParser, $rootScope) {
+  .service('ElemManager', function (domElem, domTreeParser, $rootScope) {
 
     /**
      * Make drop of elem to target
