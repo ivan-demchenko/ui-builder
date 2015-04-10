@@ -33,6 +33,13 @@ angular.module('uiBuilderApp')
 
     this.updateProps = function (elem) {
       elem.uibParams = elem.uibParams || [];
+      if (elem.classList.length > 0 && !this.containUIBParam(elem.uibParams, 'Class')) {
+        elem.uibParams.push({
+          name: 'Class',
+          attr: 'class',
+          value: elem.classList.join(' ')
+        });
+      }
       if (this.canChangeInnerText(elem) && !this.containUIBParam(elem.uibParams, 'Inner text')) {
         elem.uibParams.push({
           name: 'Inner text',
@@ -42,19 +49,16 @@ angular.module('uiBuilderApp')
       }
     };
 
-    this.setClass = function (elem, value, defaultValue) {
-      if (!value) {
-        return;
+    this.setClass = function (elem, value) {
+      if (value) {
+        elem.setAttribute('class', value);
       }
-      var classList = [defaultValue].concat(value ? value.split(' ') : []);
-      elem.setAttribute('class', classList.join(' '));
     };
 
     this.setAttr = function (elem, prop) {
-      if (!prop.value) {
-        return;
+      if (prop.value) {
+        elem.setAttribute(prop.attr, prop.value);
       }
-      elem.setAttribute(prop.attr, prop.value);
     };
 
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('uiCanvas', function (ElemManager, canvas, $rootScope) {
+  .directive('uiCanvas', function (ElemManager, canvas) {
     return {
       restrict: 'E',
       replace: true,
@@ -16,14 +16,6 @@ angular.module('uiBuilderApp')
         canvas.addStyles('/styles/uib-canvas.css');
 
         if (canvasBodyElem) {
-
-          $rootScope.$on('uib:elem:edit:done', function (evt, elem) {
-            ElemManager.resetAttrsForElement(elem);
-          });
-
-          $rootScope.$on('uib:elem:remove', function (evt, elem) {
-            ElemManager.removeElem(elem);
-          });
 
           canvasBodyElem.addEventListener('drop', function (evt) {
             evt.preventDefault();

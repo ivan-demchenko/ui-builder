@@ -42,7 +42,19 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.startEditElem = function (elem) {
+      domElem.updateProps(elem);
       $rootScope.$emit('uib:elem:edit', elem);
+    };
+
+    /**
+     * Send a signal that you use wants to edit an `elem`
+     * @param  {domElement} target The element to edit
+     * @return {undefined}
+     */
+    this.doneEditingElem = function (elem) {
+      domElem.updateProps(elem);
+      this.resetAttrsForElement(elem);
+      $rootScope.$emit('uib:elem:edit:done', elem);
     };
 
     /**
@@ -52,6 +64,7 @@ angular.module('uiBuilderApp')
      */
     this.removeElem = function (elem) {
       elem.remove();
+      $rootScope.$emit('uib:elem:remove', elem);
     };
 
     /**
@@ -91,9 +104,8 @@ angular.module('uiBuilderApp')
       props.forEach(function (prop) {
         if (prop.domAttr) {
           element[prop.domAttr] = prop.value;
-        }
-        if (prop.attr && prop.attr === 'class') {
-          domElem.setClass(element, prop.value, prop.default);
+        } else if (prop.attr && prop.attr === 'class') {
+          domElem.setClass(element, prop.value);
         } else {
           domElem.setAttr(element, prop);
         }

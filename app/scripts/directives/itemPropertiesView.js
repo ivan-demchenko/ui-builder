@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('itemPropertiesView', function ($rootScope, domElem) {
+  .directive('itemPropertiesView', function ($rootScope, domElem, ElemManager) {
     return {
       restrict: 'E',
       replace: true,
@@ -15,18 +15,17 @@ angular.module('uiBuilderApp')
         ctrl.elem = null;
 
         ctrl.done = function () {
-          $rootScope.$emit('uib:elem:edit:done', ctrl.elem);
+          ElemManager.doneEditingElem(ctrl.elem);
           ctrl.elem = null;
         };
 
         ctrl.remove = function () {
-          $rootScope.$emit('uib:elem:remove', ctrl.elem);
+          ElemManager.removeElem(ctrl.elem);
           ctrl.elem = null;
         };
 
         $rootScope.$on('uib:elem:edit', function (evt, elem) {
           ctrl.elem = elem;
-          domElem.updateProps(ctrl.elem);
         });
       },
       controllerAs: 'propCtrl'

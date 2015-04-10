@@ -28,8 +28,7 @@
           "markup": "<div class=\"col-md-1\"></div>",
           "params": [{
             "name": "Class",
-            "attr": "class",
-            "default": ""
+            "attr": "class"
           }]
         }]
       }, {
@@ -57,7 +56,8 @@
           "markup": "<div class=\"jumbotron\"><h1>Hello, world!</h1><p>Some text here</p><p><a class=\"btn btn-primary btn-lg\" role=\"button\">Learn more</a></p></div>",
           "params": [{
             "name": "Class",
-            "attr": "class"
+            "attr": "class",
+            "value": "jumbotron"
           }]
         }]
       }, {
@@ -91,11 +91,11 @@
           "params": [{
             "name": "Class",
             "attr": "class",
-            "default": "form-control"
+            "value": "form-control"
           }, {
             "name": "Placeholder text",
             "attr": "placeholder",
-            "default": "Enter here"
+            "value": "Enter here"
           }]
         }, {
           "name": "Radio",
