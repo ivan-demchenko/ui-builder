@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('dropProcess', function (domElemManipulations, domTreeParser, $rootScope) {
+  .service('dropProcess', function (domElem, domTreeParser, $rootScope) {
 
     /**
      * Make drop of elem to target
@@ -10,10 +10,10 @@ angular.module('uiBuilderApp')
      * @return {boolean}
      */
     this.dropElement = function (target, elemData) {
-      target = angular.element(target);
       var elemModel = JSON.parse(elemData);
       var insElem = this.buildElementToDrop(elemModel);
-      target.removeClass('uib-drag').append(insElem);
+      target.classList.remove('uib-drag');
+      target.appendChild(insElem);
       $rootScope.$emit('uib:elem:dropped', insElem);
       return true;
     };
@@ -66,14 +66,14 @@ angular.module('uiBuilderApp')
       if (!dropData.markup) {
         throw 'The markup for the element "' + dropData.name + '"" is not specified';
       }
-      var newElement = angular.element(dropData.markup);
+      var newElement = angular.element(dropData.markup)[0];
 
       // If the element suppose to have params, add them to the element itself
       if (dropData.params) {
-        newElement[0].uibParams = dropData.params;
+        newElement.uibParams = dropData.params;
       }
       // Mark new element as the one that can be removed
-      newElement[0].uibRemovable = true;
+      newElement.uibRemovable = true;
       return newElement;
     };
 
@@ -93,9 +93,9 @@ angular.module('uiBuilderApp')
           element[prop.domAttr] = prop.value;
         }
         if (prop.attr && prop.attr === 'class') {
-          domElemManipulations.setClass(element, prop.value, prop.default);
+          domElem.setClass(element, prop.value, prop.default);
         } else {
-          domElemManipulations.setAttr(element, prop);
+          domElem.setAttr(element, prop);
         }
       });
     };
