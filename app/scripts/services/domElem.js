@@ -31,33 +31,34 @@ angular.module('uiBuilderApp')
       });
     };
 
-    this.updateProps = function(elem) {
+    this.prepareElemPropsToEdit = function(elem) {
+      var val;
       elem.uibParams = elem.uibParams || [];
       if (elem.classList.length > 0 && !this.containUIBParam(elem.uibParams, 'Class')) {
+        val = Array.prototype.join.call(elem.classList, ' ');
         elem.uibParams.push({
           name: 'Class',
           attr: 'class',
-          value: Array.prototype.join.call(elem.classList, ' ')
+          value: val,
+          inUse: !!val
         });
       }
       if (this.canChangeInnerText(elem) && !this.containUIBParam(elem.uibParams, 'Inner text')) {
         elem.uibParams.push({
           name: 'Inner text',
           domAttr: 'innerText',
-          value: elem.innerText
+          value: elem.innerText,
+          inUse: undefined
         });
       }
     };
 
-    this.setClass = function(elem, value) {
-      if (value) {
-        elem.setAttribute('class', value);
+    this.setAttr = function(elem, name, value, isInUse) {
+      if (isInUse === false) {
+        return elem.removeAttribute(name);
       }
-    };
-
-    this.setAttr = function(elem, prop) {
-      if (prop.value) {
-        elem.setAttribute(prop.attr, prop.value);
+      if (value) {
+        return elem.setAttribute(name, value);
       }
     };
 

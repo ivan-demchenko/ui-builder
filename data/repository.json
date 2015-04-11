@@ -57,7 +57,8 @@
           "params": [{
             "name": "Class",
             "attr": "class",
-            "value": "jumbotron"
+            "value": "jumbotron",
+            "inUse": true
           }]
         }]
       }, {
@@ -83,7 +84,8 @@
           "markup": "<label class=\"control-label\"></label>",
           "params": [{
             "name": "class",
-            "attr": "Class"
+            "attr": "Class",
+            "inUse": true
           }]
         }, {
           "name": "Input",
@@ -91,7 +93,8 @@
           "params": [{
             "name": "Class",
             "attr": "class",
-            "value": "form-control"
+            "value": "form-control",
+            "inUse": true
           }, {
             "name": "Placeholder text",
             "attr": "placeholder",

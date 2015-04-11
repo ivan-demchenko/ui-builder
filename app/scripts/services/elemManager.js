@@ -11,10 +11,10 @@ angular.module('uiBuilderApp')
      */
     this.dropElement = function(target, elemData) {
       var elemModel = JSON.parse(elemData);
-      var insElem = this.buildElementToDrop(elemModel);
+      var elemToInsert = this.buildElementToDrop(elemModel);
       target.classList.remove('uib-drag');
-      target.appendChild(insElem);
-      $rootScope.$emit('uib:elem:dropped', insElem);
+      target.appendChild(elemToInsert);
+      $rootScope.$emit('uib:elem:dropped', elemToInsert);
       return true;
     };
 
@@ -42,7 +42,7 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.startEditElem = function(elem) {
-      domElem.updateProps(elem);
+      domElem.prepareElemPropsToEdit(elem);
       $rootScope.$emit('uib:elem:edit', elem);
     };
 
@@ -52,7 +52,6 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.doneEditingElem = function(elem) {
-      domElem.updateProps(elem);
       this.resetAttrsForElement(elem);
       $rootScope.$emit('uib:elem:edit:done', elem);
     };
@@ -102,13 +101,10 @@ angular.module('uiBuilderApp')
         return;
       }
       props.forEach(function(prop) {
-        if (prop.domAttr) {
-          element[prop.domAttr] = prop.value;
-        } else if (prop.attr && prop.attr === 'class') {
-          domElem.setClass(element, prop.value);
-        } else {
-          domElem.setAttr(element, prop);
+        if (prop.attr) {
+          return domElem.setAttr(element, prop.attr, prop.value, prop.inUser);
         }
+        element[prop.domAttr] = prop.value;
       });
     };
   });

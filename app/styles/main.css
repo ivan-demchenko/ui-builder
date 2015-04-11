@@ -99,14 +99,14 @@ html, body {
   color: #fff;
 }
 .uib-prop-row {
-  padding-bottom: .2rem;
   margin-bottom: .5rem;
+  display: flex;
 }
 .uib-prop-row:last-child {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-.uib-prop-row input,
+.uib-prop-row input[type="text"],
 .uib-source-view {
   width: 100%;
   font-family: monospace;
@@ -158,6 +158,7 @@ html, body {
   padding: .4rem;
   transition: .3s background;
   border-bottom: dotted 1px #ccc;
+  border-left: dotted 1px #ccc;
   overflow: hidden;
 }
 .uib-tree-item:before {
