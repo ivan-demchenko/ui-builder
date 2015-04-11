@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('domTreeParser', function () {
+  .service('domTreeParser', function() {
 
     function domElemModel(elem) {
       return {
@@ -11,7 +11,7 @@ angular.module('uiBuilderApp')
       };
     }
 
-    this.buildTree = function (root) {
+    this.buildTree = function(root) {
       root = domElemModel(root);
       root.children = root.children.map(this.buildTree.bind(this));
       return root;

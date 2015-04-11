@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('repoItemsTree', function (RecursionHelper) {
+  .directive('repoItemsTree', function(RecursionHelper) {
     return {
       restrict: 'E',
       replace: true,
@@ -9,7 +9,7 @@ angular.module('uiBuilderApp')
         tree: '='
       },
       templateUrl: 'scripts/directives/repoItemsTree.html',
-      compile: function (element) {
+      compile: function(element) {
         return RecursionHelper.compile(element);
       }
     };

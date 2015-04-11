@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('ElemManager', function (domElem, domTreeParser, $rootScope) {
+  .service('ElemManager', function(domElem, domTreeParser, $rootScope) {
 
     /**
      * Make drop of elem to target
@@ -9,7 +9,7 @@ angular.module('uiBuilderApp')
      * @param  {hash} elemData Description of the element beight dropped
      * @return {boolean}
      */
-    this.dropElement = function (target, elemData) {
+    this.dropElement = function(target, elemData) {
       var elemModel = JSON.parse(elemData);
       var insElem = this.buildElementToDrop(elemModel);
       target.classList.remove('uib-drag');
@@ -23,7 +23,7 @@ angular.module('uiBuilderApp')
      * @param  {domElement} target The element on which you want to drop
      * @return {undefined}
      */
-    this.unmarkTarget = function (target) {
+    this.unmarkTarget = function(target) {
       target.classList.remove('uib-drag');
     };
 
@@ -32,7 +32,7 @@ angular.module('uiBuilderApp')
      * @param  {domElement} target The element on which you just wanted to drop
      * @return {undefined}
      */
-    this.markTarget = function (target) {
+    this.markTarget = function(target) {
       target.classList.add('uib-drag');
     };
 
@@ -41,7 +41,7 @@ angular.module('uiBuilderApp')
      * @param  {domElement} target The element to edit
      * @return {undefined}
      */
-    this.startEditElem = function (elem) {
+    this.startEditElem = function(elem) {
       domElem.updateProps(elem);
       $rootScope.$emit('uib:elem:edit', elem);
     };
@@ -51,7 +51,7 @@ angular.module('uiBuilderApp')
      * @param  {domElement} target The element to edit
      * @return {undefined}
      */
-    this.doneEditingElem = function (elem) {
+    this.doneEditingElem = function(elem) {
       domElem.updateProps(elem);
       this.resetAttrsForElement(elem);
       $rootScope.$emit('uib:elem:edit:done', elem);
@@ -62,7 +62,7 @@ angular.module('uiBuilderApp')
      * @param  {domElement} target The element to be removed
      * @return {undefined}
      */
-    this.removeElem = function (elem) {
+    this.removeElem = function(elem) {
       elem.remove();
       $rootScope.$emit('uib:elem:remove', elem);
     };
@@ -73,7 +73,7 @@ angular.module('uiBuilderApp')
      * @param  {hash}   dropData Element description from repository.
      * @return {object}          Angular element
      */
-    this.buildElementToDrop = function (dropData) {
+    this.buildElementToDrop = function(dropData) {
       // Every element description object must have `markup` section.
       // Otherwise we can't use the element.
       if (!dropData.markup) {
@@ -96,12 +96,12 @@ angular.module('uiBuilderApp')
      * @param  {DOMElement} element DOM element to work with
      * @return {void}
      */
-    this.resetAttrsForElement = function (element) {
+    this.resetAttrsForElement = function(element) {
       var props = element.uibParams;
       if (!props) {
         return;
       }
-      props.forEach(function (prop) {
+      props.forEach(function(prop) {
         if (prop.domAttr) {
           element[prop.domAttr] = prop.value;
         } else if (prop.attr && prop.attr === 'class') {

@@ -7,7 +7,7 @@
  */
 angular.module('uiBuilderApp')
   .factory('RecursionHelper', ['$compile',
-    function ($compile) {
+    function($compile) {
       return {
         /**
          * Manually compiles the element, fixing the recursion loop.
@@ -15,7 +15,7 @@ angular.module('uiBuilderApp')
          * @param [link] A post-link function, or an object with function(s) registered via pre and post properties.
          * @returns An object containing the linking functions.
          */
-        compile: function (element, link) {
+        compile: function(element, link) {
           // Normalize the link parameter
           if (angular.isFunction(link)) {
             link = {
@@ -31,13 +31,13 @@ angular.module('uiBuilderApp')
             /**
              * Compiles and re-adds the contents
              */
-            post: function (scope, element) {
+            post: function(scope, element) {
               // Compile the contents
               if (!compiledContents) {
                 compiledContents = $compile(contents);
               }
               // Re-add the compiled contents to the element
-              compiledContents(scope, function (clone) {
+              compiledContents(scope, function(clone) {
                 element.append(clone);
               });
 

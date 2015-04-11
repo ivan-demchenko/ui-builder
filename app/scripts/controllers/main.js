@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .controller('MainCtrl', function (Repository, canvas) {
-    this.init = function () {
-      Repository.getItems().then(angular.bind(this, function (data) {
+  .controller('MainCtrl', function(Repository, canvas) {
+    this.init = function() {
+      Repository.getItems().then(angular.bind(this, function(data) {
         this.repoItems = data;
       }));
     };
@@ -14,7 +14,7 @@ angular.module('uiBuilderApp')
     this.viewSourse = false;
     this.sourse = '';
 
-    this.toggleSourceView = function () {
+    this.toggleSourceView = function() {
       this.sourse = canvas.getSource();
       this.viewSourse = !this.viewSourse;
     };

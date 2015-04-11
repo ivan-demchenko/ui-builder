@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('domTreeView', function (RecursionHelper, canvas, $rootScope, ElemManager, domTreeParser) {
+  .directive('domTreeView', function(RecursionHelper, canvas, $rootScope, ElemManager, domTreeParser) {
     return {
       restrict: 'E',
       replace: true,
@@ -9,12 +9,12 @@ angular.module('uiBuilderApp')
         tree: '='
       },
       templateUrl: 'scripts/directives/domTreeView.html',
-      compile: function (elem, attrs) {
+      compile: function(elem, attrs) {
         var rootSelector = attrs.rootSelector;
-        return RecursionHelper.compile(elem, function (scope) {
+        return RecursionHelper.compile(elem, function(scope) {
 
-          $rootScope.$on('uib:elem:dropped', function () {
-            scope.$apply(function () {
+          $rootScope.$on('uib:elem:dropped', function() {
+            scope.$apply(function() {
               if (rootSelector) {
                 var rootElem = document.querySelector(rootSelector);
                 if (rootElem.tagName === 'IFRAME') {
@@ -25,7 +25,7 @@ angular.module('uiBuilderApp')
             });
           });
 
-          $rootScope.$on('uib:elem:edit:done', function () {
+          $rootScope.$on('uib:elem:edit:done', function() {
             if (rootSelector) {
               var rootElem = document.querySelector(rootSelector);
               if (rootElem.tagName === 'IFRAME') {
@@ -35,7 +35,7 @@ angular.module('uiBuilderApp')
             }
           });
 
-          $rootScope.$on('uib:elem:remove', function () {
+          $rootScope.$on('uib:elem:remove', function() {
             if (rootSelector) {
               var rootElem = document.querySelector(rootSelector);
               if (rootElem.tagName === 'IFRAME') {
@@ -45,22 +45,22 @@ angular.module('uiBuilderApp')
             }
           });
 
-          elem.on('dragover', function (evt) {
+          elem.on('dragover', function(evt) {
             evt.preventDefault();
             ElemManager.markTarget(evt.target);
           });
 
-          elem.on('dragend', function (evt) {
+          elem.on('dragend', function(evt) {
             evt.preventDefault();
             ElemManager.unmarkTarget(evt.target);
           });
 
-          elem.on('dragleave', function (evt) {
+          elem.on('dragleave', function(evt) {
             evt.preventDefault();
             ElemManager.unmarkTarget(evt.target);
           });
 
-          elem.on('drop', function (evt) {
+          elem.on('drop', function(evt) {
             evt.preventDefault();
             var elem;
             var angularTarget = angular.element(evt.target);

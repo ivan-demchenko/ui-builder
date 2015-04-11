@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('domElem', function () {
+  .service('domElem', function() {
 
-    this.canHaveChildren = function (tagName) {
+    this.canHaveChildren = function(tagName) {
       var e = null,
         res = false;
       try {
@@ -17,21 +17,21 @@ angular.module('uiBuilderApp')
       return res;
     };
 
-    this.isParent = function (elem) {
+    this.isParent = function(elem) {
       return elem.children.length > 0;
     };
 
-    this.canChangeInnerText = function (elem) {
+    this.canChangeInnerText = function(elem) {
       return this.canHaveChildren(elem.tagName) && !this.isParent(elem);
     };
 
-    this.containUIBParam = function (params, name) {
-      return params.some(function (param) {
+    this.containUIBParam = function(params, name) {
+      return params.some(function(param) {
         return param.name === name;
       });
     };
 
-    this.updateProps = function (elem) {
+    this.updateProps = function(elem) {
       elem.uibParams = elem.uibParams || [];
       if (elem.classList.length > 0 && !this.containUIBParam(elem.uibParams, 'Class')) {
         elem.uibParams.push({
@@ -49,13 +49,13 @@ angular.module('uiBuilderApp')
       }
     };
 
-    this.setClass = function (elem, value) {
+    this.setClass = function(elem, value) {
       if (value) {
         elem.setAttribute('class', value);
       }
     };
 
-    this.setAttr = function (elem, prop) {
+    this.setAttr = function(elem, prop) {
       if (prop.value) {
         elem.setAttribute(prop.attr, prop.value);
       }
