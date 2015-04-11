@@ -2,11 +2,12 @@
 
 angular.module('uiBuilderApp')
   .controller('MainCtrl', function(Repository, canvas) {
-    this.init = function() {
-      Repository.getItems().then(angular.bind(this, function(data) {
-        this.repoItems = data;
+
+    (function(ctrl) {
+      Repository.getItems().then(angular.bind(ctrl, function(data) {
+        ctrl.repoItems = data;
       }));
-    };
+    })(this);
 
     this.repoItems = null;
     this.domTreeRoot = {};
@@ -18,6 +19,4 @@ angular.module('uiBuilderApp')
       this.sourse = canvas.getSource();
       this.viewSourse = !this.viewSourse;
     };
-
-    this.init();
   });

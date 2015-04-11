@@ -3,10 +3,16 @@
 angular.module('uiBuilderApp')
   .service('domTreeParser', function() {
 
+    function getElementIdentifier(elem) {
+      var classListAsStr = '.' + Array.prototype.join.call(elem.classList, '.');
+      return (elem.id ? '#' + elem.id : '') + (classListAsStr ? classListAsStr : '');
+    }
+
     function domElemModel(elem) {
       return {
         domElem: elem,
-        name: elem.tagName + '.' + Array.prototype.join.call(elem.classList, '.'),
+        tagName: elem.tagName,
+        identifier: getElementIdentifier(elem),
         children: Array.prototype.slice.call(elem.children)
       };
     }

@@ -21,8 +21,14 @@
         <span class="uib-app-logo">ui builder</span>
         <span class="uib-v-div"></span>
         <span class="uib-app-logo" ng-click="main.toggleSourceView()">
-          <span ng-hide="main.viewSourse">Show</span>
-          <span ng-show="main.viewSourse">Hide</span>
+          <span ng-hide="main.viewSourse">
+            <i class="i-source"></i>
+            Show
+          </span>
+          <span ng-show="main.viewSourse">
+            <i class="i-layout"></i>
+            Hide
+          </span>
           html
         </span>
       </header>
@@ -42,7 +48,7 @@
       </div>
 
       <div class="uib-html-view" ng-show="main.viewSourse">
-        <textarea ng-model="main.sourse"></textarea>
+        <textarea class="uib-source-view" ng-model="main.sourse"></textarea>
       </div>
 
     </div>

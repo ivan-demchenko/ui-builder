@@ -1,8 +1,6 @@
 <ul>
-  <li ng-repeat="node in tree.subNodes">
+  <li ng-repeat="node in tree.subNodes" ng-click="toggleSubTree()">
     <repo-item model="node"></repo-item>
-    <div ng-if="node.subNodes && node.subNodes.length > 0">
-      <repo-items-tree tree="node"></repo-items-tree>
-    </div>
+    <repo-items-tree tree="node" ng-if="node.subNodes && node.subNodes.length > 0"></repo-items-tree>
   </li>
 </ul>

@@ -106,7 +106,8 @@ html, body {
   padding-bottom: 0;
   margin-bottom: 0;
 }
-.uib-prop-row input {
+.uib-prop-row input,
+.uib-source-view {
   width: 100%;
   font-family: monospace;
   font-size: 1rem;
@@ -153,14 +154,28 @@ html, body {
 }
 
 .uib-tree-item {
+  display: block;
   padding: .4rem;
-  transition: .3s;
+  transition: .3s background;
+  border-bottom: dotted 1px #ccc;
+  overflow: hidden;
 }
 .uib-tree-item:before {
   content: '\00230A';
   padding-right: .3rem;
   color: silver;
 }
+.uib-tree-item i {
+  color: #9E9E9E;
+}
+
+.uib-elem-tag-name {
+  color: #424242;
+}
+.uib-elem-identifier {
+  color: #9E9E9E;
+}
+
 .uib-tree-item aside {
   float: right;
 }

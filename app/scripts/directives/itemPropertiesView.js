@@ -27,6 +27,10 @@ angular.module('uiBuilderApp')
         $rootScope.$on('uib:elem:edit', function(evt, elem) {
           ctrl.elem = elem;
         });
+
+        $rootScope.$on('uib:elem:remove', function() {
+          ctrl.elem = null;
+        });
       },
       controllerAs: 'propCtrl'
     };

@@ -37,7 +37,7 @@ angular.module('uiBuilderApp')
         elem.uibParams.push({
           name: 'Class',
           attr: 'class',
-          value: elem.classList.join(' ')
+          value: Array.prototype.join.call(elem.classList, ' ')
         });
       }
       if (this.canChangeInnerText(elem) && !this.containUIBParam(elem.uibParams, 'Inner text')) {

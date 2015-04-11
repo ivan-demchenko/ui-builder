@@ -10,7 +10,11 @@ angular.module('uiBuilderApp')
       },
       templateUrl: 'scripts/directives/repoItemsTree.html',
       compile: function(element) {
-        return RecursionHelper.compile(element);
+        return RecursionHelper.compile(element, function(scope) {
+          scope.toggleSubTree = function() {
+            scope.opened = !scope.opened;
+          };
+        });
       }
     };
   });
