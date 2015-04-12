@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('ElemManager', function(domElem, domTreeParser, $rootScope) {
+  .service('ElemManager', function(DomElem, domTreeParser, $rootScope) {
 
     /**
      * Make drop of elem to target
-     * @param  {domElement} target The element which will accept the drop event
+     * @param  {DomElement} target The element which will accept the drop event
      * @param  {hash} elemData Description of the element beight dropped
      * @return {boolean}
      */
@@ -20,7 +20,7 @@ angular.module('uiBuilderApp')
 
     /**
      * Mark target for drop so it is clean which element will accept drop
-     * @param  {domElement} target The element on which you want to drop
+     * @param  {DomElement} target The element on which you want to drop
      * @return {undefined}
      */
     this.unmarkTarget = function(target) {
@@ -29,7 +29,7 @@ angular.module('uiBuilderApp')
 
     /**
      * Unmark target when mouse moves away
-     * @param  {domElement} target The element on which you just wanted to drop
+     * @param  {DomElement} target The element on which you just wanted to drop
      * @return {undefined}
      */
     this.markTarget = function(target) {
@@ -38,17 +38,17 @@ angular.module('uiBuilderApp')
 
     /**
      * Send a signal that you use wants to edit an `elem`
-     * @param  {domElement} target The element to edit
+     * @param  {DomElement} target The element to edit
      * @return {undefined}
      */
     this.startEditElem = function(elem) {
-      domElem.prepareElemPropsToEdit(elem);
+      DomElem.prepareElemPropsToEdit(elem);
       $rootScope.$emit('uib:elem:edit', elem);
     };
 
     /**
      * Send a signal that you use wants to edit an `elem`
-     * @param  {domElement} target The element to edit
+     * @param  {DomElement} target The element to edit
      * @return {undefined}
      */
     this.doneEditingElem = function(elem) {
@@ -58,7 +58,7 @@ angular.module('uiBuilderApp')
 
     /**
      * Removed element from DOM.
-     * @param  {domElement} target The element to be removed
+     * @param  {DomElement} target The element to be removed
      * @return {undefined}
      */
     this.removeElem = function(elem) {
@@ -92,7 +92,7 @@ angular.module('uiBuilderApp')
     /**
      * This method set properties of given DOM element according to params stored in
      * `uibParams` hash of the DOM element.
-     * @param  {DOMElement} element DOM element to work with
+     * @param  {DomElement} element DOM element to work with
      * @return {void}
      */
     this.resetAttrsForElement = function(element) {
@@ -102,7 +102,7 @@ angular.module('uiBuilderApp')
       }
       props.forEach(function(prop) {
         if (prop.attr) {
-          return domElem.setAttr(element, prop.attr, prop.value, prop.inUser);
+          return DomElem.setAttr(element, prop.attr, prop.value, prop.inUser);
         }
         element[prop.domAttr] = prop.value;
       });

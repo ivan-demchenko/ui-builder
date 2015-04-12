@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .directive('itemPropertiesEdit', function($rootScope, domElem, ElemManager) {
+  .directive('itemPropertiesEdit', function($rootScope, DomElem, ElemManager) {
     return {
       restrict: 'E',
       replace: true,

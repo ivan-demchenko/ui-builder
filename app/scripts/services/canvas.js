@@ -7,21 +7,19 @@ angular.module('uiBuilderApp')
 
     this.register = function(iframe) {
       this.iframe = iframe;
-      Repository.getItems().then(function(repo) {
-        this.installDeps(repo.require);
-      }.bind(this));
+      Repository.getItems().then(this.installDeps.bind(this));
     };
 
-    this.installDeps = function(deps) {
-      var cssDeps = deps.css;
-      var jsDeps = deps.js;
+    this.installDeps = function(repoData) {
+      var cssDeps = repoData.require.css;
+      var jsDeps = repoData.require.js;
       if (cssDeps && cssDeps.length > 0) {
         cssDeps.forEach(this.addStyles.bind(this));
       }
       if (jsDeps && jsDeps.length > 0) {
         cssDeps.forEach(this.addJS.bind(this));
       }
-    }.bind(this);
+    };
 
     this.getSource = function() {
       if (!this.iframe) {
@@ -62,6 +60,9 @@ angular.module('uiBuilderApp')
     this.addJS = function(url) {
       var timestamp = +(new Date());
       var script = document.createElement('script');
+
+      script.type = 'text/javascript';
+      script.charset = 'UTF-8';
       script.setAttribute('src', url + '?' + timestamp);
 
       this.getIframeHead().appendChild(script);

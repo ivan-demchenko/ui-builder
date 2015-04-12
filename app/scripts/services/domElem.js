@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('domElem', function() {
+  .service('DomElem', function() {
 
-    this.canHaveChildren = function(tagName) {
+    this.canHaveChildren = function(element) {
       var e = null,
         res = false;
       try {
-        e = document.createElement(tagName);
+        e = document.createElement(element.tagName);
         res = e.outerHTML.indexOf('/') > 0;
       } catch (e) {
         res = false;
@@ -22,7 +22,7 @@ angular.module('uiBuilderApp')
     };
 
     this.canChangeInnerText = function(elem) {
-      return this.canHaveChildren(elem.tagName) && !this.isParent(elem);
+      return this.canHaveChildren(elem) && !this.isParent(elem);
     };
 
     this.containUIBParam = function(params, name) {

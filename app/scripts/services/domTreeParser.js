@@ -4,8 +4,8 @@ angular.module('uiBuilderApp')
   .service('domTreeParser', function() {
 
     function getElementIdentifier(elem) {
-      var classListAsStr = '.' + Array.prototype.join.call(elem.classList, '.');
-      return (elem.id ? '#' + elem.id : '') + (classListAsStr ? classListAsStr : '');
+      var classListAsStr = Array.prototype.join.call(elem.classList, '.');
+      return (elem.id ? '#' + elem.id : '') + (classListAsStr ? '.' + classListAsStr : '');
     }
 
     function domElemModel(elem) {
