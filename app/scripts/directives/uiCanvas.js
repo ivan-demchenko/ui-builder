@@ -5,13 +5,12 @@ angular.module('uiBuilderApp')
     return {
       restrict: 'E',
       replace: true,
-      template: '<div class="uib-canvas-wrapp"><iframe width="100%" height="100%"></iframe></div>',
+      template: '<iframe width="100%" height="100%"></iframe>',
       link: function(scope, elem) {
 
-        var iframe = elem[0].getElementsByTagName('iframe')[0];
-        canvas.register(iframe);
+        canvas.register(elem[0]);
 
-        var canvasBodyElem = canvas.getIframeBody(iframe);
+        var canvasBodyElem = canvas.getIframeBody(elem[0]);
 
         canvas.addStyles('/styles/uib-canvas.css');
 

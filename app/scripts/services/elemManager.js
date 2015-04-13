@@ -12,7 +12,7 @@ angular.module('uiBuilderApp')
     this.dropElement = function(target, elemData) {
       var elemModel = JSON.parse(elemData);
       var elemToInsert = this.buildElementToDrop(elemModel);
-      target.classList.remove('uib-drag');
+      target.classList.remove('drop-to');
       target.appendChild(elemToInsert);
       $rootScope.$emit('uib:elem:dropped', elemToInsert);
       return true;
@@ -24,7 +24,7 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.unmarkTarget = function(target) {
-      target.classList.remove('uib-drag');
+      target.classList.remove('drop-to');
     };
 
     /**
@@ -33,7 +33,7 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.markTarget = function(target) {
-      target.classList.add('uib-drag');
+      target.classList.add('drop-to');
     };
 
     /**

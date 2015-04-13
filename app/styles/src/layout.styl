@@ -1,0 +1,64 @@
+.uib-app-main
+  background minorBackground
+  display flex
+  width 100%
+  position relative
+
+  iframe
+    position absolute
+    left 0
+    top 0
+    left 0
+    right 0
+    border none
+    background #fff
+
+.uib-v-div
+  width 1px
+  border-right 1px solid #fff
+
+.uib-app-logo
+  padding 1rem
+  display inline-block
+  text-transform uppercase
+
+
+.uib-app-container
+  display flex
+  flex-flow column nowrap
+  height 100%
+
+.uib-app-wrapper
+  display flex
+  position: absolute;
+  top: 3rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+.uib-app-header
+  @extend .header
+  z-index 1
+  font-size .8rem
+  flex-shrink 0
+
+.uib-app-aside
+  @extend .scrollable
+  background minorBackground
+  max-width sideBarSize
+  min-width sideBarSize
+  display flex
+  flex-direction column
+
+  ul
+    padding 0
+    margin 0
+    font-size .85rem
+    flex-grow 1
+
+    li
+      @extend .unselectable
+      list-style none
+
+      ul
+        padding 0 0 0 1rem

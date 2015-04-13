@@ -1,0 +1,30 @@
+.uib-tree-item
+  display block
+  padding .4rem
+  transition .3s background
+  border-bottom dotted 1px #ccc
+  border-left dotted 1px #ccc
+  overflow hidden
+
+  &.drag-from
+    @extend .element-to-drop-to
+
+  &.drop-to
+    background dragFromBackground
+
+  &:before
+    content '\00230A'
+    padding-right .3rem
+    color silver
+
+  i
+    color #9E9E9E
+
+  aside
+      float right
+
+.uib-elem-tag-name
+  color #424242
+
+.uib-elem-identifier
+  color #9E9E9E

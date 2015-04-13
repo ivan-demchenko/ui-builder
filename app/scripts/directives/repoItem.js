@@ -10,17 +10,19 @@ angular.module('uiBuilderApp')
       },
       templateUrl: 'scripts/directives/repoItem.html',
       link: function(scope, elem) {
+
         elem.on('dragstart', function(evt) {
           if (!scope.model.markup) {
-            evt.preventDefault();
-            return;
+            return evt.preventDefault();
           }
           evt.dataTransfer.setData('elemModel', JSON.stringify(scope.model));
-          elem[0].classList.add('in-drag');
+          elem[0].classList.add('drag-from');
         });
+
         elem.on('dragend', function() {
-          elem[0].classList.remove('in-drag');
+          elem[0].classList.remove('drag-from');
         });
+
       }
     };
   });

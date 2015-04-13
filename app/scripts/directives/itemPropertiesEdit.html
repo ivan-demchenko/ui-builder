@@ -8,14 +8,16 @@
     </aside>
   </header>
 
-  <form name="propsEditForm">
-    <label ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
-      <input type="checkbox" ng-model="rec.inUse" ng-if="rec.inUse !== undefined">
-      <div>
-        {{::rec.name}}:<br>
-        <input type="text" ng-model="rec.value">
-      </div>
-    </label>
-  </form>
+  <div class="props-edit-form">
+    <form name="propsEditForm">
+      <label ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
+        <input type="checkbox" ng-model="rec.inUse" ng-if="rec.inUse !== undefined">
+        <div>
+          {{::rec.name}}:<br>
+          <input type="text" ng-model="rec.value">
+        </div>
+      </label>
+    </form>
+  </div>
 
 </div>

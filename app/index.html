@@ -34,16 +34,14 @@
       </header>
       <div class="uib-app-wrapper">
         <div class="uib-app-aside">
-          <repo-items-tree
-            tree="main.repoItems.componentsTree"></repo-items-tree>
-          <item-properties-edit
-            data="main.editableElement"></item-properties-view>
+          <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
         </div>
         <div class="uib-app-main">
           <ui-canvas></ui-canvas>
+          <item-properties-edit data="main.editableElement"></item-properties-view>
         </div>
         <div class="uib-app-aside">
-          <dom-tree-view root-selector=".uib-canvas-wrapp > iframe" tree="main.domTreeRoot"></dom-tree-view>
+          <dom-tree-view root-selector=".uib-app-main iframe" tree="main.domTreeRoot"></dom-tree-view>
         </div>
       </div>
 
