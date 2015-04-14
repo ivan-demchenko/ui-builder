@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('DomElem', function() {
+  .service('DomElem', function(Common) {
 
     this.canHaveChildren = function(element) {
       var e = null,
@@ -31,13 +31,21 @@ angular.module('uiBuilderApp')
       });
     };
 
-    this.setAttr = function(elem, name, value, isInUse) {
-      if (isInUse === false) {
-        return elem.removeAttribute(name);
+    this.removeValueOfAttr = function(element, prop) {
+      var possibleValues = Common.extract(prop.possibleValues, 'value');
+      var existingValues = element.getAttribute(prop.attr).split(' ');
+      var diff = Common.similarElems(possibleValues, existingValues);
+      if (diff.length > 0) {
+        element.setAttribute(prop.attr, Common.withOut(existingValues, diff));
       }
-      if (value) {
-        return elem.setAttribute(name, value);
-      }
+    };
+
+    this.setValueOfParam = function(element, prop) {
+      var existingValues = element.getAttribute(prop.attr);
+      existingValues = existingValues ? existingValues.split(' ') : [];
+      var newSet = Common.withOut(existingValues, Common.similarElems(existingValues, Common.extract(prop.possibleValues, 'value')));
+      newSet.push(prop.value);
+      element.setAttribute(prop.attr, newSet.join(' '));
     };
 
   });

@@ -1,25 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common) {
-
-    function removeValueOfAttr(element, prop) {
-      var possibleValues = Common.extract(prop.possibleValues, 'value');
-      var existingValues = element.getAttribute(prop.attr).split(' ');
-      var diff = Common.similarElems(possibleValues, existingValues);
-      if (diff.length > 0) {
-        element.setAttribute(prop.attr, Common.withOut(existingValues, diff));
-      }
-    }
-
-    function setValueOfParam(element, prop) {
-      var existingValues = element.getAttribute(prop.attr);
-      existingValues = existingValues ? existingValues.split(' ') : [];
-      var newSet = Common.withOut(existingValues, Common.similarElems(existingValues, Common.extract(prop.possibleValues, 'value')));
-      newSet.push(prop.value);
-      element.setAttribute(prop.attr, newSet.join(' '));
-    }
-
+  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common, canvas) {
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event
@@ -32,6 +14,7 @@ angular.module('uiBuilderApp')
       this.resetAttrsForElement(elemToInsert);
       target.classList.remove('drop-to');
       target.appendChild(elemToInsert);
+      canvas.reinitialize();
       $rootScope.$emit('uib:elem:dropped', elemToInsert);
       return true;
     };
@@ -98,7 +81,7 @@ angular.module('uiBuilderApp')
       if (elementDescription.parameters) {
         elementDescription.parameters.forEach(function(param) {
           param.inUse = true;
-          param.value = Common.findOneByValue(param.possibleValues, param.value);
+          param.value = param.value ? Common.findOneByValue(param.possibleValues, param.value) : '';
         });
       }
       var newElement = angular.element(elementDescription.markup)[0];
@@ -120,16 +103,15 @@ angular.module('uiBuilderApp')
      * @return {void}
      */
     this.resetAttrsForElement = function(element) {
-      var props = element.uibParams;
-      if (!props) {
+      if (!element.uibParams) {
         return;
       }
-      props.forEach(function(prop) {
+      element.uibParams.forEach(function(prop) {
         if (prop.attr) {
           if (!prop.inUse) {
-            return removeValueOfAttr(element, prop);
+            return DomElem.removeValueOfAttr(element, prop);
           } else {
-            return setValueOfParam(element, prop);
+            return DomElem.setValueOfParam(element, prop);
           }
         }
         element[prop.domAttr] = prop.value;

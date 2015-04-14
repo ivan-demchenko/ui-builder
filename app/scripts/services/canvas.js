@@ -10,6 +10,13 @@ angular.module('uiBuilderApp')
       Repository.getItems().then(this.installDeps.bind(this));
     };
 
+    this.reinitialize = function() {
+      var iDoc = (this.iframe.contentWindow || this.iframe.contentDocument).document;
+      var evt = iDoc.createEvent('Event');
+      evt.initEvent('load', false, false);
+      iDoc.dispatchEvent(evt);
+    };
+
     this.installDeps = function(repoData) {
       var cssDeps = repoData.require.css;
       var jsDeps = repoData.require.js;
@@ -17,7 +24,7 @@ angular.module('uiBuilderApp')
         cssDeps.forEach(this.addStyles.bind(this));
       }
       if (jsDeps && jsDeps.length > 0) {
-        cssDeps.forEach(this.addJS.bind(this));
+        jsDeps.forEach(this.addJS.bind(this));
       }
     };
 

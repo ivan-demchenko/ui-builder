@@ -1,0 +1,130 @@
+{
+  "require": {
+    "css": [
+      "/test-framework/ys-ui-components.css"
+    ],
+    "js": [
+      "/test-framework/prelude.js",
+      "/test-framework/ys-components.js"
+    ]
+  },
+  "componentsTree": {
+    "name": "YS UI",
+    "subNodes": [
+
+      {
+        "name": "Layout",
+        "subNodes": [
+
+          {
+            "name": "Common",
+            "subNodes": [
+
+              {
+                "name": "Wrapper",
+                "markup": "<div class=\"ys-ui-wrapper\"></div>"
+              },
+
+              {
+                "name": "Group",
+                "markup": "<div class=\"\"></div>",
+                "parameters": [
+
+                  {
+                    "name": "Groupping direction",
+                    "attr": "class",
+                    "possibleValues": [
+                      { "label": "Vertical", "value": "ys-ui-group-vertical" },
+                      { "label": "Horizontal", "value": "ys-ui-group-horizontal" }
+                    ],
+                    "value": "ys-ui-group-horizontal"
+                  },
+
+                  {
+                    "name": "Scrollability direction",
+                    "attr": "class",
+                    "possibleValues": [
+                      { "label": "Vertical", "value": "ys-ui-scrollable-vertically" },
+                      { "label": "Horizontal", "value": "ys-ui-scrollable-horizontally" }
+                    ],
+                    "value": ""
+                  }
+
+                ]
+              }
+
+            ]
+          },
+
+          {
+            "name": "Box",
+            "markup": "<div class=\"\"></div>",
+            "parameters": [
+
+              {
+                "name": "Size",
+                "attr": "class",
+                "possibleValues": [
+                  { "label": "Small", "value": "ys-ui-box--small" },
+                  { "label": "Middle", "value": "ys-ui-box--middle" },
+                  { "label": "Big", "value": "ys-ui-box--big" },
+                  { "label": "Huge", "value": "ys-ui-box--huge" }
+                ],
+                "value": "ys-ui-box--small"
+              }
+
+            ]
+          },
+
+          {
+            "name": "Grid system",
+            "subNodes": [
+
+              {
+                "name": "Row",
+                "markup": "<div class=\"ys-ui-row\"></div>"
+              },
+
+              {
+                "name": "Column",
+                "markup": "<div class=\"\"></div>",
+                "parameters": [{
+                  "name": "Size (in columns)",
+                  "attr": "class",
+                  "possibleValues": [
+                    { "label": "Col 1", "value": "ys-ui-col-1" },
+                    { "label": "Col 2", "value": "ys-ui-col-2" },
+                    { "label": "Col 3", "value": "ys-ui-col-3" },
+                    { "label": "Col 4", "value": "ys-ui-col-4" },
+                    { "label": "Col 5", "value": "ys-ui-col-5" },
+                    { "label": "Col 6", "value": "ys-ui-col-6" },
+                    { "label": "Col 7", "value": "ys-ui-col-7" },
+                    { "label": "Col 8", "value": "ys-ui-col-8" },
+                    { "label": "Col 9", "value": "ys-ui-col-9" },
+                    { "label": "Col 10", "value": "ys-ui-col-10" },
+                    { "label": "Col 11", "value": "ys-ui-col-11" }
+                  ],
+                  "value": "ys-ui-col-1"
+                }]
+              }
+
+            ]
+          }
+        ]
+      },
+
+      {
+        "name": "Components",
+        "subNodes": [
+
+          {
+            "name": "Date time picker",
+            "markup": "<ys-ui-date-time-picker></ys-ui-date-time-picker>"
+          }
+
+        ]
+      }
+
+    ]
+  }
+}
