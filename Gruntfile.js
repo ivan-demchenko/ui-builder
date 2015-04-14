@@ -53,8 +53,8 @@ module.exports = function(grunt) {
       },
       stylus: {
         files: [
-          '<%= yeoman.app %>/styles/src/*.styl',
-          '<%= yeoman.app %>/styles/main.styl'
+          '<%= yeoman.app %>/styles/main.styl',
+          '<%= yeoman.app %>/styles/src/*.styl'
         ],
         tasks: ['stylus:dev']
       },
@@ -73,6 +73,9 @@ module.exports = function(grunt) {
     },
 
     stylus: {
+      options: {
+        'include css': true
+      },
       dev: {
         files: {
           '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.styl',

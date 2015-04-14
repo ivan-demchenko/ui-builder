@@ -1,24 +1,4 @@
 .uib-item-props-edit
-  @extend .modal
-  @extend .scrollable
-  box-shadow 0 0 10px #777
-  z-index 1
-  flex-shrink 0
-
-  .props-edit-form
-    @extend .scrollable
-    padding modalPadding
-
-  .uib-item-props-edit-header
-    @extend .header
-    padding 1rem
-
-    aside
-      float right
-
-      .uib-btn
-        color #fff
-
 
   .uib-prop-row
     margin-bottom .5rem
@@ -28,7 +8,8 @@
       padding-bottom 0
       margin-bottom 0
 
-    input[type="text"], .uib-source-view
+    input[type="text"],
+    .uib-source-view
       width 100%
       font-family monospace
       font-size 1rem

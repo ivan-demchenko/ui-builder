@@ -1,0 +1,38 @@
+.uib-modal
+  @extend .scrollable
+  background modalBackground
+  position absolute
+  display flex
+  flex-direction column
+  flex-shrink 0
+  max-height 60%
+  top 30%
+  width 60%
+  left 50%
+  transform translateX(-50%)
+  box-shadow 0 0 10px rgba(0, 0, 0, .7)
+  z-index 1
+
+  &:before
+    content ' '
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background overlayBackground
+
+  &__header
+    @extend .header
+    padding 1rem
+
+    &__ctrls
+      float right
+
+      .uib-btn
+        color #fff
+
+  &__content
+    @extend .scrollable
+    display block
+    padding modalPadding

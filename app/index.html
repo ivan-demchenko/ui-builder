@@ -45,8 +45,16 @@
         </div>
       </div>
 
-      <div class="uib-html-view" ng-show="main.viewSourse">
-        <textarea class="uib-source-view" ng-model="main.sourse"></textarea>
+      <div class="uib-html-view uib-modal" ng-show="main.viewSourse">
+        <header class="uib-item-props-edit-header uib-modal__header">
+          HTML
+          <aside class="uib-modal__header__ctrls">
+            <a href="#" class="uib-btn" ng-click="main.toggleSourceView()"><i class="i-ok"></i></a>
+          </aside>
+        </header>
+        <div class="props-edit-form uib-modal__content">
+          <textarea class="uib-source-view" ng-model="main.sourse"></textarea>
+        </div>
       </div>
 
     </div>

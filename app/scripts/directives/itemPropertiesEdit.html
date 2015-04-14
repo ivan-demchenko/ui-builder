@@ -1,23 +1,21 @@
-<div class="uib-item-props-edit" ng-show="propCtrl.elem !== null">
+<div class="uib-item-props-edit uib-modal" ng-show="propCtrl.elem !== null">
 
-  <header class="uib-item-props-edit-header">
+  <header class="uib-item-props-edit-header uib-modal__header">
     {{propCtrl.elem.tagName}}
-    <aside>
+    <aside class="uib-modal__header__ctrls">
       <a href="#" class="uib-btn" ng-click="propCtrl.done()"><i class="i-ok"></i></a>
       <a href="#" class="uib-btn" ng-click="propCtrl.remove()"><i class="i-cancel"></i></a>
     </aside>
   </header>
 
-  <div class="props-edit-form">
-    <form name="propsEditForm">
-      <label ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
-        <input type="checkbox" ng-model="rec.inUse" ng-if="rec.inUse !== undefined">
-        <div>
-          {{::rec.name}}:<br>
-          <input type="text" ng-model="rec.value">
-        </div>
-      </label>
-    </form>
-  </div>
+  <form name="propsEditForm" class="props-edit-form uib-modal__content">
+    <label ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
+      <input type="checkbox" ng-model="rec.inUse" ng-if="rec.inUse !== undefined">
+      <div>
+        {{::rec.name}}:<br>
+        <input type="text" ng-model="rec.value">
+      </div>
+    </label>
+  </form>
 
 </div>
