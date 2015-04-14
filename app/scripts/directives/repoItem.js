@@ -15,7 +15,7 @@ angular.module('uiBuilderApp')
           if (!scope.model.markup) {
             return evt.preventDefault();
           }
-          evt.dataTransfer.setData('elemModel', JSON.stringify(scope.model));
+          evt.dataTransfer.setData('elementDescription', JSON.stringify(scope.model));
           elem[0].classList.add('drag-from');
         });
 

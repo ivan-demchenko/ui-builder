@@ -67,7 +67,7 @@ angular.module('uiBuilderApp')
             if (angularTarget.scope().node) {
               elem = angularTarget.scope().node.domElem;
               if (elem) {
-                ElemManager.dropElement(elem, evt.dataTransfer.getData('elemModel'));
+                ElemManager.dropElement(elem, evt.dataTransfer.getData('elementDescription'));
               }
             }
           });

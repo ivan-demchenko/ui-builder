@@ -9,13 +9,18 @@
   </header>
 
   <form name="propsEditForm" class="props-edit-form uib-modal__content">
-    <label ng-repeat="rec in propCtrl.elem.uibParams" class="uib-prop-row">
-      <input type="checkbox" ng-model="rec.inUse" ng-if="rec.inUse !== undefined">
-      <div>
-        {{::rec.name}}:<br>
-        <input type="text" ng-model="rec.value">
+    <div ng-repeat="param in propCtrl.elem.uibParams" class="uib-prop-row">
+      <label>
+        <input type="checkbox" ng-model="param.inUse">
+        {{::param.name}}
+      </label>
+      <div class="uib-prop-row-values">
+        <label ng-repeat="p in param.possibleValues" class="uib-prop-row-value">
+          <input type="radio" ng-model="param.value" ng-value="p.value">
+          {{::p.label}}
+        </label>
       </div>
-    </label>
+  </div>
   </form>
 
 </div>

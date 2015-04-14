@@ -14,108 +14,52 @@
       "name": "CSS",
       "subNodes": [{
         "name": "Grid system",
-        "subNodes": [{
-          "name": "Containers",
-          "subNodes": [{
-            "name": "Fixed",
-            "markup": "<div class=\"container\"></div>"
-          }, {
-            "name": "Fluid",
-            "markup": "<div class=\"container-fluid\"></div>"
-          }]
-        }, {
-          "name": "Row",
-          "markup": "<div class=\"row\"></div>"
-        }, {
-          "name": "Column",
-          "markup": "<div class=\"col-md-1\"></div>",
-          "params": [{
-            "name": "Class",
-            "attr": "class"
-          }]
-        }]
-      }, {
-        "name": "Typography",
-        "subNodes": [{
-          "name": "Heading #1",
-          "markup": "<h1>Example haeding</h1>"
-        }, {
-          "name": "Heading #2",
-          "markup": "<h2>Example haeding</h2>"
-        }, {
-          "name": "Heading #3",
-          "markup": "<h3>Example haeding</h3>"
-        }, {
-          "name": "Heading #4",
-          "markup": "<h4>Example haeding</h4>"
-        }, {
-          "name": "Lead",
-          "markup": "<p class=\"lead\">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.</p>"
-        }]
-      }, {
-        "name": "Components",
-        "subNodes": [{
-          "name": "Jumbotron",
-          "markup": "<div class=\"jumbotron\"><h1>Hello, world!</h1><p>Some text here</p><p><a class=\"btn btn-primary btn-lg\" role=\"button\">Learn more</a></p></div>",
-          "params": [{
-            "name": "Class",
-            "attr": "class",
-            "value": "jumbotron",
-            "inUse": true
-          }]
-        }, {
-          "name": "Navbar",
-          "markup": "<nav class=\"navbar navbar-default\"><div class=\"container-fluid\"><div class=\"navbar-header\"></div></div></div>",
-          "params": [{
-            "name": "Class",
-            "attr": "class",
-            "value": "jumbotron",
-            "inUse": true
-          }]
-        }]
-      }, {
-        "name": "Forms",
-        "markup": "<form></form>",
-        "params": [{
-          "name": "Name",
-          "attr": "name"
-        }, {
-          "name": "Class",
-          "attr": "class"
-        }]
-      }, {
-        "name": "Form group",
-        "markup": "<div class=\"form-group\"></div>"
-      }, {
-        "name": "Input group",
-        "markup": "<div class=\"input-group\"></div>"
-      }, {
-        "name": "Elements",
-        "subNodes": [{
-          "name": "Label",
-          "markup": "<label class=\"control-label\"></label>",
-          "params": [{
-            "name": "class",
-            "attr": "Class",
-            "inUse": true
-          }]
-        }, {
-          "name": "Input",
-          "markup": "<input type=\"text\" class=\"form-control\" placeholder=\"Text input\">",
-          "params": [{
-            "name": "Class",
-            "attr": "class",
-            "value": "form-control",
-            "inUse": true
-          }, {
-            "name": "Placeholder text",
-            "attr": "placeholder",
-            "value": "Enter here"
-          }]
-        }, {
-          "name": "Radio",
-          "markup": "<label><input type=\"checkbox\" value=\"\">Option one</label>"
-        }]
+        "subNodes": [
+
+          {
+            "name": "Container",
+            "markup": "<div class=\"\"></div>",
+            "parameters": [{
+              "name": "Type",
+              "attr": "class",
+              "possibleValues": [
+                { "label": "Fixed", "value": "container" },
+                { "label": "Fluid", "value": "container-fluid" }
+              ],
+              "value": "container"
+            }]
+          },
+
+          {
+            "name": "Row",
+            "markup": "<div class=\"row\"></div>"
+          },
+
+          {
+            "name": "Column",
+            "markup": "<div class=\"\"></div>",
+            "parameters": [{
+              "name": "Size on small screen",
+              "attr": "class",
+              "possibleValues": [
+                { "label": "Col 1", "value": "col-sm-1" },
+                { "label": "Col 2", "value": "col-sm-2" },
+                { "label": "Col 3", "value": "col-sm-3" }
+              ],
+              "value": "col-sm-1"
+            }, {
+              "name": "Size on middle screen",
+              "attr": "class",
+              "possibleValues": [
+                { "label": "Col 1", "value": "col-md-1" },
+                { "label": "Col 2", "value": "col-md-2" },
+                { "label": "Col 3", "value": "col-md-3" }
+              ],
+              "value": "col-md-1"
+            }]
+          }
+
+        ]
       }]
     }]
   }

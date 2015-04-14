@@ -18,7 +18,7 @@ angular.module('uiBuilderApp')
 
           canvasBodyElem.addEventListener('drop', function(evt) {
             evt.preventDefault();
-            ElemManager.dropElement(evt.target, evt.dataTransfer.getData('elemModel'));
+            ElemManager.dropElement(evt.target, evt.dataTransfer.getData('elementDescription'));
           });
 
           canvasBodyElem.addEventListener('dragend', function(evt) {

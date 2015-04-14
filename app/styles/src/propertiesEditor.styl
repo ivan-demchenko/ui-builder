@@ -2,11 +2,26 @@
 
   .uib-prop-row
     margin-bottom .5rem
-    display flex
+    padding-bottom .5rem
+    border-bottom solid 1px #ccc
 
     &:last-child
-      padding-bottom 0
       margin-bottom 0
+      padding-bottom 0
+      border-bottom none
+
+  .uib-prop-row-values
+    overflow hidden
+
+  .uib-prop-row-value
+    float left
+    margin .1rem
+    padding .2rem .4rem
+    background optionValueBackground
+    border-radius .2rem
+
+    &first-child
+      margin-left 0
 
     input[type="text"],
     .uib-source-view

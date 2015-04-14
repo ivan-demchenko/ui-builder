@@ -31,28 +31,6 @@ angular.module('uiBuilderApp')
       });
     };
 
-    this.prepareElemPropsToEdit = function(elem) {
-      var val;
-      elem.uibParams = elem.uibParams || [];
-      if (elem.classList.length > 0 && !this.containUIBParam(elem.uibParams, 'Class')) {
-        val = Array.prototype.join.call(elem.classList, ' ');
-        elem.uibParams.push({
-          name: 'Class',
-          attr: 'class',
-          value: val,
-          inUse: !!val
-        });
-      }
-      if (this.canChangeInnerText(elem) && !this.containUIBParam(elem.uibParams, 'Inner text')) {
-        elem.uibParams.push({
-          name: 'Inner text',
-          domAttr: 'innerText',
-          value: elem.innerText,
-          inUse: undefined
-        });
-      }
-    };
-
     this.setAttr = function(elem, name, value, isInUse) {
       if (isInUse === false) {
         return elem.removeAttribute(name);

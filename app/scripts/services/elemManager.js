@@ -3,15 +3,69 @@
 angular.module('uiBuilderApp')
   .service('ElemManager', function(DomElem, domTreeParser, $rootScope) {
 
+    function findOneByValue(arr, val) {
+      return arr.filter(function(item) {
+        return item.value === val;
+      })[0].value;
+    }
+
+    function prop(name) {
+      return function(obj) {
+        return obj[name];
+      };
+    }
+
+    function extract(arr, propName) {
+      return arr.map(prop(propName));
+    }
+
+    function inArray(arr) {
+      return function(elem) {
+        return arr.indexOf(elem) > -1;
+      };
+    }
+
+    function notInArray(arr) {
+      return function(elem) {
+        return arr.indexOf(elem) === -1;
+      };
+    }
+
+    function similarElems(arr1, arr2) {
+      return arr1.filter(inArray(arr2));
+    }
+
+    function withOut(arr1, arr2) {
+      return arr1.filter(notInArray(arr2));
+    }
+
+    function removeValueOfAttr(element, prop) {
+      var possibleValues = extract(prop.possibleValues, 'value');
+      var existingValues = element.getAttribute(prop.attr).split(' ');
+      var diff = similarElems(possibleValues, existingValues);
+      if (diff.length > 0) {
+        element.setAttribute(prop.attr, withOut(existingValues, diff));
+      }
+    }
+
+    function setValueOfParam(element, prop) {
+      var existingValues = element.getAttribute(prop.attr);
+      existingValues = existingValues ? existingValues.split(' ') : [];
+      var newSet = withOut(existingValues, similarElems(existingValues, extract(prop.possibleValues, 'value')));
+      newSet.push(prop.value);
+      element.setAttribute(prop.attr, newSet.join(' '));
+    }
+
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event
-     * @param  {hash} elemData Description of the element beight dropped
+     * @param  {hash} elementDescription Description of the element beight dropped
      * @return {boolean}
      */
-    this.dropElement = function(target, elemData) {
-      var elemModel = JSON.parse(elemData);
+    this.dropElement = function(target, elementDescription) {
+      var elemModel = JSON.parse(elementDescription);
       var elemToInsert = this.buildElementToDrop(elemModel);
+      this.resetAttrsForElement(elemToInsert);
       target.classList.remove('drop-to');
       target.appendChild(elemToInsert);
       $rootScope.$emit('uib:elem:dropped', elemToInsert);
@@ -42,7 +96,6 @@ angular.module('uiBuilderApp')
      * @return {undefined}
      */
     this.startEditElem = function(elem) {
-      DomElem.prepareElemPropsToEdit(elem);
       $rootScope.$emit('uib:elem:edit', elem);
     };
 
@@ -69,21 +122,28 @@ angular.module('uiBuilderApp')
     /**
      * This method accept element description as input param, check it's validity and
      * return new Angular element to be injected.
-     * @param  {hash}   dropData Element description from repository.
+     * @param  {hash}   elementDescription Element description from repository.
      * @return {object}          Angular element
      */
-    this.buildElementToDrop = function(dropData) {
+    this.buildElementToDrop = function(elementDescription) {
       // Every element description object must have `markup` section.
       // Otherwise we can't use the element.
-      if (!dropData.markup) {
-        throw 'The markup for the element "' + dropData.name + '"" is not specified';
+      if (!elementDescription.markup) {
+        throw 'The markup for the element "' + elementDescription.name + '"" is not specified';
       }
-      var newElement = angular.element(dropData.markup)[0];
+      if (elementDescription.parameters) {
+        elementDescription.parameters.forEach(function(param) {
+          param.inUse = true;
+          param.value = findOneByValue(param.possibleValues, param.value);
+        });
+      }
+      var newElement = angular.element(elementDescription.markup)[0];
 
       // If the element suppose to have params, add them to the element itself
-      if (dropData.params) {
-        newElement.uibParams = dropData.params;
+      if (elementDescription.parameters) {
+        newElement.uibParams = elementDescription.parameters;
       }
+
       // Mark new element as the one that can be removed
       newElement.uibRemovable = true;
       return newElement;
@@ -102,9 +162,14 @@ angular.module('uiBuilderApp')
       }
       props.forEach(function(prop) {
         if (prop.attr) {
-          return DomElem.setAttr(element, prop.attr, prop.value, prop.inUser);
+          if (!prop.inUse) {
+            return removeValueOfAttr(element, prop);
+          } else {
+            return setValueOfParam(element, prop);
+          }
         }
         element[prop.domAttr] = prop.value;
+        return;
       });
     };
   });
