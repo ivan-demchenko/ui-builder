@@ -1,57 +1,21 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('ElemManager', function(DomElem, domTreeParser, $rootScope) {
-
-    function findOneByValue(arr, val) {
-      return arr.filter(function(item) {
-        return item.value === val;
-      })[0].value;
-    }
-
-    function prop(name) {
-      return function(obj) {
-        return obj[name];
-      };
-    }
-
-    function extract(arr, propName) {
-      return arr.map(prop(propName));
-    }
-
-    function inArray(arr) {
-      return function(elem) {
-        return arr.indexOf(elem) > -1;
-      };
-    }
-
-    function notInArray(arr) {
-      return function(elem) {
-        return arr.indexOf(elem) === -1;
-      };
-    }
-
-    function similarElems(arr1, arr2) {
-      return arr1.filter(inArray(arr2));
-    }
-
-    function withOut(arr1, arr2) {
-      return arr1.filter(notInArray(arr2));
-    }
+  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common) {
 
     function removeValueOfAttr(element, prop) {
-      var possibleValues = extract(prop.possibleValues, 'value');
+      var possibleValues = Common.extract(prop.possibleValues, 'value');
       var existingValues = element.getAttribute(prop.attr).split(' ');
-      var diff = similarElems(possibleValues, existingValues);
+      var diff = Common.similarElems(possibleValues, existingValues);
       if (diff.length > 0) {
-        element.setAttribute(prop.attr, withOut(existingValues, diff));
+        element.setAttribute(prop.attr, Common.withOut(existingValues, diff));
       }
     }
 
     function setValueOfParam(element, prop) {
       var existingValues = element.getAttribute(prop.attr);
       existingValues = existingValues ? existingValues.split(' ') : [];
-      var newSet = withOut(existingValues, similarElems(existingValues, extract(prop.possibleValues, 'value')));
+      var newSet = Common.withOut(existingValues, Common.similarElems(existingValues, Common.extract(prop.possibleValues, 'value')));
       newSet.push(prop.value);
       element.setAttribute(prop.attr, newSet.join(' '));
     }
@@ -134,7 +98,7 @@ angular.module('uiBuilderApp')
       if (elementDescription.parameters) {
         elementDescription.parameters.forEach(function(param) {
           param.inUse = true;
-          param.value = findOneByValue(param.possibleValues, param.value);
+          param.value = Common.findOneByValue(param.possibleValues, param.value);
         });
       }
       var newElement = angular.element(elementDescription.markup)[0];
