@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common, canvas) {
+  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common) {
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event
@@ -14,7 +14,6 @@ angular.module('uiBuilderApp')
       this.resetAttrsForElement(elemToInsert);
       target.classList.remove('drop-to');
       target.appendChild(elemToInsert);
-      canvas.reinitialize();
       $rootScope.$emit('uib:elem:dropped', elemToInsert);
       return true;
     };

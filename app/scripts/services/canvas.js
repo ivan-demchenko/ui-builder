@@ -1,38 +1,45 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('canvas', function(Repository) {
+  .service('canvas', function(Repository, ElemManager) {
 
     this.iframe = null;
 
     this.register = function(iframe) {
       this.iframe = iframe;
-      Repository.getItems().then(this.installDeps.bind(this));
+      Repository.getItems().then(this.setUpIframe.bind(this));
     };
 
-    this.reinitialize = function() {
-      var iDoc = (this.iframe.contentWindow || this.iframe.contentDocument).document;
-      var evt = iDoc.createEvent('Event');
-      evt.initEvent('load', false, false);
-      iDoc.dispatchEvent(evt);
+    this.setUpIframe = function(repoData) {
+      var self = this;
+      this.iframe.src = repoData.initial.html;
+      this.iframe.onload = function() {
+        self.addJS(repoData.initial.js);
+        self.addStyles('/styles/uib-canvas.css');
+        self.initEvents(self.iframe.contentDocument.documentElement.querySelector('body'));
+      };
     };
 
-    this.installDeps = function(repoData) {
-      var cssDeps = repoData.require.css;
-      var jsDeps = repoData.require.js;
-      if (cssDeps && cssDeps.length > 0) {
-        cssDeps.forEach(this.addStyles.bind(this));
-      }
-      if (jsDeps && jsDeps.length > 0) {
-        jsDeps.forEach(this.addJS.bind(this));
-      }
-    };
+    this.initEvents = function(canvasBody) {
+      canvasBody.addEventListener('drop', function(evt) {
+        evt.preventDefault();
+        ElemManager.dropElement(evt.target, evt.dataTransfer.getData('elementDescription'));
+      });
 
-    this.getSource = function() {
-      if (!this.iframe) {
-        throw 'IFrame is not registered';
-      }
-      return this.getIframeBody().innerHTML;
+      canvasBody.addEventListener('dragend', function(evt) {
+        evt.preventDefault();
+        ElemManager.unmarkTarget(evt.target);
+      });
+
+      canvasBody.addEventListener('dragover', function(evt) {
+        evt.preventDefault();
+        ElemManager.markTarget(evt.target);
+      });
+
+      canvasBody.addEventListener('dragleave', function(evt) {
+        evt.preventDefault();
+        ElemManager.unmarkTarget(evt.target);
+      });
     };
 
     this.getIframeHead = function() {
@@ -71,6 +78,16 @@ angular.module('uiBuilderApp')
       script.type = 'text/javascript';
       script.charset = 'UTF-8';
       script.setAttribute('src', url + '?' + timestamp);
+
+      this.getIframeHead().appendChild(script);
+    };
+
+    this.addInilineJS = function(code) {
+      var script = document.createElement('script');
+
+      script.type = 'text/javascript';
+      script.charset = 'UTF-8';
+      script.innerText = code;
 
       this.getIframeHead().appendChild(script);
     };
