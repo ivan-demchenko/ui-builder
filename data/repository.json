@@ -114,7 +114,7 @@
 
           {
             "name": "Date time picker",
-            "markup": "<ys-ui-date-time-picker></ys-ui-date-time-picker>"
+            "markup": "<ys-ui-date-time-picker model=\"dt\"></ys-ui-date-time-picker>"
           }
 
         ]

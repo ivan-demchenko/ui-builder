@@ -1,13 +1,34 @@
 'use strict';
 
 angular.module('uiBuilderApp')
-  .service('canvas', function(Repository, ElemManager) {
+  .service('canvas', function(Repository, ElemManager, $rootScope) {
 
     this.iframe = null;
 
     this.register = function(iframe) {
       this.iframe = iframe;
       Repository.getItems().then(this.setUpIframe.bind(this));
+    };
+
+    $rootScope.$on('uib:elem:dropped', function() {
+      this.refreshIframe();
+    }.bind(this));
+
+    this.refreshIframe = function() {
+      var self = this;
+      var repoData = Repository.getItems();
+
+      var code = this.getIframeBody().innerHTML;
+
+      this.iframe.src = repoData.initial.html;
+
+      this.iframe.onload = function() {
+        self.getIframeBody().innerHTML = code;
+        self.addJS(repoData.initial.js);
+        self.addStyles('/styles/uib-canvas.css');
+        self.initEvents(self.iframe.contentDocument.documentElement.querySelector('body'));
+      };
+
     };
 
     this.setUpIframe = function(repoData) {
