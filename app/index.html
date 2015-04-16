@@ -67,21 +67,29 @@
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
 
-    <script src="scripts/services/repository.js"></script>
-    <script src="scripts/services/recursionHelper.js"></script>
-    <script src="scripts/services/elemManager.js"></script>
-    <script src="scripts/services/domElem.js"></script>
-    <script src="scripts/services/domTreeParser.js"></script>
-    <script src="scripts/services/canvas.js"></script>
-    <script src="scripts/services/common.js"></script>
+    <script src="scripts/canvas/module.js"></script>
+    <script src="scripts/canvas/directives/uiCanvas.js"></script>
+    <script src="scripts/canvas/services/canvas.js"></script>
 
-    <script src="scripts/directives/repoItem.js"></script>
-    <script src="scripts/directives/uiCanvas.js"></script>
-    <script src="scripts/directives/repoItemsTree.js"></script>
-    <script src="scripts/directives/itemPropertiesEdit.js"></script>
-    <script src="scripts/directives/domTreeView.js"></script>
+    <script src="scripts/common/module.js"></script>
+    <script src="scripts/common/controllers/main.js"></script>
+    <script src="scripts/common/services/common.js"></script>
+    <script src="scripts/common/services/domElem.js"></script>
+    <script src="scripts/common/services/elemManager.js"></script>
+    <script src="scripts/common/services/recursionHelper.js"></script>
+
+    <script src="scripts/domTree/module.js"></script>
+    <script src="scripts/domTree/directives/domTreeView.js"></script>
+    <script src="scripts/domTree/services/domTreeParser.js"></script>
+
+    <script src="scripts/propertyEditor/module.js"></script>
+    <script src="scripts/propertyEditor/directives/itemPropertiesEdit.js"></script>
+
+    <script src="scripts/repository/module.js"></script>
+    <script src="scripts/repository/directives/repoItem.js"></script>
+    <script src="scripts/repository/directives/repoItemsTree.js"></script>
+    <script src="scripts/repository/services/repository.js"></script>
     <!-- endbuild -->
 </body>
 </html>

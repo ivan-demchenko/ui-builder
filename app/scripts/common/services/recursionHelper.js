@@ -5,7 +5,7 @@
  * @author Mark Lagendijk
  * @license MIT
  */
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.common')
   .factory('RecursionHelper', ['$compile',
     function($compile) {
       return {

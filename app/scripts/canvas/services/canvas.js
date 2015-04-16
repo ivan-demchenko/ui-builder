@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.canvas')
   .service('canvas', function(Repository, ElemManager, $rootScope) {
 
     this.iframe = null;

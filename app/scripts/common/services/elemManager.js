@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uiBuilderApp')
-  .service('ElemManager', function(DomElem, domTreeParser, $rootScope, Common) {
+angular.module('uiBuilderApp.common')
+  .service('ElemManager', function(DomElem, $rootScope, Common) {
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event

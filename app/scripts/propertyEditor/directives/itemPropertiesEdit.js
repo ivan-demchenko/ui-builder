@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.propertyEditor')
   .directive('itemPropertiesEdit', function($rootScope, DomElem, ElemManager) {
     return {
       restrict: 'E',
@@ -8,7 +8,7 @@ angular.module('uiBuilderApp')
       scope: {
         data: '='
       },
-      templateUrl: 'scripts/directives/itemPropertiesEdit.html',
+      templateUrl: 'scripts/propertyEditor/directives/itemPropertiesEdit.html',
       controller: function() {
         var ctrl = this;
 

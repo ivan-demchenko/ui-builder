@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.canvas')
   .directive('uiCanvas', function(canvas) {
     return {
       restrict: 'E',

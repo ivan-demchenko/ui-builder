@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.repository')
   .directive('repoItem', function() {
     return {
       restrict: 'E',
@@ -8,7 +8,7 @@ angular.module('uiBuilderApp')
       scope: {
         model: '='
       },
-      templateUrl: 'scripts/directives/repoItem.html',
+      templateUrl: 'scripts/repository/directives/repoItem.html',
       link: function(scope, elem) {
 
         elem.on('dragstart', function(evt) {

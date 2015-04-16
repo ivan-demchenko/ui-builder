@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.common')
   .service('Common', function() {
     this.findOneByValue = function(arr, val) {
       return arr.filter(function(item) {

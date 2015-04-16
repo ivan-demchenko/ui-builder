@@ -9,4 +9,10 @@
  * Main module of the application.
  */
 angular
-  .module('uiBuilderApp', []);
+  .module('uiBuilderApp', [
+    'uiBuilderApp.common',
+    'uiBuilderApp.domTree',
+    'uiBuilderApp.propertyEditor',
+    'uiBuilderApp.canvas',
+    'uiBuilderApp.repository'
+  ]);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.common')
   .service('DomElem', function(Common) {
 
     this.canHaveChildren = function(element) {

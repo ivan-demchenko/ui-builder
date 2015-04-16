@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uiBuilderApp')
-  .service('domTreeParser', function() {
+angular.module('uiBuilderApp.domTree')
+  .service('DomTreeParser', function() {
 
     function getElementIdentifier(elem) {
       var classListAsStr = Array.prototype.join.call(elem.classList, '.');

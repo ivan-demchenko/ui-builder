@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('uiBuilderApp')
-  .directive('domTreeView', function(RecursionHelper, canvas, $rootScope, ElemManager, domTreeParser) {
+angular.module('uiBuilderApp.domTree')
+  .directive('domTreeView', function(RecursionHelper, canvas, $rootScope, ElemManager, DomTreeParser) {
     return {
       restrict: 'E',
       replace: true,
       scope: {
         tree: '='
       },
-      templateUrl: 'scripts/directives/domTreeView.html',
+      templateUrl: 'scripts/domTree/directives/domTreeView.html',
       compile: function(elem, attrs) {
         var rootSelector = attrs.rootSelector;
         return RecursionHelper.compile(elem, function(scope) {
@@ -20,7 +20,7 @@ angular.module('uiBuilderApp')
                 if (rootElem.tagName === 'IFRAME') {
                   rootElem = canvas.getIframeBody(rootElem);
                 }
-                scope.tree = domTreeParser.buildTree(rootElem);
+                scope.tree = DomTreeParser.buildTree(rootElem);
               }
             });
           });
@@ -31,7 +31,7 @@ angular.module('uiBuilderApp')
               if (rootElem.tagName === 'IFRAME') {
                 rootElem = canvas.getIframeBody(rootElem);
               }
-              scope.tree = domTreeParser.buildTree(rootElem);
+              scope.tree = DomTreeParser.buildTree(rootElem);
             }
           });
 
@@ -41,7 +41,7 @@ angular.module('uiBuilderApp')
               if (rootElem.tagName === 'IFRAME') {
                 rootElem = canvas.getIframeBody(rootElem);
               }
-              scope.tree = domTreeParser.buildTree(rootElem);
+              scope.tree = DomTreeParser.buildTree(rootElem);
             }
           });
 

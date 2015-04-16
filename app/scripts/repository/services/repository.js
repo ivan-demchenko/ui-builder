@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.repository')
   .service('Repository', function($http) {
 
     this.repoInfo = null;

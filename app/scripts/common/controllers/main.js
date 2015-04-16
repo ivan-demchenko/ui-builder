@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp')
+angular.module('uiBuilderApp.common')
   .controller('MainCtrl', function(Repository, canvas) {
 
     (function(ctrl) {
