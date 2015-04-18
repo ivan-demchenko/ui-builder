@@ -5,7 +5,7 @@ angular.module('uiBuilderApp.Canvas')
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'scripts/Canvas/directives/uiCanvas.html',
+      templateUrl: 'scripts/canvas/directives/uiCanvas.html',
       link: function(scope, elem) {
         Canvas.register(elem);
 

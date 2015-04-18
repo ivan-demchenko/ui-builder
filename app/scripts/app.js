@@ -10,6 +10,7 @@
  */
 angular
   .module('uiBuilderApp', [
+    'uib-templates',
     'uiBuilderApp.common',
     'uiBuilderApp.domTree',
     'uiBuilderApp.propertyEditor',

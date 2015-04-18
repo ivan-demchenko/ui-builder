@@ -6,14 +6,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
+
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/icons/fontello.css">
     <!-- endbuild -->
+
   </head>
   <body>
     <div class="uib-app-container" ng-controller="MainCtrl as main">
@@ -59,13 +56,10 @@
 
     </div>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
+    <!-- build:js({.,.tmp,app}) scripts/scripts.js -->
     <script src="bower_components/angular/angular.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/uib-templates.js"></script>
     <script src="scripts/app.js"></script>
 
     <script src="scripts/canvas/module.js"></script>

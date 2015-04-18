@@ -47,10 +47,14 @@ module.exports = function(grunt) {
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/**/*.styl'],
-        tasks: ['stylus:dev']
+        tasks: ['stylus']
       },
       gruntfile: {
         files: ['Gruntfile.js']
+      },
+      templates: {
+        files: ['<%= yeoman.app %>/styles/**/*.html'],
+        tasks: ['html2js:dev']
       },
       livereload: {
         options: {
@@ -63,20 +67,31 @@ module.exports = function(grunt) {
       }
     },
 
+    html2js: {
+      options: {
+        base: '<%= yeoman.app %>',
+        module: 'uib-templates',
+        htmlmin: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true
+        }
+      },
+      all: {
+        src: ['<%= yeoman.app %>/scripts/**/*.html'],
+        dest: '.tmp/scripts/uib-templates.js'
+      }
+    },
+
     stylus: {
       options: {
         'include css': true
       },
-      dev: {
+      all: {
         files: {
           '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.styl',
           '.tmp/styles/uib-canvas.css': '<%= yeoman.app %>/styles/uib-canvas.styl'
-        }
-      },
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/styles/main.css': '<%= yeoman.app %>/styles/main.styl',
-          '<%= yeoman.dist %>/styles/uib-canvas.css': '<%= yeoman.app %>/styles/uib-canvas.styl'
         }
       }
     },
@@ -209,7 +224,7 @@ module.exports = function(grunt) {
           html: {
             steps: {
               js: ['concat', 'uglifyjs'],
-              css: []
+              css: ['cssmin']
             },
             post: {}
           }
@@ -230,22 +245,17 @@ module.exports = function(grunt) {
       }
     },
 
-    // The following *-min tasks will produce minified files in the dist folder
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    concat: {
+      dist: {},
+      withTemplates: {
+        files: {
+          '.tmp/scripts/scripts.js': [
+            '.tmp/scripts/uib-templates.js',
+            '.tmp/scripts/scripts.js'
+          ]
+        }
+      }
+    },
 
     htmlmin: {
       dist: {
@@ -280,32 +290,30 @@ module.exports = function(grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
+      dev: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/styles/font',
+          dest: '.tmp/font',
+          src: ['*.*']
+        }]
+      },
       dist: {
         files: [{
           expand: true,
-          dot: true,
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
-            '*.{ico,png,txt}',
-            '.htaccess',
             '*.html',
-            'views/**/*.html',
-            'images/**/*.{webp}',
-            'styles/fonts/**/*.*'
+            '*.txt',
+            '*.ico'
           ]
-        }, {
+        },{
           expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: ['generated/*']
+          cwd: '<%= yeoman.app %>/styles/font',
+          dest: '<%= yeoman.dist %>/font',
+          src: ['*.*']
         }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '**/*.{css,eot,svg,ttf,woff}'
       }
     },
 
@@ -327,8 +335,9 @@ module.exports = function(grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
-      'stylus:dev',
-      'copy:styles',
+      'copy:dev',
+      'html2js:all',
+      'stylus',
       'connect:livereload',
       'watch'
     ]);
@@ -342,7 +351,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'wiredep',
-    'copy:styles',
+    'html2js:all',
     'connect:test',
     'karma'
   ]);
@@ -350,9 +359,12 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+    'html2js:all',
+    'stylus',
     'useminPrepare',
-    'copy:styles',
+    'copy:dist',
     'concat',
+    'cssmin',
     'ngAnnotate',
     'copy:dist',
     'uglify',
