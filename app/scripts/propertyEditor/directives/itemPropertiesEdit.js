@@ -24,6 +24,10 @@ angular.module('uiBuilderApp.propertyEditor')
           ctrl.elem = null;
         };
 
+        ctrl.getParamTemplateUrl = function(param) {
+          return 'scripts/propertyEditor/directives/subViews/' + param.type + '.html';
+        };
+
         $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
           ctrl.elem = elem;
         });

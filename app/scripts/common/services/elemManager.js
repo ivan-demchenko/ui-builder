@@ -120,8 +120,12 @@ angular.module('uiBuilderApp.common')
             return DomElem.setValueOfParam(element, prop);
           }
           return DomElem.removeValueOfAttr(element, prop);
+        } else if (prop.domAttr) {
+          if (prop.inUse) {
+            return element.setAttribute(prop.domAttr, prop.value);
+          }
+          return element.removeAttribute(prop.domAttr);
         }
-        element[prop.domAttr] = prop.value;
         return;
       });
     };
