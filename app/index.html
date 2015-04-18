@@ -12,48 +12,44 @@
     <!-- endbuild -->
 
   </head>
-  <body>
-    <div class="uib-app-container" ng-controller="MainCtrl as main">
-      <header class="uib-app-header">
-        <span class="uib-app-logo">ui builder</span>
-        <span class="uib-v-div"></span>
-        <span class="uib-app-logo" ng-click="main.toggleSourceView()">
-          <span ng-hide="main.viewSourse">
-            <i class="i-source"></i>
-            Show
-          </span>
-          <span ng-show="main.viewSourse">
-            <i class="i-layout"></i>
-            Hide
-          </span>
-          html
+  <body ng-controller="MainCtrl as main">
+    <header class="header">
+      <span class="uib-app-logo">ui builder</span>
+      <span class="uib-v-div"></span>
+      <span class="uib-app-logo" ng-click="main.toggleSourceView()">
+        <span ng-hide="main.viewSourse">
+          <i class="i-source"></i>
+          Show
         </span>
+        <span ng-show="main.viewSourse">
+          <i class="i-layout"></i>
+          Hide
+        </span>
+        html
+      </span>
+    </header>
+    <div class="uib-app-wrapper">
+      <div class="uib-app-aside">
+        <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
+      </div>
+      <ui-canvas></ui-canvas>
+      <div class="uib-app-aside">
+        <dom-tree-view root-selector=".uib-app-main iframe" tree="main.domTreeRoot"></dom-tree-view>
+      </div>
+    </div>
+
+    <item-properties-edit data="main.editableElement"></item-properties-edit>
+
+    <div class="uib-html-view uib-modal" ng-show="main.viewSourse">
+      <header class="uib-modal__header">
+        HTML
+        <aside class="uib-modal__header__ctrls">
+          <a href="#" class="uib-btn" ng-click="main.toggleSourceView()"><i class="i-ok"></i></a>
+        </aside>
       </header>
-      <div class="uib-app-wrapper">
-        <div class="uib-app-aside">
-          <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
-        </div>
-        <div class="uib-app-main">
-          <ui-canvas></ui-canvas>
-          <item-properties-edit data="main.editableElement"></item-properties-view>
-        </div>
-        <div class="uib-app-aside">
-          <dom-tree-view root-selector=".uib-app-main iframe" tree="main.domTreeRoot"></dom-tree-view>
-        </div>
+      <div class="uib-modal__content">
+        <textarea class="uib-source-view" ng-model="main.sourse"></textarea>
       </div>
-
-      <div class="uib-html-view uib-modal" ng-show="main.viewSourse">
-        <header class="uib-item-props-edit-header uib-modal__header">
-          HTML
-          <aside class="uib-modal__header__ctrls">
-            <a href="#" class="uib-btn" ng-click="main.toggleSourceView()"><i class="i-ok"></i></a>
-          </aside>
-        </header>
-        <div class="props-edit-form uib-modal__content">
-          <textarea class="uib-source-view" ng-model="main.sourse"></textarea>
-        </div>
-      </div>
-
     </div>
 
     <!-- build:js({.,.tmp,app}) scripts/scripts.js -->

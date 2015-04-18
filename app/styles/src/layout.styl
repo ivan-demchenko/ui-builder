@@ -1,8 +1,6 @@
-.uib-app-main
-  background minorBackground
+body
   display flex
-  width 100%
-  position relative
+  flex-flow column nowrap
 
 .uib-v-div
   width 1px
@@ -14,33 +12,21 @@
   display inline-block
   text-transform uppercase
 
-
-.uib-app-container
-  display flex
-  flex-flow column nowrap
-  height 100%
-
 .uib-app-wrapper
   display flex
-  position: absolute;
-  top: 3rem;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height 100%
+  flex-grow 2
 
-.uib-app-header
-  @extend .header
-  z-index 1
-  font-size .8rem
-  flex-shrink 0
+.uib-app-main
+  background minorBackground
+  width 100%
+  position relative
 
 .uib-app-aside
   @extend .scrollable
   background minorBackground
   max-width sideBarSize
   min-width sideBarSize
-  display flex
-  flex-direction column
 
   ul
     padding 0

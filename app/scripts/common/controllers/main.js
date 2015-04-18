@@ -4,9 +4,9 @@ angular.module('uiBuilderApp.common')
   .controller('MainCtrl', function(Repository, Canvas) {
 
     (function(ctrl) {
-      Repository.getItems().then(angular.bind(ctrl, function(data) {
+      Repository.getItems().then(function(data) {
         ctrl.repoItems = data;
-      }));
+      }.bind(this));
     })(this);
 
     this.repoItems = null;
