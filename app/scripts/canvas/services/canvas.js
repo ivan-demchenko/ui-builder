@@ -26,11 +26,13 @@ angular.module('uiBuilderApp.Canvas')
 
     this.reloadIFrame = function() {
       var oldCode = this.shadow.innerHTML;
-      var repoData = Repository.getItems();
-      this.iframe.src = repoData.initial.html;
-      this.iframe.onload = function() {
-        this.setUpCanvas(oldCode, repoData);
-      }.bind(this);
+      Repository.getItems().then(function(repoData) {
+        this.iframe.src = repoData.initial.html;
+        this.iframe.onload = function() {
+          this.setUpCanvas(oldCode, repoData);
+        }.bind(this);
+      }.bind(this));
+
     };
 
     this.updateShadow = function(parent, dropppedElement) {
