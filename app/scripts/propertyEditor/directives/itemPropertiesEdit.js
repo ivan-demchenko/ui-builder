@@ -24,7 +24,7 @@ angular.module('uiBuilderApp.propertyEditor')
           ctrl.elem = null;
         };
 
-        $rootScope.$on('uib:elem:edit', function(evt, elem) {
+        $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
           ctrl.elem = elem;
         });
 

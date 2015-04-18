@@ -6,12 +6,6 @@ angular.module('uiBuilderApp.Canvas')
     this.iframe = null;
     this.shadow = null;
 
-
-    $rootScope.$on('uib:elem:edit:done', function() {
-      // Take html of shadow
-      // set it to
-    });
-
     this.register = function(container) {
       this.iframe = container.find('iframe')[0];
       this.shadow = container.find('div')[0];

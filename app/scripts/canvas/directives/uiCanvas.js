@@ -16,6 +16,10 @@ angular.module('uiBuilderApp.Canvas')
         $rootScope.$on('uib:elem:remove', function(evt, elementToBeRemoved) {
           Canvas.removeElement(elementToBeRemoved);
         });
+
+        $rootScope.$on('uib:elem:edit:done', function() {
+          Canvas.reloadIFrame();
+        });
       }
     };
   });
