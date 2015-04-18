@@ -16,7 +16,7 @@ angular.module('uiBuilderApp.common')
     this.sourse = '';
 
     this.toggleSourceView = function() {
-      this.sourse = Canvas.getSource();
+      this.sourse = Canvas.getSourceCode();
       this.viewSourse = !this.viewSourse;
     };
   });

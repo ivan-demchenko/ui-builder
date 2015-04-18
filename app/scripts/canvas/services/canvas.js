@@ -69,6 +69,10 @@ angular.module('uiBuilderApp.Canvas')
       return iDoc.document ? iDoc.document.body : null;
     };
 
+    this.getSourceCode = function() {
+      return this.getIframeBody().innerHTML;
+    };
+
     this.addStyles = function(url) {
       if (!this.iframe) {
         throw 'IFrame is not registered';
