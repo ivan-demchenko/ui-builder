@@ -1,66 +1,62 @@
 'use strict';
 
-angular.module('uiBuilderApp.canvas')
-  .service('canvas', function(Repository, ElemManager, $rootScope) {
+angular.module('uiBuilderApp.Canvas')
+  .service('Canvas', function(Repository, ElemManager, Common, DragDropHandler, $rootScope) {
 
     this.iframe = null;
+    this.shadow = null;
 
-    this.register = function(iframe) {
-      this.iframe = iframe;
-      Repository.getItems().then(this.setUpIframe.bind(this));
+
+    $rootScope.$on('uib:elem:edit:done', function() {
+      // Take html of shadow
+      // set it to
+    });
+
+    this.register = function(container) {
+      this.iframe = container.find('iframe')[0];
+      this.shadow = container.find('div')[0];
+      Repository.getItems().then(function(repoData) {
+        this.setUpCanvas('', repoData, true);
+      }.bind(this));
     };
 
-    $rootScope.$on('uib:elem:dropped', function() {
-      this.refreshIframe();
-    }.bind(this));
+    this.setUpCanvas = function(newHTML, repoData, initial) {
+      this.getIframeBody().innerHTML = newHTML;
+      this.addJS(repoData.initial.js);
+      this.addStyles('/styles/uib-canvas.css');
+      DragDropHandler.bindEventHandlers(this.getIframeBody());
+      if (!initial) {
+        $rootScope.$emit('uib:canvas:updated', this.shadow);
+      }
+    };
 
-    this.refreshIframe = function() {
-      var self = this;
+    this.reloadIFrame = function() {
+      var oldCode = this.shadow.innerHTML;
       var repoData = Repository.getItems();
-
-      var code = this.getIframeBody().innerHTML;
-
-      this.iframe.src = repoData.initial.html;
-
-      this.iframe.onload = function() {
-        self.getIframeBody().innerHTML = code;
-        self.addJS(repoData.initial.js);
-        self.addStyles('/styles/uib-canvas.css');
-        self.initEvents(self.iframe.contentDocument.documentElement.querySelector('body'));
-      };
-
-    };
-
-    this.setUpIframe = function(repoData) {
-      var self = this;
       this.iframe.src = repoData.initial.html;
       this.iframe.onload = function() {
-        self.addJS(repoData.initial.js);
-        self.addStyles('/styles/uib-canvas.css');
-        self.initEvents(self.iframe.contentDocument.documentElement.querySelector('body'));
-      };
+        this.setUpCanvas(oldCode, repoData);
+      }.bind(this);
     };
 
-    this.initEvents = function(canvasBody) {
-      canvasBody.addEventListener('drop', function(evt) {
-        evt.preventDefault();
-        ElemManager.dropElement(evt.target, evt.dataTransfer.getData('elementDescription'));
-      });
+    this.updateShadow = function(parent, dropppedElement) {
+      parent = (parent.tagName === 'BODY') ?
+                this.shadow :
+                this.shadow.querySelector(Common.domPath(dropppedElement));
+      var clone = ElemManager.cloneElement(dropppedElement);
+      parent.appendChild(clone);
+    };
 
-      canvasBody.addEventListener('dragend', function(evt) {
-        evt.preventDefault();
-        ElemManager.unmarkTarget(evt.target);
-      });
+    this.elementDropped = function(dropppedElement, target) {
+      if (!Common.hasParent(target, 'uib-canvas-shadow')) {
+        this.updateShadow(target, dropppedElement);
+      }
+      this.reloadIFrame();
+    };
 
-      canvasBody.addEventListener('dragover', function(evt) {
-        evt.preventDefault();
-        ElemManager.markTarget(evt.target);
-      });
-
-      canvasBody.addEventListener('dragleave', function(evt) {
-        evt.preventDefault();
-        ElemManager.unmarkTarget(evt.target);
-      });
+    this.removeElement = function(element) {
+      element.remove();
+      this.reloadIFrame();
     };
 
     this.getIframeHead = function() {
@@ -99,16 +95,6 @@ angular.module('uiBuilderApp.canvas')
       script.type = 'text/javascript';
       script.charset = 'UTF-8';
       script.setAttribute('src', url + '?' + timestamp);
-
-      this.getIframeHead().appendChild(script);
-    };
-
-    this.addInilineJS = function(code) {
-      var script = document.createElement('script');
-
-      script.type = 'text/javascript';
-      script.charset = 'UTF-8';
-      script.innerText = code;
 
       this.getIframeHead().appendChild(script);
     };

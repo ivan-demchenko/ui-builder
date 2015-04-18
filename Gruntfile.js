@@ -1,12 +1,6 @@
 // Generated on 2015-04-04 using generator-angular 0.11.1
 'use strict';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function(grunt) {
 
   // Load grunt tasks automatically
@@ -52,10 +46,7 @@ module.exports = function(grunt) {
         tasks: ['newer:copy:styles']
       },
       stylus: {
-        files: [
-          '<%= yeoman.app %>/styles/main.styl',
-          '<%= yeoman.app %>/styles/src/*.styl'
-        ],
+        files: ['<%= yeoman.app %>/styles/**/*.styl'],
         tasks: ['stylus:dev']
       },
       gruntfile: {
@@ -101,6 +92,7 @@ module.exports = function(grunt) {
       livereload: {
         options: {
           open: true,
+          base: ['<%= yeoman.app %>', '.tmp'],
           middleware: function(connect) {
             return [
               connect.static('.tmp'),

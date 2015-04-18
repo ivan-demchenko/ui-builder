@@ -17,6 +17,16 @@ angular.module('uiBuilderApp.domTree')
       };
     }
 
+    this.tree = null;
+
+    this.setTree = function(tree) {
+      this.tree = tree;
+    };
+
+    this.getTree = function() {
+      return this.tree;
+    };
+
     this.buildTree = function(root) {
       root = domElemModel(root);
       root.children = root.children.map(this.buildTree.bind(this));

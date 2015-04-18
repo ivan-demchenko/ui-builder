@@ -1,4 +1,4 @@
 'use strict';
 
 angular
-  .module('uiBuilderApp.canvas', []);
+  .module('uiBuilderApp.Canvas', []);

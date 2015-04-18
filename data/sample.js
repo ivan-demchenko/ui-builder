@@ -1,5 +1,7 @@
 'use strict';
 
+moment.locale('en');
+
 angular.module('testApp', ['ys.components']);
 
 angular.module('testApp')

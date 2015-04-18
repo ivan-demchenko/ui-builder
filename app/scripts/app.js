@@ -13,6 +13,6 @@ angular
     'uiBuilderApp.common',
     'uiBuilderApp.domTree',
     'uiBuilderApp.propertyEditor',
-    'uiBuilderApp.canvas',
+    'uiBuilderApp.Canvas',
     'uiBuilderApp.repository'
   ]);

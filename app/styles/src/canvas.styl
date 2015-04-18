@@ -1,7 +1,26 @@
-.uib-app-canvas
-  border solid 1px #ccc
-  overflow auto
-  transition .3s
+.uib-canvas
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
 
-  &.drag
-    @extend .element-to-drop-to
+  .uib-canvas-shadow
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    visibility hidden
+    overflow auto
+    background aliceblue
+    z-index 1
+
+  .uib-canvas-sandbox
+      position absolute
+      left 0
+      top 0
+      left 0
+      right 0
+      border none
+      background #fff

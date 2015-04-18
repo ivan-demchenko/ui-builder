@@ -10,12 +10,12 @@ angular.module('uiBuilderApp.common')
      */
     this.dropElement = function(target, elementDescription) {
       var elemModel = JSON.parse(elementDescription);
-      var elemToInsert = this.buildElementToDrop(elemModel);
-      this.resetAttrsForElement(elemToInsert);
+      var newElement = this.buildElementToDrop(elemModel);
+      this.resetAttrsForElement(newElement);
       target.classList.remove('drop-to');
-      target.appendChild(elemToInsert);
-      $rootScope.$emit('uib:elem:dropped', elemToInsert);
-      return true;
+      target.appendChild(newElement);
+      $rootScope.$emit('uib:element:dropped', newElement, target, elementDescription);
+      return newElement;
     };
 
     /**
@@ -42,7 +42,7 @@ angular.module('uiBuilderApp.common')
      * @return {undefined}
      */
     this.startEditElem = function(elem) {
-      $rootScope.$emit('uib:elem:edit', elem);
+      $rootScope.$emit('uib:elem:edit:begin', elem);
     };
 
     /**
@@ -95,6 +95,15 @@ angular.module('uiBuilderApp.common')
       return newElement;
     };
 
+    this.cloneElement = function(originalElement) {
+      var clone = originalElement.cloneNode();
+      if (originalElement.uibParams) {
+        clone.uibParams = originalElement.uibParams;
+      }
+      clone.uibRemovable = true;
+      return clone;
+    };
+
     /**
      * This method set properties of given DOM element according to params stored in
      * `uibParams` hash of the DOM element.
@@ -107,11 +116,10 @@ angular.module('uiBuilderApp.common')
       }
       element.uibParams.forEach(function(prop) {
         if (prop.attr) {
-          if (!prop.inUse) {
-            return DomElem.removeValueOfAttr(element, prop);
-          } else {
+          if (prop.inUse) {
             return DomElem.setValueOfParam(element, prop);
           }
+          return DomElem.removeValueOfAttr(element, prop);
         }
         element[prop.domAttr] = prop.value;
         return;
