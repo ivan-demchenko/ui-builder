@@ -86,6 +86,8 @@ module.exports = function(grunt) {
 
     stylus: {
       options: {
+        use: [require('kouto-swiss')],
+        import: ['kouto-swiss'],
         'include css': true
       },
       all: {
