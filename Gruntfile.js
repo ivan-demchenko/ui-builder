@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           '<%= yeoman.app %>/styles/icons/*.css',
           '<%= yeoman.app %>/styles/font/*.{eot,svg,ttf,woff}'
         ],
-        tasks: ['newer:copy:styles']
+        tasks: ['newer:copy:dev', 'stylus']
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/**/*.styl'],
@@ -53,8 +53,8 @@ module.exports = function(grunt) {
         files: ['Gruntfile.js']
       },
       templates: {
-        files: ['<%= yeoman.app %>/styles/**/*.html'],
-        tasks: ['html2js:dev']
+        files: ['<%= yeoman.app %>/scripts/**/*.html'],
+        tasks: ['html2js:all']
       },
       livereload: {
         options: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: '0.0.0.0',
         livereload: 35729
       },
       livereload: {

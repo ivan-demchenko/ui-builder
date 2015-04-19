@@ -14,7 +14,10 @@
   </head>
   <body ng-controller="MainCtrl as main">
     <header class="header">
-      <span class="uib-app-logo">ui builder</span>
+      <span class="uib-app-logo">
+        <i class="i-desktop"></i>
+        ui builder
+      </span>
       <span class="uib-v-div"></span>
       <span class="uib-app-logo" ng-click="main.toggleSourceView()">
         <span ng-hide="main.viewSourse">
@@ -42,7 +45,7 @@
 
     <div class="uib-html-view uib-modal" ng-show="main.viewSourse">
       <header class="uib-modal__header">
-        HTML
+        <span class="uib-modal__header__label">Source code</span>
         <aside class="uib-modal__header__ctrls">
           <a href="#" class="uib-btn" ng-click="main.toggleSourceView()"><i class="i-ok"></i></a>
         </aside>

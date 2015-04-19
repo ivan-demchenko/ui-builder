@@ -1,10 +1,11 @@
 <div class="uib-item-props-edit uib-modal" ng-show="propCtrl.elem !== null">
 
   <header class="uib-item-props-edit-header uib-modal__header">
-    {{propCtrl.elem.tagName}}
+    <span class="uib-modal__header__label">{{propCtrl.elem.tagName}}</span>
     <aside class="uib-modal__header__ctrls">
       <a href="#" class="uib-btn" ng-click="propCtrl.done()"><i class="i-ok"></i></a>
-      <a href="#" class="uib-btn" ng-click="propCtrl.remove()"><i class="i-cancel"></i></a>
+      <a href="#" class="uib-btn" ng-click="propCtrl.remove()"><i class="i-trash"></i></a>
+      <a href="#" class="uib-btn" ng-click="propCtrl.close()"><i class="i-cancel"></i></a>
     </aside>
   </header>
 

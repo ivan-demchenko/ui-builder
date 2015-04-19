@@ -16,6 +16,10 @@ angular.module('uiBuilderApp.propertyEditor')
 
         ctrl.done = function() {
           ElemManager.doneEditingElem(ctrl.elem);
+          ctrl.close();
+        };
+
+        ctrl.close = function() {
           ctrl.elem = null;
         };
 

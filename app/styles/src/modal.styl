@@ -15,13 +15,21 @@
 
   &__header
     @extend .header
-    padding 1rem
+
+    &__label
+      padding 1rem
+      flex-grow 1
 
     &__ctrls
-      float right
+      flex-shrink 0
 
       .uib-btn
+        padding 1rem
+        display inline-block
         color #fff
+        transition background .1s
+        &:hover
+          background rgba(255, 255, 255, .1)
 
   &__content
     @extend .scrollable
