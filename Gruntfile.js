@@ -74,8 +74,7 @@ module.exports = function(grunt) {
         htmlmin: {
           collapseBooleanAttributes: true,
           collapseWhitespace: true,
-          removeComments: true,
-          removeRedundantAttributes: true
+          removeComments: true
         }
       },
       all: {

@@ -4,28 +4,29 @@
     margin-bottom .5rem
     padding-bottom .5rem
     border-bottom solid 1px #ccc
+    overflow hidden
 
     &:last-child
       margin-bottom 0
       padding-bottom 0
       border-bottom none
 
-  .uib-prop-row-values
-    overflow hidden
+  .uib-prop__label
+    color treeMinor
 
-  .uib-prop-row-value
+  .uib-prop__value
     float left
     margin .1rem
-    padding .2rem .4rem
+    padding .4rem .8rem
     background optionValueBackground
     border-radius .2rem
 
-    &first-child
+    &:first-child
       margin-left 0
 
-    input[type="text"],
-    .uib-source-view
-      width 100%
-      font-family monospace
-      font-size 1rem
-      line-height 1rem
+    input[type='radio']
+      display none
+
+      &:checked + .uib-prop__label
+        color activeValueColor
+        text-decoration underline
