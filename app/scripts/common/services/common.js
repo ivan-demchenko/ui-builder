@@ -20,6 +20,18 @@ angular.module('uiBuilderApp.common')
       return res;
     };
 
+    this.getParent = function(elem, parentClass) {
+      if (elem.classList.contains(parentClass)) {
+        return elem;
+      }
+      while (elem.parentElement) {
+        if (elem.classList.contains(parentClass)) {
+          return elem;
+        }
+        elem = elem.parentElement;
+      }
+    };
+
     this.domPath = function(element) {
       var path = '',
       i, innerText, tag, selector, classes;

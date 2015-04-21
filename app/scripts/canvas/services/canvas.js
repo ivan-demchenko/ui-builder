@@ -72,7 +72,7 @@ angular.module('uiBuilderApp.Canvas')
     };
 
     this.getSourceCode = function() {
-      return this.getIframeBody().innerHTML;
+      return this.shadow.innerHTML;
     };
 
     this.addStyles = function(url) {

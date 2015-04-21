@@ -8,6 +8,7 @@
 
   &.drag-from
     @extend .element-to-drop-to
+    box-shadow 0 0 4px rgba(0, 0, 0, .2)
 
   &.drop-to
     background dragFromBackground
@@ -21,6 +22,9 @@
   &__aside
       display flex
       flex-shrink 0
+
+      .uib-btn
+        padding .1rem
 
 .uib-elem-tag-name
   color #424242

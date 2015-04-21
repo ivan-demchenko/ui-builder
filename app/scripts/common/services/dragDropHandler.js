@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.common')
-  .service('DragDropHandler', function($rootScope, ElemManager) {
+  .service('DragDropHandler', function($rootScope, Common, ElemManager) {
 
     this.bindEventHandlers = function(element) {
       element.addEventListener('dragover', function _dravOverHandler(evt) {
@@ -27,7 +27,8 @@ angular.module('uiBuilderApp.common')
         evt.stopPropagation();
         var target = evt.target;
         var elemDescription = evt.dataTransfer.getData('elementDescription');
-        if (target.classList.contains('uib-tree-item')) {
+        if (Common.hasParent(target, 'uib-tree-item')) {
+          target = Common.getParent(target, 'uib-tree-item');
           target = angular.element(target).scope().node.domElem;
         }
         ElemManager.dropElement(target, elemDescription);

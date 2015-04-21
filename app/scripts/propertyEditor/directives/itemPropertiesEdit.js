@@ -9,37 +9,38 @@ angular.module('uiBuilderApp.propertyEditor')
         data: '='
       },
       templateUrl: 'scripts/propertyEditor/directives/itemPropertiesEdit.html',
-      controller: function() {
-        var ctrl = this;
+      controller: function($scope) {
+        $scope.elem = null;
 
-        ctrl.elem = null;
-
-        ctrl.done = function() {
-          ElemManager.doneEditingElem(ctrl.elem);
-          ctrl.close();
+        $scope.done = function() {
+          if ($scope.propsEditForm.$dirty) {
+            ElemManager.doneEditingElem($scope.elem);
+          }
+          $scope.close();
         };
 
-        ctrl.close = function() {
-          ctrl.elem = null;
+        $scope.close = function() {
+          $scope.elem = null;
         };
 
-        ctrl.remove = function() {
-          ElemManager.removeElem(ctrl.elem);
-          ctrl.elem = null;
+        $scope.remove = function() {
+          ElemManager.removeElem($scope.elem);
+          $scope.elem = null;
         };
 
-        ctrl.getParamTemplateUrl = function(param) {
+        $scope.getParamTemplateUrl = function(param) {
           return 'scripts/propertyEditor/directives/subViews/' + param.type + '.html';
         };
 
         $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
-          ctrl.elem = elem;
+          $scope.propsEditForm.$setPristine();
+          $scope.elemIdentifier = DomElem.getElementIdentifier(elem);
+          $scope.elem = elem;
         });
 
         $rootScope.$on('uib:elem:remove', function() {
-          ctrl.elem = null;
+          $scope.elem = null;
         });
-      },
-      controllerAs: 'propCtrl'
+      }
     };
   });

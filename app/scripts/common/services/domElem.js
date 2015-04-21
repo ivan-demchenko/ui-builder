@@ -21,6 +21,11 @@ angular.module('uiBuilderApp.common')
       return elem.children.length > 0;
     };
 
+    this.getElementIdentifier = function(elem) {
+      var classListAsStr = Array.prototype.join.call(elem.classList, '.');
+      return (elem.id ? '#' + elem.id : '') + (classListAsStr ? '.' + classListAsStr : '');
+    };
+
     this.canChangeInnerText = function(elem) {
       return this.canHaveChildren(elem) && !this.isParent(elem);
     };

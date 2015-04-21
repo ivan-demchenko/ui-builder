@@ -1,3 +1,15 @@
 <ul>
-  <li ng-repeat="node in tree.children" ng-include="'scripts/domTree/directives/domTreeItem.html'"></li>
+  <li ng-repeat="node in tree.children">
+    <div class="uib-tree-item">
+      <div class="uib-tree-item__label">
+        <span class="uib-elem-tag-name">{{::node.tagName}}</span>
+        <span ng-if="node.identifier" class="uib-elem-identifier">{{node.identifier}}</span>
+      </div>
+      <aside class="uib-tree-item__aside">
+        <a href="#" ng-click="editElem(node)" ng-if="node.domElem.uibParams" class="uib-btn"><i class="i-wrench"></i></a>
+        <a href="#" ng-click="removeElem(node)" class="uib-btn"><i class="i-trash"></i></a>
+      </aside>
+    </div>
+    <dom-tree-view tree="node" ng-if="node.children.length > 0"></dom-tree-view>
+  </li>
 </ul>
