@@ -121,6 +121,36 @@
         "subNodes": [
 
           {
+            "name": "Header 1",
+            "markup": "<h1>dff asd</h1>",
+            "parameters": [
+
+              {
+                "name": "Inner Text",
+                "nodeAttr": "innerText",
+                "type": "free-text",
+                "value": ""
+              }
+
+            ]
+          },
+
+          {
+            "name": "Header 2",
+            "markup": "<h2>dff asd</h2>",
+            "parameters": [
+
+              {
+                "name": "Inner Text",
+                "nodeAttr": "innerText",
+                "type": "free-text",
+                "value": "Hello!"
+              }
+
+            ]
+          },
+
+          {
             "name": "Date time picker",
             "markup": "<ys-ui-date-time-picker model=\"dt\"></ys-ui-date-time-picker>",
             "parameters": [

@@ -80,7 +80,7 @@ angular.module('uiBuilderApp.common')
       if (elementDescription.parameters) {
         elementDescription.parameters.forEach(function(param) {
           param.inUse = true;
-          param.value = param.value ? Common.findOneByValue(param.possibleValues, param.value) : '';
+          param.value = param.value ? param.possibleValues ? Common.findOneByValue(param.possibleValues, param.value) : param.value : '';
         });
       }
       var newElement = angular.element(elementDescription.markup)[0];
@@ -125,6 +125,12 @@ angular.module('uiBuilderApp.common')
             return element.setAttribute(prop.domAttr, prop.value);
           }
           return element.removeAttribute(prop.domAttr);
+        } else if (prop.nodeAttr) {
+          if (prop.inUse) {
+            element[prop.nodeAttr] = prop.value;
+            return;
+          }
+          element[prop.nodeAttr] = '';
         }
         return;
       });
