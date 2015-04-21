@@ -34,6 +34,7 @@ angular.module('uiBuilderApp.propertyEditor')
 
         $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
           $scope.propsEditForm.$setPristine();
+          $scope.elemIdentifier = DomElem.getElementIdentifier(elem);
           $scope.elem = elem;
         });
 

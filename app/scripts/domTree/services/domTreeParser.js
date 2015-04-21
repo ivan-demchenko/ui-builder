@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('uiBuilderApp.domTree')
-  .service('DomTreeParser', function() {
-
-    function getElementIdentifier(elem) {
-      var classListAsStr = Array.prototype.join.call(elem.classList, '.');
-      return (elem.id ? '#' + elem.id : '') + (classListAsStr ? '.' + classListAsStr : '');
-    }
+  .service('DomTreeParser', function(DomElem) {
 
     function domElemModel(elem) {
       return {
         domElem: elem,
         tagName: elem.tagName,
-        identifier: getElementIdentifier(elem),
+        identifier: DomElem.getElementIdentifier(elem),
         children: Array.prototype.slice.call(elem.children)
       };
     }

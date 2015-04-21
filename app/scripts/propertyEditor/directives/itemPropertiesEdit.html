@@ -1,7 +1,9 @@
 <div class="uib-item-props-edit uib-modal" ng-show="elem !== null">
 
   <header class="uib-item-props-edit-header uib-modal__header">
-    <span class="uib-modal__header__label">{{propCtrl.elem.tagName}}</span>
+    <span class="uib-modal__header__label">
+      {{elem.tagName}} <small>{{elemIdentifier}}</small>
+    </span>
     <aside class="uib-modal__header__ctrls">
       <a href="#" class="uib-btn" ng-click="done()"><i class="i-ok"></i></a>
       <a href="#" class="uib-btn" ng-click="remove()"><i class="i-trash"></i></a>
