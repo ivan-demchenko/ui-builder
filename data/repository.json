@@ -121,36 +121,6 @@
         "subNodes": [
 
           {
-            "name": "Header 1",
-            "markup": "<h1>dff asd</h1>",
-            "parameters": [
-
-              {
-                "name": "Inner Text",
-                "nodeAttr": "innerText",
-                "type": "free-text",
-                "value": ""
-              }
-
-            ]
-          },
-
-          {
-            "name": "Header 2",
-            "markup": "<h2>dff asd</h2>",
-            "parameters": [
-
-              {
-                "name": "Inner Text",
-                "nodeAttr": "innerText",
-                "type": "free-text",
-                "value": "Hello!"
-              }
-
-            ]
-          },
-
-          {
             "name": "Date time picker",
             "markup": "<ys-ui-date-time-picker model=\"dt\"></ys-ui-date-time-picker>",
             "parameters": [
@@ -167,6 +137,183 @@
                 "domAttr": "max-date",
                 "type": "free-text",
                 "value": ""
+              }
+
+            ]
+          },
+
+          {
+            "name": "List",
+            "markup": "<ys-ui-list model=\"dt\"></ys-ui-list>",
+            "parameters": [
+
+              {
+                "name": "Model",
+                "domAttr": "model",
+                "type": "free-text",
+                "value": ""
+              }
+
+            ]
+          },
+
+          {
+            "name": "List items",
+            "subNodes": [
+
+              {
+                "name": "Person",
+                "markup": "<ys-ui-person-list-item model=\"item\"></ys-ui-person-list-item>"
+              },
+
+              {
+                "name": "Organization",
+                "markup": "<ys-ui-organization-list-item model=\"item\"></ys-ui-organization-list-item>"
+              }
+
+            ]
+          }
+
+        ]
+      },
+
+      {
+        "name": "Data access",
+        "subNodes" : [
+
+          {
+            "name": "Data Fetchers",
+            "subNodes": [
+
+              {
+                "name": "ES Search",
+                "markup": "<ys-ui-es-source model=\"\" max-items=\"\" query=\"\" end-point-url=\"\" searched-index=\"\"></ys-ui-es-source>",
+                "parameters": [
+
+                  {
+                    "name": "Model",
+                    "domAttr": "model",
+                    "type": "free-text",
+                    "value": "peopleList"
+                  },
+
+                  {
+                    "name": "Max items",
+                    "domAttr": "max-items",
+                    "type": "free-text",
+                    "value": "maxItems"
+                  },
+
+                  {
+                    "name": "Query",
+                    "domAttr": "query",
+                    "type": "free-text",
+                    "value": "query"
+                  },
+
+                  {
+                    "name": "URL",
+                    "domAttr": "end-point-url",
+                    "type": "free-text",
+                    "value": "/api/search"
+                  },
+
+                  {
+                    "name": "Searched index",
+                    "domAttr": "searched-index",
+                    "type": "free-text",
+                    "value": "persons"
+                  }
+
+                ]
+              }
+
+            ]
+          },
+
+          {
+            "name": "Query modifiers",
+            "subNodes": [
+
+              {
+                "name": "Query builder",
+                "markup": "<ys-ui-query-builder model=\"query\"></ys-ui-query-builder>",
+                "parameters": [
+
+                  {
+                    "name": "Model",
+                    "domAttr": "model",
+                    "type": "free-text",
+                    "value": "query"
+                  }
+
+                ]
+              },
+
+              {
+                "name": "Where",
+                "markup": "<ys-ui-where search-key=\"\" search-string=\"\"></ys-ui-query-builder>",
+                "parameters": [
+
+                  {
+                    "name": "Search Key",
+                    "domAttr": "search-key",
+                    "type": "free-text",
+                    "value": "'searchField'"
+                  },
+
+                  {
+                    "name": "Search String",
+                    "domAttr": "search-string",
+                    "type": "free-text",
+                    "value": ""
+                  }
+
+                ]
+              },
+
+              {
+                "name": "Paging",
+                "markup": "<ys-ui-page page-size=\"query\" page-index=\"\"></ys-ui-page>",
+                "parameters": [
+
+                  {
+                    "name": "Items per page?",
+                    "domAttr": "page-size",
+                    "type": "free-text",
+                    "value": ""
+                  },
+
+                  {
+                    "name": "Page index",
+                    "domAttr": "page-index",
+                    "type": "free-text",
+                    "value": ""
+                  }
+
+                ]
+              },
+
+              {
+                "name": "Sorting",
+                "markup": "<ys-ui-sort sort-key=\"query\" sort-order=\"\"></ys-ui-sort>",
+                "parameters": [
+
+                  {
+                    "name": "Sort by ...",
+                    "domAttr": "sort-key",
+                    "type": "free-text",
+                    "value": ""
+                  },
+
+                  {
+                    "name": "Sort order",
+                    "domAttr": "sort-order",
+                    "type": "free-text",
+                    "value": ""
+                  }
+
+                ]
               }
 
             ]
