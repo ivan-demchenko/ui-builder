@@ -15,6 +15,17 @@ module.exports = function(grunt) {
     dist: 'dist'
   };
 
+  function servedDevelopmentPages(connect) {
+    return [
+      require('grunt-connect-proxy/lib/utils').proxyRequest,
+      connect.static('.tmp'),
+      connect().use(
+          '/bower_components', connect.static('./bower_components')
+      ),
+      connect.static(appConfig.app)
+    ];
+  }
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -102,7 +113,7 @@ module.exports = function(grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: '0.0.0.0',
+        hostname: 'localhost',
         livereload: 35729
       },
       livereload: {
@@ -111,13 +122,21 @@ module.exports = function(grunt) {
           base: ['<%= yeoman.app %>', '.tmp'],
           middleware: function(connect) {
             return [
+              require('grunt-connect-proxy/lib/utils').proxyRequest,
               connect.static('.tmp'),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect().use('/data', connect.static('./data')),
               connect.static(appConfig.app)
             ];
           }
-        }
+        },
+        proxies: [{
+          context: '/api',
+          host: 'localhost',
+          port: 8092,
+          https: false,
+          changeOrigin: false
+        }]
       },
       test: {
         options: {
@@ -337,6 +356,7 @@ module.exports = function(grunt) {
       'copy:dev',
       'html2js:all',
       'stylus',
+      'configureProxies:livereload',
       'connect:livereload',
       'watch'
     ]);
