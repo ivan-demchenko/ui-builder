@@ -1,28 +1,32 @@
 .uib-modal
   @extend .scrollable
+  @extend .flex-col
+  @extend .no-shrink
+  @extend .big-shadow
+  @extend .animated
   border-radius 3px
   background modalBackground
   position absolute
-  display flex
-  flex-direction column
-  flex-shrink 0
-  max-height 60%
-  top 30%
-  width 60%
+  top 0
   left 50%
-  transform translateX(-50%)
-  box-shadow 0 8px 31px rgba(0, 0, 0, 0.25)
+  max-height 60%
+  width 60%
+  transform translate3d(-50%, 70%, 0)
   z-index 1
+
+  &--hidden
+    transform translate3d(-50%, -100%, 0)
+    opacity 0
 
   &__header
     @extend .header
 
     &__label
+      @extend .flex-prior
       padding 1rem
-      flex-grow 1
 
     &__ctrls
-      flex-shrink 0
+      @extend .no-shrink
 
   &__content
     @extend .scrollable

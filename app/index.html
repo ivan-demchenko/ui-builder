@@ -43,7 +43,7 @@
 
     <item-properties-edit data="main.editableElement"></item-properties-edit>
 
-    <div class="uib-html-view uib-modal" ng-show="main.viewSourse">
+    <div class="uib-html-view uib-modal uib-modal--hidden" ng-class="{'uib-modal--hidden': !main.viewSourse}">
       <header class="uib-modal__header">
         <span class="uib-modal__header__label">Source code</span>
         <aside class="uib-modal__header__ctrls">

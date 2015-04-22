@@ -1,6 +1,5 @@
 body
-  display flex
-  flex-flow column nowrap
+  @extend .flex-col
 
 .uib-app-logo
   @extend .unselectable
@@ -8,9 +7,9 @@ body
   text-transform uppercase
 
 .uib-app-wrapper
-  display flex
+  @extend .flex
+  @extend .flex-prior
   height 100%
-  flex-grow 2
 
 .uib-app-main
   background minorBackground
@@ -19,6 +18,7 @@ body
 
 .uib-app-aside
   @extend .scrollable
+  @extend .flex-col
   background minorBackground
   max-width sideBarSize
   min-width sideBarSize
@@ -27,7 +27,7 @@ body
     padding 0
     margin 0
     font-size .85rem
-    flex-grow 1
+    @extend .flex-prior
 
     li
       @extend .unselectable

@@ -9,6 +9,12 @@ html, body
   font-family Arial, sans-serif
   font-size 100%
 
+.animated
+  transition-property transform, opacity
+  transition-duration longAnimation
+  transition-timing-function animationFn
+  will-change transform, opacity
+
 input[type="text"]
   padding .5rem
   border solid 1px #ccc
@@ -26,6 +32,9 @@ input[type="text"]
   &:hover
     background rgba(255, 255, 255, .1)
 
+.no-overflow
+  overflow hidden
+
 .element-to-drop-to
   background hoverElementBackground
 
@@ -35,35 +44,47 @@ input[type="text"]
 .scrollable
   overflow-y auto
 
+.flex
+  display flex
+
+.flex-col
+  @extend .flex
+  flex-flow column nowrap
+
+.flex-row
+  @extend .flex
+  flex-flow row nowrap
+
+.flex-prior
+  flex-grow 1
+
+.no-shrink
+  flex-shrink 0
+
+.big-shadow
+  box-shadow 0 8px 31px rgba(0, 0, 0, 0.25)
+
 .header
+  @extend .flex
+  @extend .no-shrink
   width 100%
   background headerBackground
   color headerTextColor
   box-shadow 0 2px 3px rgba(0,0,0,0.25)
   z-index 2
-  display flex
-  flex-shrink 0
 
 input[type='text'], textarea
   margin 0
   padding 0
-  border solid 1px #B3E5FC
+  border solid 1px darken(optionValueBackground, 12)
   box-sizing border-box
   width 100%
   padding .5rem
   font-size 1rem
-  background #E1F5FE
+  background optionValueBackground
 
 .unselectable
   -webkit-user-drag element
   -webkit-user-select none
   -moz-user-select none
   user-select none
-
-  &:before
-    position absolute
-    top 0
-    left 0
-    right 0
-    left 0
-    background rgba(0,0,0,.8)

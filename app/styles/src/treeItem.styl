@@ -1,10 +1,10 @@
 .uib-tree-item
-  display flex
+  @extend .flex
+  @extend .no-overflow
   padding .4rem
   transition .3s background
   border-bottom dotted 1px #ccc
   border-left dotted 1px #ccc
-  overflow hidden
 
   &.drag-from
     @extend .element-to-drop-to
@@ -17,18 +17,17 @@
     color treeMinor
 
   &__label
-    flex-grow 1
+    @extend .flex-prior
 
   &__aside
-      display flex
-      flex-shrink 0
+    @extend .flex
+    @extend .no-shrink
 
-      .uib-btn
-        padding .1rem
+    .uib-btn
+      padding .1rem
 
 .uib-elem-tag-name
-  color #424242
-  flex-shrink 0
+  @extend .no-shrink
 
 .uib-elem-identifier
-  color #9E9E9E
+  color treeMinor
