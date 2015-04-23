@@ -356,7 +356,7 @@ module.exports = function(grunt) {
       'copy:dev',
       'html2js:all',
       'stylus',
-      'configureProxies:livereload',
+      'configureProxies',
       'connect:livereload',
       'watch'
     ]);
