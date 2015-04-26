@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('uiBuilderApp.common')
-  .service('ElemManager', function($rootScope, DomElem, Common, Modal) {
+module.exports = ['$rootScope', 'DomElem', 'Common', 'Modal',
+function($rootScope, DomElem, Common, Modal) {
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event
@@ -137,4 +137,4 @@ angular.module('uiBuilderApp.common')
         return;
       });
     };
-  });
+  }];

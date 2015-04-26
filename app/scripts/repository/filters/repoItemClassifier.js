@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp.repository')
-  .filter('repoItemClassifier', function() {
+module.exports = function() {
     return function(node) {
       if (!!node.markup) {
         return 'uib-repository__item--movable';
@@ -9,4 +8,4 @@ angular.module('uiBuilderApp.repository')
         return 'uib-repository__group';
       }
     };
-  });
+  };

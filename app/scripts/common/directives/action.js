@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('uiBuilderApp.common')
-.directive('uibAction', function() {
+module.exports = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -12,4 +11,4 @@ angular.module('uiBuilderApp.common')
       '<button class="uib-btn"><i ng-class="icon"></i></button>'
     ].join('')
   };
-});
+};
