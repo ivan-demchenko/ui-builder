@@ -1,6 +1,6 @@
 <ul class="uib-repository-tree">
   <li ng-repeat="node in tree.subNodes" class="uib-repository__item" ng-class="node | repoItemClassifier">
-    <repo-item model="node"></repo-item>
-    <repo-items-tree tree="node" ng-if="node.subNodes && node.subNodes.length > 0"></repo-items-tree>
+    <uib-repo-item model="node"></uib-repo-item>
+    <uib-repo-items-tree tree="node" ng-if="node.subNodes && node.subNodes.length > 0"></uib-repo-items-tree>
   </li>
 </ul>

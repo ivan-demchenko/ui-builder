@@ -33,27 +33,16 @@
     </header>
     <div class="uib-app-wrapper">
       <div class="uib-app-aside">
-        <repo-items-tree tree="main.repoItems.componentsTree"></repo-items-tree>
+        <uib-repo-items-tree tree="main.repoItems.componentsTree"></uib-repo-items-tree>
       </div>
-      <ui-canvas></ui-canvas>
+      <uib-canvas></uib-canvas>
       <div class="uib-app-aside">
-        <dom-tree-view root-selector=".uib-app-main iframe" tree="main.domTreeRoot"></dom-tree-view>
+        <uib-dom-tree-view root-selector=".uib-app-main iframe" tree="main.domTreeRoot"></uib-dom-tree-view>
       </div>
     </div>
 
-    <item-properties-edit data="main.editableElement"></item-properties-edit>
-
-    <div class="uib-html-view uib-modal uib-modal--hidden" ng-class="{'uib-modal--hidden': !main.viewSourse}">
-      <header class="uib-modal__header">
-        <span class="uib-modal__header__label">Source code</span>
-        <aside class="uib-modal__header__ctrls">
-          <a href="#" class="uib-btn" ng-click="main.toggleSourceView()"><i class="i-ok"></i></a>
-        </aside>
-      </header>
-      <div class="uib-modal__content">
-        <textarea class="uib-source-view" rows="8" ng-model="main.sourse"></textarea>
-      </div>
-    </div>
+    <uib-item-properties-edit data="main.editableElement"></uib-item-properties-edit>
+    <uib-html-view></uib-html-view>
 
     <!-- build:js({.,.tmp,app}) scripts/scripts.js -->
     <script src="bower_components/angular/angular.js"></script>
@@ -66,12 +55,20 @@
     <script src="scripts/canvas/services/canvas.js"></script>
 
     <script src="scripts/common/module.js"></script>
+    <script src="scripts/common/directives/action.js"></script>
     <script src="scripts/common/controllers/main.js"></script>
     <script src="scripts/common/services/common.js"></script>
     <script src="scripts/common/services/domElem.js"></script>
     <script src="scripts/common/services/elemManager.js"></script>
     <script src="scripts/common/services/recursionHelper.js"></script>
     <script src="scripts/common/services/dragDropHandler.js"></script>
+
+    <script src="scripts/common/modules/modal/module.js"></script>
+    <script src="scripts/common/modules/modal/directives/modal.directive.js"></script>
+    <script src="scripts/common/modules/modal/services/modal.service.js"></script>
+
+    <script src="scripts/htmlView/module.js"></script>
+    <script src="scripts/htmlView/directives/htmlView.js"></script>
 
     <script src="scripts/domTree/module.js"></script>
     <script src="scripts/domTree/directives/domTreeView.js"></script>

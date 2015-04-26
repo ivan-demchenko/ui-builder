@@ -15,16 +15,16 @@ module.exports = function(grunt) {
     dist: 'dist'
   };
 
-  function servedDevelopmentPages(connect) {
-    return [
-      require('grunt-connect-proxy/lib/utils').proxyRequest,
-      connect.static('.tmp'),
-      connect().use(
-          '/bower_components', connect.static('./bower_components')
-      ),
-      connect.static(appConfig.app)
-    ];
-  }
+  // function servedDevelopmentPages(connect) {
+  //   return [
+  //     require('grunt-connect-proxy/lib/utils').proxyRequest,
+  //     connect.static('.tmp'),
+  //     connect().use(
+  //         '/bower_components', connect.static('./bower_components')
+  //     ),
+  //     connect.static(appConfig.app)
+  //   ];
+  // }
 
   // Define the configuration for all the tasks
   grunt.initConfig({

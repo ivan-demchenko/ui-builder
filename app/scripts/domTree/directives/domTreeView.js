@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('uiBuilderApp.domTree')
-  .directive('domTreeView', function(RecursionHelper, $rootScope, ElemManager, DomTreeParser, DragDropHandler) {
+  .directive('uibDomTreeView', function($rootScope, RecursionHelper, ElemManager, DomTreeParser, DragDropHandler) {
+    // Because there is a recursive directive usage,
+    // I need to check if event listener alread has been set. Thus, I need a flag.
     var bounded = false;
     return {
       restrict: 'E',

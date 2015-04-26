@@ -1,32 +1,43 @@
 .uib-modal
-  @extend .scrollable
-  @extend .flex-col
-  @extend .no-shrink
-  @extend .big-shadow
   @extend .animated
-  border-radius 3px
-  background modalBackground
-  position absolute
-  top 6rem
-  left 50%
-  width 60%
-  transform translate3d(-50%, 0, 0)
+  absolute 0 0 0 0
+  transform translate3d(0, 0, 0)
+  background rgba(255,255,255,0.55)
+  opacity 1
+  z-index 2
   will-change transform, opacity
-  z-index 1
 
   &--hidden
-    transform translate3d(-50%, -100%, 0)
+    transform translate3d(0, -100%, 0)
     opacity 0
+
+  &__dialog
+    @extend .scrollable
+    @extend .flex-col
+    @extend .no-shrink
+    @extend .big-shadow
+    border-radius 3px
+    background modalBackground
+    position absolute
+    top 6rem
+    left 50%
+    width 60%
+    transform translate3d(-50%, 0, 0)
+    z-index 1
 
   &__header
     @extend .header
+    align-items center
+
+    h1, h2, h3, h4, h5
+      margin 0
 
     &__label
       @extend .flex-prior
       padding 1rem
 
     &__ctrls
-      @extend .no-shrink
+      @extend .flex, .no-shrink
 
   &__content
     @extend .scrollable

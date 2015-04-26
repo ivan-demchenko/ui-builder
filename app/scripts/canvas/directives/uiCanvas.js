@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.Canvas')
-  .directive('uiCanvas', function(Canvas, ElemManager, $rootScope) {
+  .directive('uibCanvas', function(Canvas, ElemManager, $rootScope) {
     return {
       restrict: 'E',
       replace: true,

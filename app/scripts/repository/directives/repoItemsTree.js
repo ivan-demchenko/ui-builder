@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.repository')
-  .directive('repoItemsTree', function(RecursionHelper) {
+  .directive('uibRepoItemsTree', function(RecursionHelper) {
     return {
       restrict: 'E',
       replace: true,

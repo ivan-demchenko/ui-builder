@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('uiBuilderApp.propertyEditor')
-  .directive('itemPropertiesEdit', function($rootScope, DomElem, ElemManager) {
+  .directive('uibItemPropertiesEdit', function($rootScope, DomElem, ElemManager) {
     return {
       restrict: 'E',
-      replace: true,
       scope: {
         data: '='
       },
@@ -13,9 +12,9 @@ angular.module('uiBuilderApp.propertyEditor')
         $scope.elem = null;
 
         $scope.done = function() {
-          if ($scope.propsEditForm.$dirty) {
+          // if ($scope.propsEditForm.$dirty) {
             ElemManager.doneEditingElem($scope.elem);
-          }
+          // }
           $scope.close();
         };
 
@@ -33,7 +32,7 @@ angular.module('uiBuilderApp.propertyEditor')
         };
 
         $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
-          $scope.propsEditForm.$setPristine();
+          // $scope.propsEditForm.$setPristine();
           $scope.elemIdentifier = DomElem.getElementIdentifier(elem);
           $scope.elem = elem;
         });

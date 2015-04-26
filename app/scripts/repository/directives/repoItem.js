@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.repository')
-  .directive('repoItem', function() {
+  .directive('uibRepoItem', function() {
     return {
       restrict: 'E',
       replace: true,

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.common')
-  .controller('MainCtrl', function(Repository, Canvas) {
+  .controller('MainCtrl', function(Repository, Modal) {
 
     (function(ctrl) {
       Repository.getItems().then(function(data) {
@@ -12,11 +12,7 @@ angular.module('uiBuilderApp.common')
     this.repoItems = null;
     this.domTreeRoot = {};
 
-    this.viewSourse = false;
-    this.sourse = '';
-
     this.toggleSourceView = function() {
-      this.sourse = Canvas.getSourceCode();
-      this.viewSourse = !this.viewSourse;
+      Modal.toggle('html-view');
     };
   });

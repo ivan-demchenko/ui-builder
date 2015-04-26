@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiBuilderApp.common')
-  .service('ElemManager', function(DomElem, $rootScope, Common) {
+  .service('ElemManager', function($rootScope, DomElem, Common, Modal) {
     /**
      * Make drop of elem to target
      * @param  {DomElement} target The element which will accept the drop event
@@ -42,6 +42,7 @@ angular.module('uiBuilderApp.common')
      * @return {undefined}
      */
     this.startEditElem = function(elem) {
+      Modal.toggle('property-editor');
       $rootScope.$emit('uib:elem:edit:begin', elem);
     };
 
@@ -51,6 +52,7 @@ angular.module('uiBuilderApp.common')
      * @return {undefined}
      */
     this.doneEditingElem = function(elem) {
+      Modal.toggle('property-editor');
       this.resetAttrsForElement(elem);
       $rootScope.$emit('uib:elem:edit:done', elem);
     };
