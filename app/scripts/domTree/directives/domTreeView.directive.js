@@ -27,13 +27,6 @@ function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeP
           });
         }
 
-        scope.editElem = function(node) {
-          ElemManager.startEditElem(node.domElem);
-        };
-
-        scope.removeElem = function(node) {
-          ElemManager.removeElem(node.domElem);
-        };
       });
     }
   };

@@ -1,0 +1,10 @@
+<div class="flex-row" draggable="true">
+  <div class="uib-tree__item__label">
+    <span class="uib-elem-tag-name">{{::model.tagName}}</span>
+    <sup ng-if="hasIdentifier()" class="uib-elem-identifier">{{model.identifier}}</sup>
+  </div>
+  <aside class="uib-tree__item__aside">
+    <a href="#" ng-click="editElem()" ng-if="isEditable()" class="uib-btn"><i class="i-wrench"></i></a>
+    <a href="#" ng-click="removeElem()" class="uib-btn"><i class="i-trash"></i></a>
+  </aside>
+</div>
