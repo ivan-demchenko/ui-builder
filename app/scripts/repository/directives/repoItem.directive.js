@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = function() {
+/*@ngInject*/
+function RepositoryItemDirective() {
   return {
     restrict: 'E',
     replace: true,
@@ -24,4 +25,6 @@ module.exports = function() {
 
     }
   };
-};
+}
+
+module.exports = RepositoryItemDirective;

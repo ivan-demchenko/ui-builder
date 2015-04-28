@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['$rootScope', 'Repository', 'ElemManager', 'Common', 'DragDropHandler',
-function($rootScope, Repository, ElemManager, Common, DragDropHandler) {
+/*@ngInject*/
+function CanvasService($rootScope, Repository, ElemManager, Common, DragDropHandler) {
 
   this.iframe = null;
   this.shadow = null;
@@ -99,4 +99,6 @@ function($rootScope, Repository, ElemManager, Common, DragDropHandler) {
     this.getIframeHead().appendChild(script);
   };
 
-}];
+}
+
+module.exports = CanvasService;

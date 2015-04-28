@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = function() {
+/*@ngInject*/
+function ActionDirective() {
   return {
     restrict: 'E',
     replace: true,
@@ -11,4 +12,6 @@ module.exports = function() {
       '<button class="uib-btn"><i ng-class="icon"></i></button>'
     ].join('')
   };
-};
+}
+
+module.exports = ActionDirective;

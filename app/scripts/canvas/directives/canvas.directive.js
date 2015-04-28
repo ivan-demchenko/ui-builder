@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['Canvas', 'ElemManager', '$rootScope',
-function(Canvas, ElemManager, $rootScope) {
+/*@ngInject*/
+function CanvasDirective($rootScope, Canvas) {
   return {
     restrict: 'E',
     replace: true,
@@ -22,4 +22,6 @@ function(Canvas, ElemManager, $rootScope) {
       });
     }
   };
-}];
+}
+
+module.exports = CanvasDirective;

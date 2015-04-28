@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['Canvas',
-function(Canvas) {
+/*@ngInject*/
+function HtmlViewDirective(Canvas) {
   return {
     restrict: 'E',
     scope: true,
@@ -12,4 +12,6 @@ function(Canvas) {
       };
     }
   };
-}];
+}
+
+module.exports = HtmlViewDirective;

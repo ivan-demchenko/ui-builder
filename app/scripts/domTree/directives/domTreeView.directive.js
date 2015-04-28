@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['$rootScope', 'RecursionHelper', 'ElemManager', 'DomTreeParser', 'DragDropHandler',
-function($rootScope, RecursionHelper, ElemManager, DomTreeParser, DragDropHandler) {
+/*@ngInject*/
+function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeParser, DragDropHandler) {
   // Because there is a recursive directive usage,
   // I need to check if event listener alread has been set. Thus, I need a flag.
   var bounded = false;
@@ -37,4 +37,6 @@ function($rootScope, RecursionHelper, ElemManager, DomTreeParser, DragDropHandle
       });
     }
   };
-}];
+}
+
+module.exports = DomTreeViewDirective;

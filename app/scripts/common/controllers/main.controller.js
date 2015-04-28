@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['Repository', 'Modal',
-function(Repository, Modal) {
+/*@ngInject*/
+function MainController(Repository, Modal) {
 
   (function(ctrl) {
     Repository.getItems().then(function(data) {
@@ -16,4 +16,6 @@ function(Repository, Modal) {
     Modal.toggle('html-view');
   };
 
-}];
+}
+
+module.exports = MainController;

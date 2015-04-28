@@ -1,10 +1,11 @@
-.uib-tree-item
-  @extend .flex
-  @extend .no-overflow
+.uib-tree__item
+  @extend .flex-col, .no-overflow, .unselectable
+  list-style none
   padding .4rem
   transition .3s background
-  border-bottom dotted 1px #ccc
-  border-left dotted 1px #ccc
+
+  &[draggable="true"]
+    font-weight bold
 
   &.drag-from
     @extend .element-to-drop-to

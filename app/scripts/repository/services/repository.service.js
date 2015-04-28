@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['$http', '$q',
-function($http, $q) {
+/*@ngInject*/
+function RepositoryService($http, $q) {
 
   this.repoInfo = null;
 
@@ -17,4 +17,6 @@ function($http, $q) {
     return $http.get('/data/repository.json').then(this.setRepoInto);
   };
 
-}];
+}
+
+module.exports = RepositoryService;

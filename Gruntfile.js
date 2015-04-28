@@ -3,6 +3,8 @@
 
 module.exports = function(grunt) {
 
+  var ngAnnotate   = require('browserify-ngannotate');
+
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
@@ -120,6 +122,25 @@ module.exports = function(grunt) {
       dist: {
         src: './app/scripts/app.js',
         dest: '.tmp/scripts/app.js'
+      },
+      options: {
+        transform: [ngAnnotate]
+      }
+    },
+
+    ngAnnotate: {
+      all: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          dest: '.tmp/scripts',
+          src: [
+            '**/*.directive.js',
+            '**/*.service.js',
+            '**/*.filter.js',
+            '**/*.controller.js'
+          ]
+        }]
       }
     },
 
@@ -234,6 +255,13 @@ module.exports = function(grunt) {
       }
     }
   });
+
+  grunt.registerTask('make', [
+    'clean:server',
+    'html2js',
+    'browserify'
+  ]);
+
 
   grunt.registerTask('serve', [
     'clean:server',

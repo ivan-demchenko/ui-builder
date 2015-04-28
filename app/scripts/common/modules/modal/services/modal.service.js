@@ -1,6 +1,7 @@
 'use strict';
 
-module.exports = function() {
+/*@ngInject*/
+function ModalService() {
 
   var modals = {};
 
@@ -28,4 +29,6 @@ module.exports = function() {
     isOpened: isOpened
   };
 
-};
+}
+
+module.exports = ModalService;

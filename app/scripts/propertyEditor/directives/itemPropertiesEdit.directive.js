@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['$rootScope', 'DomElem', 'ElemManager',
-function($rootScope, DomElem, ElemManager) {
+/*@ngInject*/
+function ItemPropertiesEditDirective($rootScope, DomElem, ElemManager) {
   return {
     restrict: 'E',
     scope: {
@@ -42,4 +42,6 @@ function($rootScope, DomElem, ElemManager) {
       });
     }
   };
-}];
+}
+
+module.exports = ItemPropertiesEditDirective;
