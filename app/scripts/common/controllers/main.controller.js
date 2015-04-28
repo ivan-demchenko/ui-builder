@@ -10,7 +10,7 @@ function MainController(Repository, Modal) {
   })(this);
 
   this.repoItems = null;
-  this.domTreeRoot = {};
+  this.domTree = {};
 
   this.toggleSourceView = function() {
     Modal.toggle('html-view');
