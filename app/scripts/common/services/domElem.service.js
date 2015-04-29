@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = ['Common',
-function(Common) {
+/*@ngInject*/
+function DomElemService(Common) {
 
   this.canHaveChildren = function(element) {
     var e = null,
@@ -53,4 +53,6 @@ function(Common) {
     element.setAttribute(prop.attr, newSet.join(' '));
   };
 
-}];
+}
+
+module.exports = DomElemService;

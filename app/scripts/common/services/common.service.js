@@ -1,5 +1,6 @@
 'use strict';
 
+/*@ngInject*/
 module.exports = function() {
 
   this.findOneByValue = function(arr, val) {
@@ -10,6 +11,9 @@ module.exports = function() {
 
   this.hasParent = function(elem, className) {
     var res = false;
+    if (elem.classList.contains(className)) {
+      return true;
+    }
     while (elem.parentElement) {
       elem = elem.parentElement;
       if (elem.classList.contains(className)) {

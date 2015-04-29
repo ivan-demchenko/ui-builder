@@ -5,8 +5,9 @@
  * @author Mark Lagendijk
  * @license MIT
  */
-module.exports = ['$compile',
-function($compile) {
+
+/*@ngInject*/
+function RecursionService($compile) {
   return {
     /**
      * Manually compiles the element, fixing the recursion loop.
@@ -48,4 +49,6 @@ function($compile) {
       };
     }
   };
-}];
+}
+
+module.exports = RecursionService;
