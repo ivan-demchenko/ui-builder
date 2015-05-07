@@ -8,7 +8,7 @@ function stopEvent(evt) {
   evt.stopPropagation();
 }
 
-function getMouseTarget(evt, Common) {
+function getHightlightTarget(evt, Common) {
   var target = evt.target;
   if (Common.hasParent(target, 'uib-tree__item')) {
     return Common.getParent(target, 'uib-tree__item');
@@ -17,39 +17,44 @@ function getMouseTarget(evt, Common) {
 }
 
 function getDropTarget(evt, Common) {
-  var target = getMouseTarget(evt, Common);
+  var target = getHightlightTarget(evt, Common);
   if (target.classList.contains('uib-tree__item')) {
     return angular.element(target).scope().node.domElem;
   }
   return target;
 }
 
-function toggleMarkDropTarget(evt, Common, needToMark) {
+function toggleHighlightElement(evt, Common, isActive) {
+  getHightlightTarget(evt, Common).classList[isActive ? 'add' : 'remove']('uib-drag-over');
+}
+
+function setHighlight(evt, throttledMarker) {
   stopEvent(evt);
-  var target = getMouseTarget(evt, Common);
-  if (needToMark) {
-    return target.classList.add('uib-drag-over');
-  } else {
-    return target.classList.remove('uib-drag-over');
-  }
+  throttledMarker(evt);
+}
+
+function removeHighlight(evt, throttledMarker, Common) {
+  throttledMarker.cancel();
+  toggleHighlightElement(evt, Common, false);
+}
+
+function dropped(evt, throttledMarker, Common, ElemManager) {
+  removeHighlight(evt, throttledMarker, Common);
+  var target = getDropTarget(evt, Common);
+  var elemDescription = evt.dataTransfer.getData('elementDescription');
+  ElemManager.dropElement(target, elemDescription);
 }
 
 /*@ngInject*/
 function dragDropHandlerService($rootScope, Common, ElemManager) {
 
+  var throttledMarker = _.throttle(_.partial(toggleHighlightElement, _, Common, true), 333);
+
   this.bindEventHandlers = function(element) {
-    element.addEventListener('dragover', _.partial(toggleMarkDropTarget, _, Common, true));
-
-    element.addEventListener('dragend', _.partial(toggleMarkDropTarget, _, Common, false));
-
-    element.addEventListener('dragleave', _.partial(toggleMarkDropTarget, _, Common, false));
-
-    element.addEventListener('drop', function _dropHandler(evt) {
-      var target = getDropTarget(evt, Common);
-      target.classList.remove('uib-drag-over');
-      var elemDescription = evt.dataTransfer.getData('elementDescription');
-      ElemManager.dropElement(target, elemDescription);
-    });
+    element.addEventListener('dragover', _.partial(setHighlight, _, throttledMarker));
+    element.addEventListener('dragend', _.partial(removeHighlight, _, throttledMarker, Common));
+    element.addEventListener('dragleave', _.partial(removeHighlight, _, throttledMarker, Common));
+    element.addEventListener('drop', _.partial(dropped, _, throttledMarker, Common, ElemManager));
   };
 
 }
