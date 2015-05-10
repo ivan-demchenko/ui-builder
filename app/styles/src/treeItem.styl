@@ -1,18 +1,11 @@
 .uib-tree__item
   @extend .flex-col, .no-overflow, .unselectable
   list-style none
-  padding .4rem 0 .4rem .4rem
+  padding 0
   transition .3s background
 
   &[draggable="true"]
     font-weight bold
-
-  &.drag-from
-    @extend .element-drag-from
-    box-shadow 0 0 4px rgba(0, 0, 0, .2)
-
-  &.drop-to
-    background dragFromBackground
 
   i
     color treeMinor
@@ -26,6 +19,9 @@
 
     .uib-btn
       padding .1rem
+
+.placeholder--child
+  margin-left .5rem
 
 .uib-elem-tag-name
   @extend .no-shrink

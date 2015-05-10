@@ -1,7 +1,30 @@
 'use strict';
 
+function preventDefault(evt) {
+  evt.preventDefault();
+}
+
+function toggleHighlightElement(evt, isActive) {
+  evt.target.classList[isActive ? 'add' : 'remove']('uib-drag-over');
+  return evt.target;
+}
+
+function setHighlight(evt) {
+  return toggleHighlightElement(evt, true);
+}
+
+function removeHighlight(evt) {
+  return toggleHighlightElement(evt, false);
+}
+
+function dropped(evt, ElemManager) {
+  var target = removeHighlight(evt);
+  var elemDescription = evt.dataTransfer.getData('elementDescription');
+  ElemManager.dropElement(target, elemDescription);
+}
+
 /*@ngInject*/
-function CanvasService($rootScope, Repository, ElemManager, Common, DragDropHandler) {
+function CanvasService($rootScope, Repository, ElemManager, Common) {
 
   this.iframe = null;
   this.shadow = null;
@@ -18,7 +41,7 @@ function CanvasService($rootScope, Repository, ElemManager, Common, DragDropHand
     this.getIframeBody().innerHTML = newHTML;
     this.addJS(repoData.initial.js);
     this.addStyles('/styles/uib-canvas.css');
-    DragDropHandler.bindEventHandlers(this.getIframeBody());
+    this.bindEventHandlers();
     if (!initial) {
       $rootScope.$emit('uib:canvas:updated', this.shadow);
     }
@@ -97,6 +120,16 @@ function CanvasService($rootScope, Repository, ElemManager, Common, DragDropHand
     script.setAttribute('src', url + '?' + timestamp);
 
     this.getIframeHead().appendChild(script);
+  };
+
+  this.bindEventHandlers = function() {
+    this.getIframeBody().addEventListener('dragover', preventDefault);
+    this.getIframeBody().addEventListener('dragenter', setHighlight);
+    this.getIframeBody().addEventListener('dragend', removeHighlight);
+    this.getIframeBody().addEventListener('dragleave', removeHighlight);
+    this.getIframeBody().addEventListener('drop', function(e) {
+      dropped(e, ElemManager);
+    });
   };
 
 }

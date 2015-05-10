@@ -6,9 +6,7 @@ function CanvasDirective($rootScope, Canvas) {
     restrict: 'E',
     replace: true,
     templateUrl: 'scripts/canvas/directives/uiCanvas.html',
-    link: function(scope, elem) {
-      Canvas.register(elem);
-
+    controller: function() {
       $rootScope.$on('uib:element:dropped', function(evt, droppedElement, target) {
         Canvas.elementDropped(droppedElement, target);
       });
@@ -20,6 +18,9 @@ function CanvasDirective($rootScope, Canvas) {
       $rootScope.$on('uib:elem:edit:done', function() {
         Canvas.reloadIFrame();
       });
+    },
+    link: function(scope, elem) {
+      Canvas.register(elem);
     }
   };
 }

@@ -1,19 +1,35 @@
 'use strict';
 
+var angular = require('angular');
+
 /*@ngInject*/
 function ElemManagerService($rootScope, DomElem, Common, Modal) {
   /**
    * Make drop of elem to target
-   * @param  {DomElement} target The element which will accept the drop event
-   * @param  {hash} elementDescription Description of the element beight dropped
+   * @param  {DomElement} target  The element which will accept the drop event
+   * @param  {hash} elementDescription  Description of the element beight dropped
+   * @param  {string} position  Specifier where to insert a new element relatively to the target
    * @return {boolean}
    */
-  this.dropElement = function(target, elementDescription) {
+  this.dropElement = function(target, elementDescription, position) {
+    if (!position) {
+      position = 'child';
+    }
     var elemModel = JSON.parse(elementDescription);
     var newElement = this.buildElementToDrop(elemModel);
     this.resetAttrsForElement(newElement);
-    target.classList.remove('drop-to');
-    target.appendChild(newElement);
+    switch (position) {
+      case 'before':
+        target.insertAdjacentElement('beforeBegin', newElement);
+        break;
+      case 'child':
+        target.appendChild(newElement);
+        break;
+      case 'after':
+        target.insertAdjacentElement('afterEnd', newElement);
+        break;
+      default:
+    }
     $rootScope.$emit('uib:element:dropped', newElement, target, elementDescription);
     return newElement;
   };
@@ -26,6 +42,16 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
   this.unmarkTarget = function(target) {
     target.classList.remove('drop-to');
   };
+
+  /**
+    * Send a signal that you use wants to edit an `elem`
+    * @param  {DomElement} target The element to edit
+    * @return {undefined}
+    */
+   this.startEditElem = function(elem) {
+     Modal.toggle('property-editor');
+     $rootScope.$emit('uib:elem:edit:begin', elem);
+   };
 
   /**
    * Send a signal that you use wants to edit an `elem`

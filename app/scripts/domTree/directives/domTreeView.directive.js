@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeParser, DragDropHandler) {
+function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeParser) {
   // Because there is a recursive directive usage,
   // I need to check if event listener alread has been set. Thus, I need a flag.
   var bounded = false;
@@ -14,8 +14,6 @@ function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeP
     templateUrl: 'scripts/domTree/directives/domTreeView.html',
     compile: function(elem) {
       return RecursionHelper.compile(elem, function(scope) {
-        DragDropHandler.bindEventHandlers(elem[0]);
-
         // Fix for nested directives
         if (!bounded) {
           bounded = true;

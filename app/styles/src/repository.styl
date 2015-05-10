@@ -1,6 +1,13 @@
 .uib-repository
+
   &__item
+    padding .4rem 0 .4rem .4rem
     color #000
+
+    &.drag-from
+      @extend .element-drag-from
+      box-shadow 0 0 4px rgba(0, 0, 0, .2)
+
     &--movable
       cursor move
 

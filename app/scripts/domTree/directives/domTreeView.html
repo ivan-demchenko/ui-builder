@@ -1,6 +1,5 @@
 <ul class="uib-tree">
   <li ng-repeat="node in tree.children" class="uib-tree__item">
     <uib-dom-tree-item model="node"></uib-dom-tree-item>
-    <uib-dom-tree-view tree="node" ng-if="node.children.length > 0"></uib-dom-tree-view>
   </li>
 </ul>
