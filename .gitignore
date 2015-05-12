@@ -1,4 +1,6 @@
 app/test-framework
+_db
+logs
 node_modules
 dist
 test/coverage

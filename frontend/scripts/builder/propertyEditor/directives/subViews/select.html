@@ -1,0 +1,10 @@
+<label>
+  <input type="checkbox" ng-model="param.inUse">
+  {{::param.name}}
+</label>
+<div class="uib-form__control">
+  <label ng-repeat="p in param.possibleValues" class="uib-prop__value">
+    <input type="radio" ng-model="param.value" ng-value="p.value">
+    <span class="uib-prop__label">{{::p.label}}</span>
+  </label>
+</div>

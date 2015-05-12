@@ -1,0 +1,29 @@
+textarea,
+input[type="text"],
+input[type="password"]
+  margin 0
+  padding 0
+  border solid 1px darken(optionValueBackground, 12)
+  box-sizing border-box
+  width 100%
+  padding .5rem
+  font-size 1rem
+  background optionValueBackground
+  &:focus
+    outline none
+
+.uib-btn
+  padding 1rem
+  display inline-block
+  color #fff
+  background transparent
+  border none
+  transition background .1s
+  cursor pointer
+  &:hover
+    background rgba(255, 255, 255, .1)
+
+  &__dark
+    background #607D8B
+    &:hover
+      background #607D8B

@@ -1,5 +1,8 @@
 {
-  "excludeFiles": ["src/ngLocale/**"],
+  "excludeFiles": [
+    "src/ngLocale/**",
+    "node_modules/**"
+  ],
   "disallowKeywords": ["with"],
   "disallowKeywordsOnNewLine": ["else"],
   "disallowMixedSpacesAndTabs": true,

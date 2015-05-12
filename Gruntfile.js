@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    app: require('./bower.json').appPath || 'app',
+    app: 'frontend',
     dist: 'dist'
   };
 
@@ -25,11 +25,9 @@ module.exports = function(grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      app: {
-        files: '.tmp/scripts/app.js',
-        options: {
-          livereload: true
-        }
+      js: {
+        files: ['<%= yeoman.app %>/scripts/**/*.js'],
+        tasks: ['browserify']
       },
       jsTest: {
         files: ['<%= yeoman.app %>/spec/**/*.spec.js'],
@@ -47,7 +45,7 @@ module.exports = function(grunt) {
         tasks: ['stylus']
       },
       templates: {
-        files: ['<%= yeoman.app %>/scripts/**/*.html'],
+        files: ['<%= yeoman.app %>/**/*.html'],
         tasks: ['html2js:all']
       },
       livereload: {
@@ -66,29 +64,7 @@ module.exports = function(grunt) {
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
-        livereload: 35729
-      },
-      livereload: {
-        options: {
-          open: true,
-          base: ['<%= yeoman.app %>', '.tmp'],
-          middleware: function(connect) {
-            return [
-              require('grunt-connect-proxy/lib/utils').proxyRequest,
-              connect.static('.tmp'),
-              connect().use('/data', connect.static('./data')),
-              connect.static(appConfig.app)
-            ];
-          }
-        },
-        proxies: [{
-          context: '/api',
-          host: 'localhost',
-          port: 8092,
-          https: false,
-          changeOrigin: false
-        }]
+        hostname: 'localhost'
       },
       test: {
         options: {
@@ -108,22 +84,15 @@ module.exports = function(grunt) {
       }
     },
 
-    watchify: {
-      options: {
-        debug: true
-      },
-      dev: {
-        src: './app/scripts/app.js',
-        dest: '.tmp/scripts/app.js'
-      }
-    },
-
     browserify: {
       dist: {
-        src: './app/scripts/app.js',
+        src: '<%= yeoman.app %>/scripts/app.js',
         dest: '.tmp/scripts/app.js'
       },
       options: {
+        browserifyOptions: {
+          debug: true
+        },
         transform: [ngAnnotate]
       }
     },
@@ -157,7 +126,7 @@ module.exports = function(grunt) {
         }
       },
       all: {
-        src: ['<%= yeoman.app %>/scripts/**/*.html'],
+        src: ['<%= yeoman.app %>/**/*.html'],
         dest: '.tmp/scripts/uib-templates.js'
       }
     },
@@ -256,21 +225,12 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('make', [
-    'clean:server',
-    'html2js',
-    'browserify'
-  ]);
-
-
   grunt.registerTask('serve', [
     'clean:server',
     'copy:dev',
     'stylus:dev',
     'html2js',
-    'watchify',
-    'configureProxies',
-    'connect',
+    'browserify',
     'watch'
   ]);
 

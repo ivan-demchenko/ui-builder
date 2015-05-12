@@ -1,0 +1,15 @@
+doctype html
+html(ng-app='uiBuilderApp')
+  head
+    base(href="/")
+    meta(charset='utf-8')
+    title uiBuilder
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width')
+    // Place favicon.ico and apple-touch-icon.png in the root directory
+    // build:css(.tmp) styles/main.css
+    link(rel='stylesheet', href='styles/main.css')
+    // endbuild
+  body
+    div.app-view(ng-view)
+    script(src='scripts/app.js')

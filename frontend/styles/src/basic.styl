@@ -1,0 +1,68 @@
+box-sizing-reset()
+normalize()
+
+html, body
+  width 100%
+  height 100%
+  margin 0
+  padding 0
+
+.animated
+  transition-property transform, opacity
+  transition-duration longAnimation
+  transition-timing-function animationFn
+
+.uib-separator
+  width 1px
+  border-right 1px solid rgba(255,255,255,.4)
+
+.no-overflow
+  overflow hidden
+
+.uib-drag-over
+  background hoverElementBackground
+
+.element-drag-from
+  background hoverElementBackground
+
+.scrollable
+  overflow-y auto
+
+.flex
+  display flex
+
+.flex-col
+  @extend .flex
+  flex-flow column nowrap
+
+.flex-row
+  @extend .flex
+  flex-flow row nowrap
+
+.flex-prior
+  flex-grow 1
+
+.no-shrink
+  flex-shrink 0
+
+.big-shadow
+  box-shadow 0 8px 31px rgba(0, 0, 0, 0.25)
+
+.app-view
+  @extend .flex-col
+  height 100%
+
+.header
+  @extend .flex
+  @extend .no-shrink
+  width 100%
+  background headerBackground
+  color headerTextColor
+  box-shadow 0 2px 3px rgba(0,0,0,0.25)
+  z-index 2
+
+.unselectable
+  -webkit-user-drag element
+  -webkit-user-select none
+  -moz-user-select none
+  user-select none
