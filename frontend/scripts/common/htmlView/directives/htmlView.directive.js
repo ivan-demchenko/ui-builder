@@ -5,7 +5,7 @@ function HtmlViewDirective(Canvas) {
   return {
     restrict: 'E',
     scope: true,
-    templateUrl: 'scripts/builder/htmlView/directives/htmlView.html',
+    templateUrl: 'scripts/common/htmlView/directives/htmlView.html',
     controller: function($scope) {
       $scope.getSource = function() {
         return Canvas.getSourceCode();

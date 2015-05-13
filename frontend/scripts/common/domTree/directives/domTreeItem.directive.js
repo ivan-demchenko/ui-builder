@@ -20,7 +20,7 @@ function DomTreeItemDirective(ElemManager) {
     scope: {
       model: '='
     },
-    templateUrl: 'scripts/builder/domTree/directives/domTreeItem.html',
+    templateUrl: 'scripts/common/domTree/directives/domTreeItem.html',
     controller: function($scope) {
       $scope.isEditable = function() {
         return $scope.model.domElem.uibParams;

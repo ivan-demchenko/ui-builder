@@ -1,6 +1,6 @@
 'use strict';
 
-var DomElemModel = require('../../common/models/domElementModel');
+var DomElemModel = require('../../models/domElementModel');
 
 /*@ngInject*/
 function DomTreeParserService(DomElem) {

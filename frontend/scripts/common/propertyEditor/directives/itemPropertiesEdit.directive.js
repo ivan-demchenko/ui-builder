@@ -7,7 +7,7 @@ function ItemPropertiesEditDirective($rootScope, DomElem, ElemManager) {
     scope: {
       data: '='
     },
-    templateUrl: 'scripts/builder/propertyEditor/directives/itemPropertiesEdit.html',
+    templateUrl: 'scripts/common/propertyEditor/directives/itemPropertiesEdit.html',
     controller: function($scope) {
       $scope.elem = null;
 
@@ -28,7 +28,7 @@ function ItemPropertiesEditDirective($rootScope, DomElem, ElemManager) {
       };
 
       $scope.getParamTemplateUrl = function(param) {
-        return 'scripts/builder/propertyEditor/directives/subViews/' + param.type + '.html';
+        return 'scripts/common/propertyEditor/directives/subViews/' + param.type + '.html';
       };
 
       $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {

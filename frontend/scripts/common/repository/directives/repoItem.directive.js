@@ -8,7 +8,7 @@ function RepositoryItemDirective() {
     scope: {
       model: '='
     },
-    templateUrl: 'scripts/builder/repository/directives/repoItem.html',
+    templateUrl: 'scripts/common/repository/directives/repoItem.html',
     link: function(scope, elem) {
 
       elem.on('dragstart', function(evt) {

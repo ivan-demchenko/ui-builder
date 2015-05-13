@@ -5,7 +5,7 @@ function CanvasDirective($rootScope, Canvas) {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: 'scripts/builder/canvas/directives/uiCanvas.html',
+    templateUrl: 'scripts/common/canvas/directives/uiCanvas.html',
     controller: function() {
       $rootScope.$on('uib:element:dropped', function(evt, droppedElement, target) {
         Canvas.elementDropped(droppedElement, target);

@@ -4,7 +4,7 @@ var Elem = require('../common.dir.js');
 
 /*@ngInject*/
 function ModalDirective(Modal) {
-  return new Elem('scripts/modal/templates/modal.html', true, function(scope, elem, attrs) {
+  return new Elem('scripts/common/modal/templates/content.html', true, function(scope, elem, attrs) {
 
     if (!attrs.name) {
       throw new Error('Name attribute is missing for the modal');
@@ -25,7 +25,7 @@ function ModalDirective(Modal) {
 
 /*@ngInject*/
 function HeaderDirective() {
-  return new Elem('scripts/modal/templates/header.html', true, function(scope, elem, attrs) {
+  return new Elem('scripts/common/modal/templates/header.html', true, function(scope, elem, attrs) {
     attrs.$observe('label', function(newVal) {
       elem[0].querySelector('.uib-modal__header__label h3').innerText = newVal;
     });
@@ -40,7 +40,7 @@ function HeaderDirective() {
 
 /*@ngInject*/
 function ContentDirective() {
-  return new Elem('scripts/modal/templates/content.html');
+  return new Elem('scripts/common/modal/templates/content.html');
 }
 
 module.exports = {

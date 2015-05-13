@@ -26,6 +26,7 @@ module.exports = function(app) {
 
   // app.get(/api/session) - get the list of my sessions
   // app.post(/api/session) - save session snapshot
+  app.post('/api/session/initial', jwt({secret: config.token.secret}), api.setSessionInitial);
   app.get('/api/session/new', jwt({secret: config.token.secret}), api.startNewSession);
 
   app.get('/*', main.indexPage);
