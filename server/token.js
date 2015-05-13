@@ -25,7 +25,7 @@ function extractFromHeader(headers) {
 
 function create(user, done) {
 
-  debug('Create token');
+  debug('Create a new token');
 
   if (_.isEmpty(user)) {
     return done(new Error('User data cannot be empty.'));
@@ -53,16 +53,16 @@ function create(user, done) {
     if (reply) {
       redisClient.expire(token, config.token.exp, function(err, reply) {
         if (err) {
-          return done(new Error('Can not set the expire value for the token key'));
+          return done(new Error('Cannot set the expire value for the token key'));
         }
         if (reply) {
           done(null, data);
         } else {
-          return done(new Error('Expiration not set on redis'));
+          return done(new Error('Expiration not set on Redis'));
         }
       });
     } else {
-      return done(new Error('Token not set in redis'));
+      return done(new Error('Token not set in Redis'));
     }
   });
 }
@@ -82,7 +82,7 @@ function retrieve(token, done) {
     }
 
     var data = JSON.parse(reply);
-    debug('User data fetched from redis store for %s', data.username);
+    debug('User data fetched from Redis store for %s', data.username);
     if (_.isEqual(data.token, token)) {
       return done(null, data);
     } else {

@@ -16,8 +16,8 @@ function AuthInterceptor($q, $location, Storage, User) {
     },
 
     response: function(response) {
-      if (response !== null && response.status === 200 && Storage.get('token') && !User.authenticated) {
-        User.authenticated = true;
+      if (response !== null && response.status === 200 && !Storage.get('token') && !User.authenticated) {
+        User.setLoggedIn(response);
       }
       return response || $q.when(response);
     },

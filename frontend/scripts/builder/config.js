@@ -5,7 +5,7 @@ function config($routeProvider) {
   $routeProvider
     .when('/builder/:sessionId', {
       controller: 'MainCtrl as main',
-      templateUrl: 'scripts/common/views/index.html',
+      templateUrl: 'scripts/builder/views/index.html',
       access: { requiredAuthentication: true }
     })
     .otherwise({

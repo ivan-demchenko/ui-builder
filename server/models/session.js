@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-var session = new mongoose.SchemaSchema({
+var sessionSchema = new mongoose.Schema({
     owner: { type: String, required: true },
     title: { type: String, default: '' },
     created: { type: Date, default: Date.now },
@@ -13,7 +13,7 @@ var session = new mongoose.SchemaSchema({
     }
 });
 
-session.methods.setHTML = function(newHTML, done)Schema {
+sessionSchema.methods.setHTML = function(newHTML, done) {
   return this.find({ _id: this._id }, function(err, session) {
     session.initial.htmlCode = newHTML;
     session.save(function(err) {
@@ -25,7 +25,7 @@ session.methods.setHTML = function(newHTML, done)Schema {
   });
 };
 
-session.methods.setCSS = function(newCSS, done)Schema {
+sessionSchema.methods.setCSS = function(newCSS, done) {
   return this.find({ _id: this._id }, function(err, session) {
     session.initial.cssCode = newCSS;
     session.save(function(err) {
@@ -37,7 +37,7 @@ session.methods.setCSS = function(newCSS, done)Schema {
   });
 };
 
-session.methods.setJS = function(newJS, done)Schema {
+sessionSchema.methods.setJS = function(newJS, done) {
   return this.find({ _id: this._id }, function(err, session) {
     session.initial.jsCode = newJS;
     session.save(function(err) {

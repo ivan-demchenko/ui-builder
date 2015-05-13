@@ -2,13 +2,13 @@
 
 /*@ngInject*/
 function Service(Storage) {
-  this.data = null;
+  this._id = null;
 
   this.authenticated = false;
 
   this.setLoggedIn = function(serverResponce) {
     Storage.set('token', serverResponce.data.data.token);
-    this.data = serverResponce.data.data.user;
+    this._id = serverResponce.data.data._id;
   };
 
   this.loggedOut = function() {
