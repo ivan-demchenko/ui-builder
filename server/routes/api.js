@@ -79,7 +79,7 @@ module.exports.getSessionInitial = function(req, res) {
 
     var sessionId = req.params.id || '';
 
-    debug('Try to get initial code for session id # %s', sessionId);
+    debug('Attempt to get initial code for session id # %s', sessionId);
 
     session.getSessionInitialCode(sessionId, function(err, initials) {
       if (err || !initials) {
@@ -91,6 +91,37 @@ module.exports.getSessionInitial = function(req, res) {
   });
 };
 
-module.exports.getSessionResult = function(req, res) {
+module.exports.setSessionResult = function(req, res) {
   res.send('Okay!');
+};
+
+module.exports.getSessionResult = function(req, res) {
+  var sessionId = req.params.id || '';
+  res.send(sessionId);
+};
+
+module.exports.getSessionJS = function(req, res) {
+  var sessionId = req.params.id || '';
+
+  debug('Attempt to get JS code for session id # %s', sessionId);
+
+  session.getSessionAsset(sessionId, 'js', function(err, js) {
+    if (err) {
+      return res.status(500).json(message.error('Unable to fetch js code', err));
+    }
+    res.set('Content-Type', 'text/javascript').send(js);
+  });
+};
+
+module.exports.getSessionCSS = function(req, res) {
+  var sessionId = req.params.id || '';
+
+  debug('Attempt to get CSS code for session id # %s', sessionId);
+
+  session.getSessionAsset(sessionId, 'css', function(err, css) {
+    if (err) {
+      return res.status(500).json(message.error('Unable to fetch css code', err));
+    }
+    res.set('Content-Type', 'text/css').send(css);
+  });
 };

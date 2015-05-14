@@ -61,7 +61,22 @@ function getSessionInitialCode(sessionId, done) {
   });
 }
 
+function getSessionAsset(sessionId, type, done) {
+
+  debug('Attempt to get assets for session id # %s', sessionId);
+
+  sessionModel.findOne({_id: sessionId}, function(err, session) {
+    if (err || !session) {
+      debug('Failes to find a session %s', sessionId);
+      return done(err);
+    }
+    debug('Session initials have been found');
+    return done(null, session.initial[type]);
+  });
+}
+
 module.exports.startNew = startNew;
 module.exports.updateInitial = updateInitial;
 module.exports.getUserSessions = getUserSessions;
 module.exports.getSessionInitialCode = getSessionInitialCode;
+module.exports.getSessionAsset = getSessionAsset;

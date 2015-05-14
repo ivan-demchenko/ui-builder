@@ -1,8 +1,4 @@
 {
-  "initial": {
-    "html": "/data/sample.html",
-    "js": "/data/sample.js"
-  },
   "componentsTree": {
     "name": "YS UI",
     "subNodes": [

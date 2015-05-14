@@ -7,7 +7,11 @@ function Service($http, $location, $route) {
   this._id = $route.current.params.sessionId;
 
   this.getCurrentSessionUrl = function() {
-    return '/api/session/result/' + this._id;
+    return '/api/session/' + this._id + '/result';
+  };
+
+  this.getCurrentSessionAssetUrl = function(type) {
+    return '/api/session/' + this._id + '/' + type;
   };
 
   this.startNew = function(title, initialSetup) {

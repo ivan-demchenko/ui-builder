@@ -33,30 +33,23 @@ function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
     this.iframe = container.find('iframe')[0];
     this.iframe.src = Session.getCurrentSessionUrl();
     this.shadow = container.find('div')[0];
-    Repository.getItems().then(function(repoData) {
-      this.setUpCanvas('', repoData, true);
-    }.bind(this));
+    this.iframe.onload = function() {
+      this.setUpCanvas();
+    }.bind(this);
   };
 
-  this.setUpCanvas = function(newHTML, repoData, initial) {
-    this.getIframeBody().innerHTML = newHTML;
-    this.addJS(repoData.initial.js);
+  this.setUpCanvas = function() {
+    this.addJS(Session.getCurrentSessionAssetUrl('js'));
+    this.addStyles(Session.getCurrentSessionAssetUrl('css'));
     this.addStyles('/styles/uib-canvas.css');
     this.bindEventHandlers();
-    if (!initial) {
-      $rootScope.$emit('uib:canvas:updated', this.shadow);
-    }
   };
 
   this.reloadIFrame = function() {
-    var oldCode = this.shadow.innerHTML;
-    Repository.getItems().then(function(repoData) {
-      this.iframe.src = repoData.initial.html;
-      this.iframe.onload = function() {
-        this.setUpCanvas(oldCode, repoData);
-      }.bind(this);
-    }.bind(this));
-
+    this.iframe.src = this.iframe.src;
+    this.iframe.onload = function() {
+      this.setUpCanvas();
+    }.bind(this);
   };
 
   this.updateShadow = function(parent, dropppedElement) {
@@ -103,22 +96,20 @@ function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
     if (!this.iframe) {
       throw 'IFrame is not registered';
     }
-    var timestamp = +(new Date());
     var style = document.createElement('link');
     style.setAttribute('rel', 'stylesheet');
     style.setAttribute('type', 'text/css');
-    style.setAttribute('href', url + '?' + timestamp);
+    style.setAttribute('href', url);
 
     this.getIframeHead().appendChild(style);
   };
 
   this.addJS = function(url) {
-    var timestamp = +(new Date());
     var script = document.createElement('script');
 
     script.type = 'text/javascript';
     script.charset = 'UTF-8';
-    script.setAttribute('src', url + '?' + timestamp);
+    script.setAttribute('src', url);
 
     this.getIframeHead().appendChild(script);
   };
