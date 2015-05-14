@@ -39,7 +39,6 @@ function DomTreeItemDirective(ElemManager) {
       };
     },
     link: function(scope, elem) {
-
       // `dragleave` fires after `dragenter` for nested elements. Thus wee need a
       // deep counter in order to determine from where do we leave.
       var deep = 0;
@@ -68,16 +67,13 @@ function DomTreeItemDirective(ElemManager) {
         toggleElementHightlight(elem[0], false);
         togglePlaceholderHighlight(e.target, false);
         if (target.classList.contains('placeholder--before')) {
-          ElemManager.dropElement(scope.model.domElem, elemDescription, 'before');
-        }
-        if (target.classList.contains('placeholder--child')) {
-          ElemManager.dropElement(scope.model.domElem, elemDescription, 'child');
-        }
-        if (target.classList.contains('placeholder--after')) {
-          ElemManager.dropElement(scope.model.domElem, elemDescription, 'after');
+          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'before');
+        } else if (target.classList.contains('placeholder--child')) {
+          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'child');
+        } else if (target.classList.contains('placeholder--after')) {
+          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'after');
         }
       });
-
     }
   };
 }

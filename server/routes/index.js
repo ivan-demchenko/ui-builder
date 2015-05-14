@@ -27,15 +27,17 @@ module.exports = function(app) {
   app.post('/auth/login', auth.login);
   app.post('/auth/logout', auth.logout);
 
-  app.post('/api/session/:id/result', api.setSessionResult);
-  app.get('/api/session/:id/result', api.getSessionResult);
+  //app.get('/api/session/:id/result', api.getSessionResult);
   app.get('/api/session/:id/js', api.getSessionJS);
   app.get('/api/session/:id/css', api.getSessionCSS);
+  app.get('/api/session/:id/html', api.getSessionHTML);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
   secureRequest('get', '/api/session/:id/initial', api.getSessionInitial);
   secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);
+  secureRequest('get', '/api/session/:id/snapshot/latest', api.getLastSessionSnapshot);
+  secureRequest('post', '/api/session/:id/snapshot', api.saveSessionSnapshot);
 
   app.get('/*', main.indexPage);
 };

@@ -1,27 +1,27 @@
 'use strict';
 
-function preventDefault(evt) {
-  evt.preventDefault();
-}
-
-function toggleHighlightElement(evt, isActive) {
-  evt.target.classList[isActive ? 'add' : 'remove']('uib-drag-over');
-  return evt.target;
-}
-
-function setHighlight(evt) {
-  return toggleHighlightElement(evt, true);
-}
-
-function removeHighlight(evt) {
-  return toggleHighlightElement(evt, false);
-}
-
-function dropped(evt, ElemManager) {
-  var target = removeHighlight(evt);
-  var elemDescription = evt.dataTransfer.getData('elementDescription');
-  ElemManager.dropElement(target, elemDescription);
-}
+// function preventDefault(evt) {
+//   evt.preventDefault();
+// }
+//
+// function toggleHighlightElement(evt, isActive) {
+//   evt.target.classList[isActive ? 'add' : 'remove']('uib-drag-over');
+//   return evt.target;
+// }
+//
+// function setHighlight(evt) {
+//   return toggleHighlightElement(evt, true);
+// }
+//
+// function removeHighlight(evt) {
+//   return toggleHighlightElement(evt, false);
+// }
+//
+// function dropped(evt, ElemManager) {
+//   var target = removeHighlight(evt);
+//   var elemDescription = evt.dataTransfer.getData('elementDescription');
+//   ElemManager.dropElement(target, elemDescription);
+// }
 
 /*@ngInject*/
 function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
@@ -31,45 +31,59 @@ function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
 
   this.register = function(container) {
     this.iframe = container.find('iframe')[0];
-    this.iframe.src = Session.getCurrentSessionUrl();
     this.shadow = container.find('div')[0];
-    this.iframe.onload = function() {
-      this.setUpCanvas();
-    }.bind(this);
+    Session.getLatestSnapshot().then(function(code) {
+      this.setShadowCode(code);
+      this.reloadIFrame(code);
+    }.bind(this));
   };
 
   this.setUpCanvas = function() {
     this.addJS(Session.getCurrentSessionAssetUrl('js'));
     this.addStyles(Session.getCurrentSessionAssetUrl('css'));
     this.addStyles('/styles/uib-canvas.css');
-    this.bindEventHandlers();
+    //this.bindEventHandlers();
+    $rootScope.$emit('uib:canvas:updated', this.shadow);
   };
 
-  this.reloadIFrame = function() {
-    this.iframe.src = this.iframe.src;
+  this.reloadIFrame = function(code) {
+    this.iframe.src = Session.getCurrentSessionInitHTMLUrl();
     this.iframe.onload = function() {
+      this.getIframeBody().innerHTML = code;
       this.setUpCanvas();
     }.bind(this);
   };
 
-  this.updateShadow = function(parent, dropppedElement) {
-    parent = (parent.tagName === 'BODY') ?
-              this.shadow :
-              this.shadow.querySelector(Common.domPath(dropppedElement));
-    var clone = ElemManager.cloneElement(dropppedElement);
-    parent.appendChild(clone);
-  };
-
   this.elementDropped = function(dropppedElement, target) {
-    if (!Common.hasParent(target, 'uib-canvas-shadow')) {
-      this.updateShadow(target, dropppedElement);
-    }
-    this.reloadIFrame();
+    var code = this.getSourceCode();
+    Session.saveSnapshot(code).then(function() {
+      this.reloadIFrame(code);
+    }.bind(this));
+
+    // var clone = null;
+    // if (!Common.hasParent(target, 'uib-canvas-shadow')) {
+    //   clone = ElemManager.cloneElement(dropppedElement);
+    //   this.shadow.appendChild(clone);
+    //   var code = this.getSourceCode();
+    //   Session.saveSnapshot(code).then(function() {
+    //     this.reloadIFrame(code);
+    //   }.bind(this));
+    // }
   };
 
   this.removeElement = function(element) {
     element.remove();
-    this.reloadIFrame();
+    var code = this.getSourceCode();
+    return Session.saveSnapshot(code).then(function() {
+      this.reloadIFrame(code);
+    }.bind(this));
+  };
+
+  this.elementEditFinished = function() {
+    var code = this.getSourceCode();
+    return Session.saveSnapshot(code).then(function() {
+      this.reloadIFrame(code);
+    }.bind(this));
   };
 
   this.getIframeHead = function() {
@@ -86,6 +100,14 @@ function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
     }
     var iDoc = this.iframe.contentWindow || this.iframe.contentDocument;
     return iDoc.document ? iDoc.document.body : null;
+  };
+
+  this.getFullSourceCode = function() {
+    return ElemManager.getDoctype(this.iframe.contentDocument) + this.iframe.contentWindow.document.documentElement.outerHTML;
+  };
+
+  this.setShadowCode = function(code) {
+    this.shadow.innerHTML = code;
   };
 
   this.getSourceCode = function() {
@@ -114,15 +136,15 @@ function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
     this.getIframeHead().appendChild(script);
   };
 
-  this.bindEventHandlers = function() {
-    this.getIframeBody().addEventListener('dragover', preventDefault);
-    this.getIframeBody().addEventListener('dragenter', setHighlight);
-    this.getIframeBody().addEventListener('dragend', removeHighlight);
-    this.getIframeBody().addEventListener('dragleave', removeHighlight);
-    this.getIframeBody().addEventListener('drop', function(e) {
-      dropped(e, ElemManager);
-    });
-  };
+  // this.bindEventHandlers = function() {
+  //   this.getIframeBody().addEventListener('dragover', preventDefault);
+  //   this.getIframeBody().addEventListener('dragenter', setHighlight);
+  //   this.getIframeBody().addEventListener('dragend', removeHighlight);
+  //   this.getIframeBody().addEventListener('dragleave', removeHighlight);
+  //   this.getIframeBody().addEventListener('drop', function(e) {
+  //     dropped(e, ElemManager);
+  //   });
+  // };
 
 }
 

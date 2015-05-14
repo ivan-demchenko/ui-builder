@@ -16,7 +16,7 @@ function CanvasDirective($rootScope, Canvas) {
       });
 
       $rootScope.$on('uib:elem:edit:done', function() {
-        Canvas.reloadIFrame();
+        Canvas.elementEditFinished();
       });
     },
     link: function(scope, elem) {

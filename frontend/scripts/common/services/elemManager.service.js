@@ -28,7 +28,6 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
       case 'after':
         target.insertAdjacentElement('afterEnd', newElement);
         break;
-      default:
     }
     $rootScope.$emit('uib:element:dropped', newElement, target, elementDescription);
     return newElement;

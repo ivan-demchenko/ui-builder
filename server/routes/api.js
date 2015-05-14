@@ -61,7 +61,7 @@ module.exports.getListOfSessions = function(req, res) {
 
     debug('Try to get the list of sessions for the user %s', JSON.stringify(userData));
 
-    session.getUserSessions(userData._id, function(err, sessionsList) {
+    session.getSessionsByUserId(userData._id, function(err, sessionsList) {
       if (err || !sessionsList) {
         return res.status(500).json(message.error('Unable to update session code', err));
       }
@@ -81,23 +81,71 @@ module.exports.getSessionInitial = function(req, res) {
 
     debug('Attempt to get initial code for session id # %s', sessionId);
 
-    session.getSessionInitialCode(sessionId, function(err, initials) {
-      if (err || !initials) {
-        return res.status(500).json(message.error('Unable to fetch initial code', err));
+    session.getSessionInitialCode(sessionId, function(err, initial) {
+      if (err) {
+        return res.status(500).json(message.error('Error while fetching initial data for session', err));
       }
 
-      res.status(200).json(message.success('Here the initial code is', initials));
+      if (!initial) {
+        return res.status(404).json(message.error('Seems that session %s does not exists', sessionId));
+      }
+
+      res.status(200).json(message.success('Here the initial code is', initial));
     });
   });
 };
 
-module.exports.setSessionResult = function(req, res) {
-  res.send('Okay!');
+module.exports.saveSessionSnapshot = function(req, res) {
+  token.verify(req.headers, function(err) {
+    if (err) {
+      return res.sendStatus(401);
+    }
+
+    var sessionId = req.params.id;
+    var code = req.body.code.trim() || '';
+
+    if (!sessionId) {
+      return res.status(500).json(message.error('Session is or code is missing for a new snapshot'));
+    }
+
+    debug('Attempt to save a new snapshot for the session %s', sessionId);
+
+    session.saveSessionSnapshot(sessionId, code, function(err, updatedSession) {
+      if (err || !updatedSession) {
+        return res.status(500).json(message.error('Unable to save a new snapshot', err));
+      }
+
+      res.status(200).json(message.success('A new snapshot have been saved'));
+    });
+  });
 };
 
-module.exports.getSessionResult = function(req, res) {
+module.exports.getLastSessionSnapshot = function(req, res) {
   var sessionId = req.params.id || '';
-  res.send(sessionId);
+
+  debug('Attempt to get the result for the session %s', sessionId);
+
+  session.getLastSnapshotBySessionId(sessionId, function(err, code) {
+    if (err) {
+      debug('Error while fetching the result for the session %s', sessionId);
+      return res.status(500).json(message.error('Unable to fetch js code', err));
+    }
+    return res.send(code);
+  });
+};
+
+module.exports.getSessionHTML = function(req, res) {
+  var sessionId = req.params.id || '';
+
+  debug('Attempt to get HTML code for session id # %s', sessionId);
+
+  session.getSessionAsset(sessionId, 'html', function(err, code) {
+    if (err) {
+      debug('Error while fetching JS session %s', sessionId);
+      return res.status(500).json(message.error('Unable to fetch code code', err));
+    }
+    res.set('Content-Type', 'text/html').send(code);
+  });
 };
 
 module.exports.getSessionJS = function(req, res) {
@@ -107,6 +155,7 @@ module.exports.getSessionJS = function(req, res) {
 
   session.getSessionAsset(sessionId, 'js', function(err, js) {
     if (err) {
+      debug('Error while fetching JS session %s', sessionId);
       return res.status(500).json(message.error('Unable to fetch js code', err));
     }
     res.set('Content-Type', 'text/javascript').send(js);
@@ -120,6 +169,7 @@ module.exports.getSessionCSS = function(req, res) {
 
   session.getSessionAsset(sessionId, 'css', function(err, css) {
     if (err) {
+      debug('Error while fetching CSS session %s', sessionId);
       return res.status(500).json(message.error('Unable to fetch css code', err));
     }
     res.set('Content-Type', 'text/css').send(css);

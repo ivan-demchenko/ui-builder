@@ -35,8 +35,7 @@ function AuthInterceptor($q, $location, Storage, User) {
 
     responseError: function(rejection) {
       if (rejection !== null && rejection.status === 401) {
-        Storage.remove('token')
-        User.authenticated = false;
+        User.loggedOut();
         $location.path('/login');
       }
       return $q.reject(rejection);

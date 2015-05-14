@@ -6,12 +6,18 @@ var angular = require('angular');
 function Service($http, $location, $route) {
   this._id = $route.current.params.sessionId;
 
-  this.getCurrentSessionUrl = function() {
-    return '/api/session/' + this._id + '/result';
+  this.getCurrentSessionInitHTMLUrl = function() {
+    return '/api/session/' + this._id + '/html';
   };
 
   this.getCurrentSessionAssetUrl = function(type) {
     return '/api/session/' + this._id + '/' + type;
+  };
+
+  this.getLatestSnapshot = function() {
+    return $http.get('/api/session/' + this._id + '/snapshot/latest').then(function(resp) {
+      return resp.data;
+    });
   };
 
   this.startNew = function(title, initialSetup) {
@@ -32,11 +38,13 @@ function Service($http, $location, $route) {
     });
   };
 
+  this.saveSnapshot = function(code) {
+    return $http.post('/api/session/' + this._id + '/snapshot', {code: code});
+  };
+
   this.continue = function(id) {
     this._id = id;
   };
-
-  this.saveSnapshot = function() {};
 
 }
 
