@@ -1,7 +1,7 @@
 'use strict';
 
 var jwt = require('express-jwt'),
-
+    _ = require('lodash'),
     config = require('../config'),
     main = require('./main'),
     auth = require('./auth'),
@@ -20,14 +20,17 @@ module.exports = function(app) {
     next();
   });
 
+  function secureRequest(method, url, handler) {
+    app[method](url, jwt({secret: config.token.secret}), handler);
+  }
+
   app.post('/auth/register', auth.register);
   app.post('/auth/login', auth.login);
   app.post('/auth/logout', auth.logout);
 
-  // app.get(/api/session) - get the list of my sessions
-  // app.post(/api/session) - save session snapshot
-  app.post('/api/session/initial', jwt({secret: config.token.secret}), api.setSessionInitial);
-  app.get('/api/session/new', jwt({secret: config.token.secret}), api.startNewSession);
+  secureRequest('get', '/api/session', api.getListOfSessions);
+  secureRequest('post', '/api/session/initial', api.setSessionInitial);
+  secureRequest('post', '/api/session/new', api.startNewSession);
 
   app.get('/*', main.indexPage);
 };

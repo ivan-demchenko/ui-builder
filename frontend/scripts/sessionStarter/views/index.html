@@ -1,0 +1,40 @@
+<header class="header">
+  <span class="uib-app-logo">
+    <i class="i-desktop"></i>
+    ui builder
+  </span>
+  <span class="uib-separator"></span>
+  <span ng-click="main.toggleSourceView()" class="uib-btn">
+    <span ng-hide="main.viewSourse">
+      <i class="i-source"></i> Show
+    </span>
+    <span ng-show="main.viewSourse">
+      <i class="i-layout"></i> Hide
+    </span>
+    html
+  </span>
+  <span class="uib-btn">Logout</span>
+</header>
+
+<div class="uib-app-wrapper">
+  <div class="uib-container">
+  <h1>Prepare a new Session</h1>
+  <div>
+    <div class="uib-pane">
+      <h3 class="uib-pane__title">Inital HTML</h3>
+      <textarea ng-model="sessionStarter.initials.html"></textarea>
+    </div>
+    <div class="uib-pane">
+      <h3 class="uib-pane__title">Inital CSS</h3>
+      <textarea ng-model="sessionStarter.initials.css"></textarea>
+    </div>
+    <div class="uib-pane">
+      <h3 class="uib-pane__title">Inital JS</h3>
+      <textarea ng-model="sessionStarter.initials.js"></textarea>
+    </div>
+  </div>
+  <div>
+    <button ng-click="sessionStarter.start()" class="uib-btn uib-btn__dark">Start new session</button>
+  </div>
+  </div>
+</div>

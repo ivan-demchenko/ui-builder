@@ -13,10 +13,17 @@ module.exports.startNewSession = function (req, res) {
 
     debug('Try to start a new session for user # %s', userData._id);
 
-    session.startNew(userData._id, function(err, sessionObj) {
+    var initial = {
+      html: req.body.html.trim() || '',
+      css: req.body.css.trim() || '',
+      js: req.body.js.trim() || ''
+    };
+
+    session.startNew(userData._id, initial, function(err, sessionObj) {
       if (err || !sessionObj) {
         return res.status(500).json(message.error('Failed to get session id', err));
       }
+
       return res.json(message.success('New session started', {
         sessionId: sessionObj._id
       }));
@@ -39,7 +46,26 @@ module.exports.setSessionInitial = function(req, res) {
       if (err || !updatedSession) {
         return res.status(500).json(message.error('Unable to update session code', err));
       }
-      res.status(500).json(message.success('The ' + type + ' code was injected'));
+
+      res.status(200).json(message.success('The ' + type + ' code was injected'));
+    });
+  });
+};
+
+module.exports.getListOfSessions = function(req, res) {
+  token.verify(req.headers, function(err, userData) {
+    if (err) {
+      return res.sendStatus(401);
+    }
+
+    debug('Try to get the list of sessions for the user %s', JSON.stringify(userData));
+
+    session.getUserSessions(userData._id, function(err, sessionsList) {
+      if (err || !sessionsList) {
+        return res.status(500).json(message.error('Unable to update session code', err));
+      }
+
+      res.status(200).json(message.success('List is ready', sessionsList));
     });
   });
 };

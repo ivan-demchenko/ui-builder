@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: ['<%= yeoman.app %>/**/*.html'],
-        tasks: ['html2js:all']
+        tasks: ['html2js:all', 'browserify']
       },
       livereload: {
         options: {

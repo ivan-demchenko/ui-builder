@@ -7,11 +7,15 @@ body
   text-transform uppercase
 
 .uib-app-wrapper
-  @extend .flex
-  @extend .flex-prior
+  @extend .flex, .flex-prior
   height 100%
 
 .uib-app-main
   background minorBackground
   width 100%
   position relative
+
+.uib-container
+  @extend .flex-col
+  flex-grow 1
+  height 100%

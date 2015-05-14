@@ -10,6 +10,7 @@ var angular = require('angular');
  *
  * Main module of the application.
  */
- module.exports = angular.module('uiBuilderApp.builder', [])
-  .controller('MainCtrl', require('./controllers/builder.controller'))
+ module.exports = angular.module('uiBuilderApp.gallery', [])
+  .controller('GalleryCtrl', require('./controllers/gallery.controller'))
+  .service('Gallery', require('./services/gallery.service'))
   .config(require('./config'));

@@ -18,7 +18,25 @@
 </header>
 <div class="uib-app-wrapper">
   <uib-repo-items-tree tree="main.repoItems.componentsTree"></uib-repo-items-tree>
-  <uib-canvas></uib-canvas>
+  <div class="uib-container">
+    <uib-tabs>
+      <uib-tab name="Canvas">
+        <uib-canvas></uib-canvas>
+      </uib-tab>
+      <uib-tab name="Canvas HTML">
+        <textarea></textarea>
+        <button class="uib-btn uib-btn__dark">Set HTML</button>
+      </uib-tab>
+      <uib-tab name="Canvas JS">
+        <textarea></textarea>
+        <button class="uib-btn uib-btn__dark">Set JS</button>
+      </uib-tab>
+      <uib-tab name="Canvas CSS">
+        <textarea></textarea>
+        <button class="uib-btn uib-btn__dark">Set CSS</button>
+      </uib-tab>
+    </uib-tabs>
+  </div>
   <uib-dom-tree-view tree="main.domTree"></uib-dom-tree-view>
 </div>
 <uib-item-properties-edit data="main.editableElement"></uib-item-properties-edit>

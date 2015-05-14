@@ -11,6 +11,8 @@ function AuthInterceptor($q, $location, Storage, User) {
 
   return {
     request: function(config) {
+      console.log('>> http request: ', config.url);
+      // TODO: show loader indicator
       config.headers = config.headers || {};
       if (Storage.get('token')) {
           config.headers.Authorization = 'Bearer ' + Storage.get('token');
@@ -23,6 +25,8 @@ function AuthInterceptor($q, $location, Storage, User) {
     },
 
     response: function(response) {
+      console.log('>> http response ', response.status, 'for:', response.config.url);
+      // TODO: hide loader indicator
       if (response !== null && response.status === 200 && !User.isAuthenticated() && isResponseContainsToken(response)) {
         User.setLoggedIn(response);
       }

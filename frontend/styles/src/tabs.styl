@@ -1,0 +1,24 @@
+.uib-tabs
+  @extend .flex-col
+  flex-grow 1
+
+  &__row
+    @extend .flex-row
+
+.uib-tab
+
+  &__button
+    padding .5rem
+    flex-grow 1
+    text-align center
+
+    &.selected
+      border-bottom solid 2px activeValueColor
+
+  &__content
+    @extend .flex-col
+    flex-grow 1
+
+    & > div
+      @extend .flex-col
+      flex-grow 1

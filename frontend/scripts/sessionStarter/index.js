@@ -10,6 +10,6 @@ var angular = require('angular');
  *
  * Main module of the application.
  */
- module.exports = angular.module('uiBuilderApp.builder', [])
-  .controller('MainCtrl', require('./controllers/builder.controller'))
+ module.exports = angular.module('uiBuilderApp.sessionStarter', [])
+  .controller('SessionStarterCtrl', require('./controllers/sessionStarter.controller'))
   .config(require('./config'));

@@ -7,15 +7,15 @@ var sessionSchema = new mongoose.Schema({
     title: { type: String, default: '' },
     created: { type: Date, default: Date.now },
     initial: {
-      htmlCode: { type: String, default: '' },
-      jsCode: { type: String, default: '' },
-      cssCode: { type: String, default: '' }
+      html: { type: String, default: '' },
+      js: { type: String, default: '' },
+      css: { type: String, default: '' }
     }
 });
 
 sessionSchema.methods.setHTML = function(newHTML, done) {
   return this.find({ _id: this._id }, function(err, session) {
-    session.initial.htmlCode = newHTML;
+    session.initial.html = newHTML;
     session.save(function(err) {
       if (err) {
         return done(err);
@@ -27,7 +27,7 @@ sessionSchema.methods.setHTML = function(newHTML, done) {
 
 sessionSchema.methods.setCSS = function(newCSS, done) {
   return this.find({ _id: this._id }, function(err, session) {
-    session.initial.cssCode = newCSS;
+    session.initial.css = newCSS;
     session.save(function(err) {
       if (err) {
         return done(err);
@@ -39,7 +39,7 @@ sessionSchema.methods.setCSS = function(newCSS, done) {
 
 sessionSchema.methods.setJS = function(newJS, done) {
   return this.find({ _id: this._id }, function(err, session) {
-    session.initial.jsCode = newJS;
+    session.initial.js = newJS;
     session.save(function(err) {
       if (err) {
         return done(err);

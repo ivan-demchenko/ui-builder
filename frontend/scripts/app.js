@@ -13,6 +13,8 @@ var angular = require('angular');
 angular.module('uiBuilderApp', [
     require('angular-route'),
     require('../../.tmp/scripts/uib-templates').name,
+    require('./gallery').name,
+    require('./sessionStarter').name,
     require('./common').name,
     require('./login').name,
     require('./builder').name

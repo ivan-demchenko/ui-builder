@@ -1,0 +1,8 @@
+<div class="uib-tabs">
+  <div class="uib-tabs__row">
+    <div class="uib-tab__button" ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{selected:tab.selected}">
+      <span class="uib-tab__name">{{::tab.name}}</span>
+    </div>
+  </div>
+  <div class="uib-tab__content" ng-transclude></div>
+</div>
