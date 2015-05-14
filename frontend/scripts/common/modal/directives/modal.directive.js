@@ -4,7 +4,7 @@ var Elem = require('../common.dir.js');
 
 /*@ngInject*/
 function ModalDirective(Modal) {
-  return new Elem('scripts/common/modal/templates/content.html', true, function(scope, elem, attrs) {
+  return new Elem('scripts/common/modal/templates/modal.html', true, function(scope, elem, attrs) {
 
     if (!attrs.name) {
       throw new Error('Name attribute is missing for the modal');

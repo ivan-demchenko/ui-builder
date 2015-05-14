@@ -1,6 +1,7 @@
 'use strict';
 
-var authDomain = require('../domain/auth'),
+var debug = require('debug')('server:routes:auth'),
+    authDomain = require('../domain/auth'),
     message = require('./responseMessages');
 
 module.exports.register = function (req, res) {
@@ -24,15 +25,19 @@ module.exports.login = function (req, res) {
   var username = req.body.username.trim() || '';
   var password = req.body.password.trim() || '';
 
+  debug('Atempt to login using %s and %s', username, password);
+
   if (username === '' || password === '') {
     return res.status(401).json(message.error('Login data has not been provided'));
   }
 
   authDomain.logUserIn(username, password, function(err, loggenInUserObj) {
     if (err) {
+      debug('User has not been found in DB');
       return res.status(401).send(message.error('Error while logging user in', err));
     }
-    res.status(200).json(message.success('Welcome!', loggenInUserObj));
+    debug('User has been found');
+    return res.status(200).json(message.success('Welcome!', loggenInUserObj));
   });
 };
 

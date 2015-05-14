@@ -4,16 +4,18 @@
 function Service(Storage) {
   this._id = null;
 
-  this.authenticated = false;
+  this.isAuthenticated = function() {
+    return !!this._id && Storage.get('token') !== null;
+  };
 
-  this.setLoggedIn = function(serverResponce) {
-    Storage.set('token', serverResponce.data.data.token);
-    this._id = serverResponce.data.data._id;
+  this.setLoggedIn = function(serverResponse) {
+    Storage.set('token', serverResponse.data.data.token);
+    this._id = serverResponse.data.data._id;
   };
 
   this.loggedOut = function() {
     Storage.remove('token');
-    this.data = null;
+    this._id = null;
   };
 }
 

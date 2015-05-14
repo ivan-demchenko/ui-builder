@@ -82,7 +82,7 @@ function retrieve(token, done) {
     }
 
     var data = JSON.parse(reply);
-    debug('User data fetched from Redis store for %s', data.username);
+    debug('User data fetched from Redis: ', JSON.stringify(data));
     if (_.isEqual(data.token, token)) {
       return done(null, data);
     } else {
