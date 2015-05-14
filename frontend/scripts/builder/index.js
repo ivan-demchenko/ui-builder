@@ -10,6 +10,11 @@ var angular = require('angular');
  *
  * Main module of the application.
  */
- module.exports = angular.module('uiBuilderApp.builder', [])
-  .controller('MainCtrl', require('./controllers/builder.controller'))
-  .config(require('./config'));
+module.exports = angular.module('uiBuilderApp.builder', [
+  require('./modules/canvas').name,
+  require('./modules/repository').name,
+  require('./modules/domTree').name,
+  require('./modules/propertyEditor').name
+])
+.controller('BuilderCtrl', require('./controllers/builder.controller'))
+.config(require('./config'));

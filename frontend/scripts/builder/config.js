@@ -8,7 +8,7 @@ function fetchRepositoryItems(Repository) {
 function config($routeProvider) {
   $routeProvider
     .when('/builder/:sessionId', {
-      controller: 'MainCtrl as main',
+      controller: 'BuilderCtrl as builder',
       templateUrl: 'scripts/builder/views/index.html',
       access: { requiredAuthentication: true },
       resolve: {

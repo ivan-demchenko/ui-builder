@@ -3,13 +3,8 @@
 var angular = require('angular');
 
 module.exports = angular.module('uiBuilderApp.common', [
-    require('./canvas').name,
     require('./modal').name,
-    require('./tabs').name,
-    require('./domTree').name,
-    require('./propertyEditor').name,
-    require('./repository').name,
-    require('./htmlView').name
+    require('./tabs').name
   ])
   .directive('uibAction', require('./directives/action/action.directive'))
   .service('Behavior', require('./services/behavior.service'))

@@ -11,7 +11,7 @@ function DomTreeViewDirective($rootScope, RecursionHelper, ElemManager, DomTreeP
     scope: {
       tree: '='
     },
-    templateUrl: 'scripts/common/domTree/directives/domTreeView.html',
+    templateUrl: 'scripts/builder/modules/domTree/directives/domTreeView.html',
     compile: function(elem) {
       return RecursionHelper.compile(elem, function(scope) {
         // Fix for nested directives

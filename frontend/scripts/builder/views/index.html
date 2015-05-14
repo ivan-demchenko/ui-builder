@@ -1,5 +1,5 @@
 <div class="uib-app-wrapper">
-  <uib-repo-items-tree tree="main.repoItems.componentsTree"></uib-repo-items-tree>
+  <uib-repo-items-tree tree="builder.repoItems.componentsTree"></uib-repo-items-tree>
   <div class="uib-container">
     <uib-tabs>
       <uib-tab name="Canvas">
@@ -17,9 +17,11 @@
         <textarea></textarea>
         <button class="uib-btn uib-btn__dark">Set CSS</button>
       </uib-tab>
+      <uib-tab name="Result">
+        <textarea class="uib-source-view" rows="8">{{builder.getSource()}}</textarea>
+      </uib-tab>
     </uib-tabs>
   </div>
   <uib-dom-tree-view tree="main.domTree"></uib-dom-tree-view>
 </div>
 <uib-item-properties-edit data="main.editableElement"></uib-item-properties-edit>
-<uib-html-view></uib-html-view>
