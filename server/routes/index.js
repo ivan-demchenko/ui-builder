@@ -28,6 +28,8 @@ module.exports = function(app) {
   app.post('/auth/login', auth.login);
   app.post('/auth/logout', auth.logout);
 
+  app.get('/api/session/result/:id', api.getSessionResult);
+
   secureRequest('get', '/api/session', api.getListOfSessions);
   secureRequest('post', '/api/session/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);

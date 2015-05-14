@@ -3,11 +3,11 @@
 var debug = require('debug')('server:domain:builderSession'),
     sessionModel = require('../models/session');
 
-function startNew(userId, initialCode, done) {
+function startNew(userId, title, initialCode, done) {
 
   debug('Starting a new builder session');
 
-  var newSession = new sessionModel({ 'owner': userId, initial: initialCode });
+  var newSession = new sessionModel({ 'owner': userId, title: title, initial: initialCode });
   newSession.save(function(err) {
     if (err) {
       debug('Error while saving new session: %s', err.message);

@@ -2,6 +2,7 @@
 
 /*@ngInject*/
 function Controller(Behavior) {
+  this.title = '';
   this.initials = {
     html: '',
     js: '',
@@ -9,7 +10,7 @@ function Controller(Behavior) {
   };
 
   this.start = function() {
-    Behavior.session.startNew(this.initials);
+    Behavior.session.startNew(this.title, this.initials);
   };
 }
 

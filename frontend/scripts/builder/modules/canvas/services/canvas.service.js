@@ -24,13 +24,14 @@ function dropped(evt, ElemManager) {
 }
 
 /*@ngInject*/
-function CanvasService($rootScope, Repository, ElemManager, Common) {
+function CanvasService($rootScope, Repository, ElemManager, Common, Session) {
 
   this.iframe = null;
   this.shadow = null;
 
   this.register = function(container) {
     this.iframe = container.find('iframe')[0];
+    this.iframe.src = Session.getCurrentSessionUrl();
     this.shadow = container.find('div')[0];
     Repository.getItems().then(function(repoData) {
       this.setUpCanvas('', repoData, true);

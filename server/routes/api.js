@@ -13,13 +13,14 @@ module.exports.startNewSession = function (req, res) {
 
     debug('Try to start a new session for user # %s', userData._id);
 
+    var title = req.body.title.trim() || '';
     var initial = {
-      html: req.body.html.trim() || '',
-      css: req.body.css.trim() || '',
-      js: req.body.js.trim() || ''
+      html: req.body.initialSetup.html.trim() || '',
+      css: req.body.initialSetup.css.trim() || '',
+      js: req.body.initialSetup.js.trim() || ''
     };
 
-    session.startNew(userData._id, initial, function(err, sessionObj) {
+    session.startNew(userData._id, title, initial, function(err, sessionObj) {
       if (err || !sessionObj) {
         return res.status(500).json(message.error('Failed to get session id', err));
       }
@@ -68,4 +69,8 @@ module.exports.getListOfSessions = function(req, res) {
       res.status(200).json(message.success('List is ready', sessionsList));
     });
   });
+};
+
+module.exports.getSessionResult = function(req, res) {
+  res.send('Okay!');
 };

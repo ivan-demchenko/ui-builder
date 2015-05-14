@@ -1,16 +1,22 @@
+label
+  color secondaryTextColor
+
 textarea,
 input[type="text"],
 input[type="password"]
   margin 0
-  padding 0
-  border solid 1px darken(optionValueBackground, 12)
+  border none
+  border-bottom solid 1px accentColor
   box-sizing border-box
   width 100%
   padding .5rem
   font-size 1rem
-  background optionValueBackground
+  background transparent
+  color secondaryTextColor
   &:focus
     outline none
+    border-bottom solid 1px primaryColor
+    color primaryColor
 
 .uib-btn
   padding 1rem
@@ -23,7 +29,11 @@ input[type="password"]
   &:hover
     background rgba(255, 255, 255, .1)
 
-  &__dark
+  &--small
+    padding 0.4rem 0.6rem
+    font-size 0.8rem
+
+  &--dark
     background #607D8B
     &:hover
       background #607D8B

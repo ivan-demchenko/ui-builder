@@ -7,6 +7,7 @@ function Behavior($location, User, Session) {
       success: function(response) {
         console.log('>> login successful');
         // TODO: Show success message
+        console.info(response.data.message);
         User.setLoggedIn(response);
         $location.path('/gallery');
       },
@@ -20,7 +21,7 @@ function Behavior($location, User, Session) {
     registration: {
       success: function(response) {
         // TODO: Show success message
-        console.log(response);
+        console.info(response.data.message);
       },
 
       error: function(reason) {
@@ -32,6 +33,7 @@ function Behavior($location, User, Session) {
     logout: {
       success: function(response) {
         // TODO: Show success message
+        console.info(response.data.message);
         User.loggedOut();
         $location.path('/login');
       },
@@ -47,8 +49,12 @@ function Behavior($location, User, Session) {
     prepare: function() {
       $location.path('/session-starter');
     },
-    startNew: function(initialSetup) {
-      Session.startNew(initialSetup);
+    startNew: function(title, initialSetup) {
+      Session.startNew(title, initialSetup);
+    },
+    continue: function(id) {
+      Session.continue(id);
+      $location.path('/builder/' + id);
     }
   };
 }
