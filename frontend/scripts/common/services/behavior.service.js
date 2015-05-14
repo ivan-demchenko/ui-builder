@@ -33,7 +33,7 @@ function Behavior($location, User, Session) {
       success: function(response) {
         // TODO: Show success message
         User.loggedOut();
-        console.log(response);
+        $location.path('/login');
       },
 
       error: function(reason) {

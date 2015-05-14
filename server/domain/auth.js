@@ -79,7 +79,11 @@ module.exports.logUserIn = function(username, password, done) {
   });
 };
 
-module.exports.logUserOut = function(headers, done) {
-  token.expireToken(headers);
-  done(null, true);
+module.exports.logUserOut = function(userData, done) {
+  token.expire(userData.token, function(err, isDone) {
+    if (err || !isDone) {
+      return done(err);
+    }
+    return done(null, isDone);
+  });
 };

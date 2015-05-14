@@ -2,6 +2,7 @@
 
 var debug = require('debug')('server:routes:auth'),
     authDomain = require('../domain/auth'),
+    token = require('../token'),
     message = require('./responseMessages');
 
 module.exports.register = function (req, res) {
@@ -42,12 +43,19 @@ module.exports.login = function (req, res) {
 };
 
 module.exports.logout = function (req, res) {
-  if (req.user) {
-    return authDomain.expire(req.headers, function() {
-      delete req.user;
-      return res.send(200);
+  debug('Attempt to logout');
+
+  token.verify(req.headers, function(err, userData) {
+    if (err || !userData) {
+      return res.status(500).json(message.error('Token verification failed', err));
+    }
+
+    return authDomain.logUserOut(userData, function(err, isExpired) {
+      if (err || !isExpired) {
+        debug('Error while loggin out: %s', JSON.stringify(err));
+        return res.status(401).send(message.error('Error while logging user out', err));
+      }
+      return res.status(200).send(message.success('Logout success'));
     });
-  } else {
-    return res.send(401);
-  }
+  });
 };

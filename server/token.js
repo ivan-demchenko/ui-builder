@@ -86,7 +86,7 @@ function retrieve(token, done) {
     if (_.isEqual(data.token, token)) {
       return done(null, data);
     } else {
-      return done(new Error('token_doesnt_exist'));
+      return done(new Error('Invalid token'));
     }
 
   });
@@ -112,15 +112,26 @@ function verify(headers, done) {
   });
 }
 
-function expire(headers) {
-  var token = extractFromHeader(headers);
-
-  debug('Expiring token %s', token);
+function expire(token, done) {
+  debug('Expiring token: %s', token);
 
   if (token !== null) {
     redisClient.expire(token, 0);
   }
-  return token !== null;
+
+  debug('Check token expiration');
+
+  redisClient.get(token, function (err, reply) {
+    if (err) {
+      debug('Error while Check token expiration');
+      return done(err);
+    }
+
+    if (_.isNull(reply)) {
+      debug('Token expired successfully');
+      return done(null, true);
+    }
+  });
 }
 
 module.exports.create = create;

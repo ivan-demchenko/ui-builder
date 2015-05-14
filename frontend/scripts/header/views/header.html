@@ -1,0 +1,7 @@
+<header class="header" ng-controller="HeaderCtrl as header">
+  <a href="/gallery" class="uib-app-logo">
+    <i class="i-desktop"></i>
+    ui builder
+  </a>
+  <span ng-if="header.isUserAuthenticated()" ng-click="header.logout()" class="uib-btn">Logout</span>
+</header>

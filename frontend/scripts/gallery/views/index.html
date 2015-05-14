@@ -1,33 +1,17 @@
-<header class="header">
-  <span class="uib-app-logo">
-    <i class="i-desktop"></i>
-    ui builder
-  </span>
-  <span class="uib-separator"></span>
-  <span ng-click="main.toggleSourceView()" class="uib-btn">
-    <span ng-hide="main.viewSourse">
-      <i class="i-source"></i> Show
-    </span>
-    <span ng-show="main.viewSourse">
-      <i class="i-layout"></i> Hide
-    </span>
-    html
-  </span>
-  <span class="uib-btn">Logout</span>
-</header>
-
 <div class="uib-app-wrapper">
   <div class="uib-container">
-  <h1>Your gallery</h1>
-  <ul class="uib-gallery">
-    <li class="uib-gallery__item" ng-repeat="item in gallery.items">
-      <h3 class="uib-gallery__item__title">{{::item.title || 'Untitled'}}</h3>
-      <h6>{{::item.created | date}}</h6>
-      <a ng-href="/builder/{{::item._id}}">Continue</a>
-    </li>
-  </ul>
-  <div>
-    <button ng-click="gallery.startNewSession()" class="uib-btn uib-btn__dark">Add a new masterpiece to your gallery!</button>
-  </div>
+    <div class="uib-pane">
+      <h1>Your gallery</h1>
+      <ul class="uib-gallery uib-pane--small">
+        <li class="uib-gallery__item" ng-repeat="item in gallery.items">
+          <h3 class="uib-gallery__item__title">{{::item.title || 'Untitled'}}</h3>
+          <h6>{{::item.created | date}}</h6>
+          <a ng-href="/builder/{{::item._id}}">Continue</a>
+        </li>
+      </ul>
+      <div class="uib-pane--small">
+        <button ng-click="gallery.startNewSession()" class="uib-btn uib-btn__dark">Add a new masterpiece to your gallery!</button>
+      </div>
+    </div>
   </div>
 </div>

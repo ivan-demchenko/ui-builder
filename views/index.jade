@@ -11,5 +11,6 @@ html(ng-app='uiBuilderApp')
     link(rel='stylesheet', href='styles/main.css')
     // endbuild
   body
+    div(ng-include="'scripts/header/views/header.html'")
     div.app-view(ng-view)
     script(src='scripts/app.js')
