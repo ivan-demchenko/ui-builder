@@ -3,8 +3,8 @@
 var angular = require('angular');
 
 /*@ngInject*/
-function Service($http, $location) {
-  this._id = null;
+function Service($http, $location, $route) {
+  this._id = $route.current.params.sessionId;
 
   this.getCurrentSessionUrl = function() {
     return '/api/session/result/' + this._id;
@@ -20,6 +20,12 @@ function Service($http, $location) {
         return $location.path('builder/' + resp.data.data.sessionId);
       }
     }.bind(this));
+  };
+
+  this.resetInitialCode = function(initial) {
+    return $http.put('/api/session/' + this._id + '/initial', {initial: initial}).then(function(resp) {
+      return resp.data.data;
+    });
   };
 
   this.continue = function(id) {

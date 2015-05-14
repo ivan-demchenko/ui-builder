@@ -1,7 +1,6 @@
 'use strict';
 
 var jwt = require('express-jwt'),
-    _ = require('lodash'),
     config = require('../config'),
     main = require('./main'),
     auth = require('./auth'),
@@ -31,7 +30,8 @@ module.exports = function(app) {
   app.get('/api/session/result/:id', api.getSessionResult);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
-  secureRequest('post', '/api/session/initial', api.setSessionInitial);
+  secureRequest('get', '/api/session/:id/initial', api.getSessionInitial);
+  secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);
 
   app.get('/*', main.indexPage);

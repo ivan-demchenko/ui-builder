@@ -1,7 +1,13 @@
 'use strict';
 
+/*@ngInject*/
 function fetchRepositoryItems(Repository) {
   return Repository.getItems();
+}
+
+/*@ngInject*/
+function fetchInitialCode($route, Builder) {
+  return Builder.fetchInitialCode($route.current.params.sessionId);
 }
 
 /*@ngInject*/
@@ -12,7 +18,8 @@ function config($routeProvider) {
       templateUrl: 'scripts/builder/views/index.html',
       access: { requiredAuthentication: true },
       resolve: {
-        repository: fetchRepositoryItems
+        repository: fetchRepositoryItems,
+        initialCode: fetchInitialCode
       }
     });
 }

@@ -17,4 +17,5 @@ module.exports = angular.module('uiBuilderApp.builder', [
   require('./modules/propertyEditor').name
 ])
 .controller('BuilderCtrl', require('./controllers/builder.controller'))
+.service('Builder', require('./services/builder.service'))
 .config(require('./config'));

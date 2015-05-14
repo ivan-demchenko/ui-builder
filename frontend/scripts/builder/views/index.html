@@ -6,16 +6,16 @@
         <uib-canvas></uib-canvas>
       </uib-tab>
       <uib-tab name="Canvas HTML">
-        <textarea></textarea>
-        <button class="uib-btn uib-btn--dark">Set HTML</button>
+        <textarea ng-model="builder.initial.html"></textarea>
+        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set HTML</button>
       </uib-tab>
       <uib-tab name="Canvas JS">
-        <textarea></textarea>
-        <button class="uib-btn uib-btn--dark">Set JS</button>
+        <textarea ng-model="builder.initial.js"></textarea>
+        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set JS</button>
       </uib-tab>
       <uib-tab name="Canvas CSS">
-        <textarea></textarea>
-        <button class="uib-btn uib-btn--dark">Set CSS</button>
+        <textarea ng-model="builder.initial.css"></textarea>
+        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
       <uib-tab name="Result">
         <textarea class="uib-source-view" rows="8">{{builder.getSource()}}</textarea>

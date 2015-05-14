@@ -37,18 +37,18 @@ module.exports.setSessionInitial = function(req, res) {
     if (err) {
       return res.sendStatus(401);
     }
-    var type = req.body.type.trim() || '';
-    var sessionId = req.body.sessionId.trim() || '';
-    var code = req.body.code.trim() || '';
 
-    debug('Try to update session');
+    var sessionId = req.params.id;
 
-    session.updateInitial(type, sessionId, userData._id, code, function(err, updatedSession) {
+    debug('Attempt to update initials for session %s', sessionId);
+
+    // TODO: check if initial is set in request
+    session.updateInitial(sessionId, userData._id, req.body.initial, function(err, updatedSession) {
       if (err || !updatedSession) {
         return res.status(500).json(message.error('Unable to update session code', err));
       }
 
-      res.status(200).json(message.success('The ' + type + ' code was injected'));
+      res.status(200).json(message.success('The initial code was updated'));
     });
   });
 };
@@ -67,6 +67,26 @@ module.exports.getListOfSessions = function(req, res) {
       }
 
       res.status(200).json(message.success('List is ready', sessionsList));
+    });
+  });
+};
+
+module.exports.getSessionInitial = function(req, res) {
+  token.verify(req.headers, function(err) {
+    if (err) {
+      return res.sendStatus(401);
+    }
+
+    var sessionId = req.params.id || '';
+
+    debug('Try to get initial code for session id # %s', sessionId);
+
+    session.getSessionInitialCode(sessionId, function(err, initials) {
+      if (err || !initials) {
+        return res.status(500).json(message.error('Unable to fetch initial code', err));
+      }
+
+      res.status(200).json(message.success('Here the initial code is', initials));
     });
   });
 };
