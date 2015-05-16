@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /*@ngInject*/
 function RepositoryItemDirective() {
   return {
@@ -15,7 +17,8 @@ function RepositoryItemDirective() {
         if (!scope.model.tagName) {
           return evt.preventDefault();
         }
-        evt.dataTransfer.setData('elementDescription', JSON.stringify(scope.model));
+        var copy = angular.copy(scope.model);
+        evt.dataTransfer.setData('elementDescription', JSON.stringify(copy));
         elem.addClass('drag-from');
       });
 

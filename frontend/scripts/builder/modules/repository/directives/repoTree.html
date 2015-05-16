@@ -1,6 +1,6 @@
 <ul class="uib-tree">
   <li ng-repeat="node in tree.subNodes" class="uib-tree__item">
     <uib-repo-item model="node"></uib-repo-item>
-    <uib-repo-items-tree tree="node" ng-if="node.subNodes && node.subNodes.length > 0"></uib-repo-items-tree>
+    <uib-repo-items-tree tree="node" ng-if="node.subNodes"></uib-repo-items-tree>
   </li>
 </ul>
