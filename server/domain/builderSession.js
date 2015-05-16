@@ -88,10 +88,10 @@ function getSessionAsset(sessionId, type, done) {
   });
 }
 
-function saveSessionSnapshot(sessionId, code, done) {
+function appendSessionSnapshot(sessionId, tree, done) {
   debug('Attempt to save a snapshot for the session with id # %s', sessionId);
 
-  sessionModel.addSnapshot(sessionId, code, function(err, snapshot) {
+  sessionModel.addSnapshot(sessionId, tree, function(err, snapshot) {
     if (err || !snapshot) {
       debug('Failes to save a snapshot the the session %s', sessionId);
       return done(err);
@@ -114,7 +114,7 @@ function getLastSnapshotBySessionId(sessionId, done) {
 
     debug('Session has been found');
     if (session.snapshots.length) {
-      return done(null, session.snapshots[session.snapshots.length - 1].code || '');
+      return done(null, session.snapshots[session.snapshots.length - 1].tree || '');
     } else {
       return done(null, '');
     }
@@ -126,5 +126,5 @@ module.exports.updateInitial = updateInitial;
 module.exports.getSessionsByUserId = getSessionsByUserId;
 module.exports.getSessionInitialCode = getSessionInitialCode;
 module.exports.getSessionAsset = getSessionAsset;
-module.exports.saveSessionSnapshot = saveSessionSnapshot;
+module.exports.appendSessionSnapshot = appendSessionSnapshot;
 module.exports.getLastSnapshotBySessionId = getLastSnapshotBySessionId;

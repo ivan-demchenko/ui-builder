@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var snapshotSchema = new mongoose.Schema({
     created: { type: Date, default: Date.now },
-    code: { type: String, default: '' }
+    tree: { type: String, default: '' }
 });
 
 module.exports.schema = snapshotSchema;

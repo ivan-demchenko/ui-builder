@@ -38,8 +38,8 @@ function Service($http, $location, $route) {
     });
   };
 
-  this.saveSnapshot = function(code) {
-    return $http.post('/api/session/' + this._id + '/snapshot', {code: code});
+  this.saveSnapshot = function(tree) {
+    return $http.post('/api/session/' + this._id + '/snapshot', {tree: tree});
   };
 
   this.continue = function(id) {

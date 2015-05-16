@@ -96,6 +96,7 @@ module.exports.getSessionInitial = function(req, res) {
 };
 
 module.exports.saveSessionSnapshot = function(req, res) {
+  // TODO: refactor this method to use promises
   token.verify(req.headers, function(err) {
     if (err) {
       return res.sendStatus(401);
@@ -110,7 +111,7 @@ module.exports.saveSessionSnapshot = function(req, res) {
 
     debug('Attempt to save a new snapshot for the session %s', sessionId);
 
-    session.saveSessionSnapshot(sessionId, code, function(err, updatedSession) {
+    session.appendSessionSnapshot(sessionId, code, function(err, updatedSession) {
       if (err || !updatedSession) {
         return res.status(500).json(message.error('Unable to save a new snapshot', err));
       }

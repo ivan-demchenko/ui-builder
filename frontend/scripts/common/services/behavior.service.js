@@ -57,6 +57,12 @@ function Behavior($location, User, Session) {
       $location.path('/builder/' + id);
     }
   };
+
+  this.drop = {
+    success: function(tree) {
+      Session.saveSnapshot(JSON.stringify(tree));
+    }
+  };
 }
 
 module.exports = Behavior;

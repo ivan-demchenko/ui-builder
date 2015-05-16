@@ -16,8 +16,8 @@ var sessionSchema = new mongoose.Schema({
     snapshots: [snapshotSchema]
 });
 
-sessionSchema.statics.addSnapshot = function(sessionId, newSnapshotCode, done) {
-  var newSnapshot = new snapshotModel({ code:newSnapshotCode });
+sessionSchema.statics.addSnapshot = function(sessionId, newSnapshotTree, done) {
+  var newSnapshot = new snapshotModel({ code:newSnapshotTree });
   return this.model('Session').findOne({ _id: sessionId }, function(err, session) {
     if (err || !session) {
       return done(err);
