@@ -37,7 +37,7 @@ module.exports = function(app) {
   secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);
   secureRequest('get', '/api/session/:id/snapshot/latest', api.getLastSessionSnapshot);
-  secureRequest('post', '/api/session/:id/snapshot', api.saveSessionSnapshot);
+  secureRequest('post', '/api/session/:id/snapshot', api.appendSessionSnapshot);
 
   app.get('/*', main.indexPage);
 };

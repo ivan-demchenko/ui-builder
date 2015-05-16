@@ -95,7 +95,7 @@ module.exports.getSessionInitial = function(req, res) {
   });
 };
 
-module.exports.saveSessionSnapshot = function(req, res) {
+module.exports.appendSessionSnapshot = function(req, res) {
   // TODO: refactor this method to use promises
   token.verify(req.headers, function(err) {
     if (err) {
@@ -103,20 +103,25 @@ module.exports.saveSessionSnapshot = function(req, res) {
     }
 
     var sessionId = req.params.id;
-    var code = req.body.code.trim() || '';
-
     if (!sessionId) {
-      return res.status(500).json(message.error('Session is or code is missing for a new snapshot'));
+      return res.status(500).json(message.error('Session with id %s has not been found', sessionId));
     }
 
-    debug('Attempt to save a new snapshot for the session %s', sessionId);
+    if (typeof req.body.tree === 'undefined') {
+      return res.status(500).json(message.error('Tree has not been provided for a new snapshot'));
+    }
 
-    session.appendSessionSnapshot(sessionId, code, function(err, updatedSession) {
+    var tree = req.body.tree.trim() || '';
+
+    debug('Attempt to append a new snapshot for the session %s', sessionId);
+    debug('A new snaphot: ', tree);
+
+    session.appendSessionSnapshot(sessionId, tree, function(err, updatedSession) {
       if (err || !updatedSession) {
         return res.status(500).json(message.error('Unable to save a new snapshot', err));
       }
 
-      res.status(200).json(message.success('A new snapshot have been saved'));
+      res.status(200).json(message.success('A new snapshot have been appended'));
     });
   });
 };

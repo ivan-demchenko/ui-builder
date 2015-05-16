@@ -1,5 +1,5 @@
 <ul class="uib-tree">
-  <li ng-repeat="elem in tree" class="uib-tree__item">
+  <li ng-repeat="elem in tree track by $index" class="uib-tree__item">
     <uib-dom-tree-item model="elem"></uib-dom-tree-item>
   </li>
 </ul>

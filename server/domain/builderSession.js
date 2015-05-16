@@ -88,12 +88,12 @@ function getSessionAsset(sessionId, type, done) {
   });
 }
 
-function appendSessionSnapshot(sessionId, tree, done) {
-  debug('Attempt to save a snapshot for the session with id # %s', sessionId);
+function appendSessionSnapshot(sessionId, snapshotTree, done) {
+  debug('Attempt to save a snapshot for the session %s', sessionId);
 
-  sessionModel.addSnapshot(sessionId, tree, function(err, snapshot) {
+  sessionModel.addSnapshot(sessionId, snapshotTree, function(err, snapshot) {
     if (err || !snapshot) {
-      debug('Failes to save a snapshot the the session %s', sessionId);
+      debug('Failed to save a snapshot the the session %s', sessionId);
       return done(err);
     }
 

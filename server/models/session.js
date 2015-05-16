@@ -1,6 +1,7 @@
 'use strict';
 
-var snapshotSchema = require('./snapshot').schema,
+var debug = require('debug')('server:sessionModel'),
+    snapshotSchema = require('./snapshot').schema,
     snapshotModel = require('./snapshot').model,
     mongoose = require('mongoose');
 
@@ -16,8 +17,12 @@ var sessionSchema = new mongoose.Schema({
     snapshots: [snapshotSchema]
 });
 
-sessionSchema.statics.addSnapshot = function(sessionId, newSnapshotTree, done) {
-  var newSnapshot = new snapshotModel({ code:newSnapshotTree });
+sessionSchema.statics.addSnapshot = function(sessionId, snapshotTree, done) {
+
+  debug('Try to append a snaphot %s', snapshotTree);
+
+  var newSnapshot = new snapshotModel({ tree: snapshotTree });
+
   return this.model('Session').findOne({ _id: sessionId }, function(err, session) {
     if (err || !session) {
       return done(err);
@@ -27,7 +32,7 @@ sessionSchema.statics.addSnapshot = function(sessionId, newSnapshotTree, done) {
       if (err) {
         return done(err);
       }
-      return done(null, session.snapshots[session.snapshots.length - 1]);
+      return done(null, newSnapshot);
     });
   });
 };
