@@ -15,7 +15,7 @@ function config($routeProvider) {
   $routeProvider
     .when('/builder/:sessionId', {
       controller: 'BuilderCtrl as builder',
-      templateUrl: 'scripts/builder/views/index.html',
+      templateUrl: __dirname + '/views/index.html',
       access: { requiredAuthentication: true },
       resolve: {
         repository: fetchRepositoryItems,

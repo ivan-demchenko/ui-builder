@@ -1,18 +1,14 @@
 <div class="uib-dom-tree__item">
-  <div class="uib-dom-tree__item__placeholder placeholder--before" data-label="Insert before"></div>
   <div class="flex-row uib-dom-tree__item__label">
     <div class="uib-tree__item__label">
-      <span class="uib-elem-tag-name">{{::model.tagName}}</span>
-      <sup ng-if="hasIdentifier()" class="uib-elem-identifier">{{model.identifier}}</sup>
+      <span class="uib-elem-tag-name">{{::model.name}}</span>
     </div>
     <aside class="uib-tree__item__aside">
       <a href="#" ng-click="editElem()" ng-if="isEditable()" class="uib-btn"><i class="i-wrench"></i></a>
       <a href="#" ng-click="removeElem()" class="uib-btn"><i class="i-trash"></i></a>
     </aside>
   </div>
-  <div class="uib-dom-tree__item__placeholder placeholder--child" data-label="Insert as a child"></div>
-  <div ng-if="model.children.length > 0">
-    <uib-dom-tree-view tree="model"></uib-dom-tree-view>
+  <div ng-if="model.children">
+    <uib-dom-tree-view tree="model.children"></uib-dom-tree-view>
   </div>
-  <div class="uib-dom-tree__item__placeholder placeholder--after" data-label="Insert after"></div>
 </div>

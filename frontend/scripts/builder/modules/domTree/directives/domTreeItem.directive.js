@@ -13,29 +13,25 @@ function preventDefault(e) {
 }
 
 /*@ngInject*/
-function DomTreeItemDirective(ElemManager) {
+function DomTreeItemDirective(ResultTree) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       model: '='
     },
-    templateUrl: 'scripts/builder/modules/domTree/directives/domTreeItem.html',
+    templateUrl: __dirname + '/domTreeItem.html',
     controller: function($scope) {
       $scope.isEditable = function() {
-        return $scope.model.domElem.uibParams;
-      };
-
-      $scope.hasIdentifier = function() {
-        return !!$scope.model.identifier;
+        return typeof $scope.model.parameters !== 'undefined';
       };
 
       $scope.editElem = function() {
-        ElemManager.startEditElem($scope.model.domElem);
+        ResultTree.startEditElem($scope.model.domElem);
       };
 
       $scope.removeElem = function() {
-        ElemManager.removeElem($scope.model.domElem);
+        ResultTree.removeElem($scope.model.domElem);
       };
     },
     link: function(scope, elem) {
@@ -62,16 +58,12 @@ function DomTreeItemDirective(ElemManager) {
       elem[0].addEventListener('drop', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        var target = e.target;
-        var elemDescription = e.dataTransfer.getData('elementDescription');
         toggleElementHightlight(elem[0], false);
         togglePlaceholderHighlight(e.target, false);
-        if (target.classList.contains('placeholder--before')) {
-          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'before');
-        } else if (target.classList.contains('placeholder--child')) {
-          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'child');
-        } else if (target.classList.contains('placeholder--after')) {
-          return ElemManager.dropElement(scope.model.domElem, elemDescription, 'after');
+        if (scope.model.children) {
+          scope.$apply(function() {
+            ResultTree.dropElement(scope.model.children, e);
+          });
         }
       });
     }

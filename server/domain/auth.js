@@ -20,6 +20,7 @@ function findUser(username, done) {
 }
 
 module.exports.registerUser = function(username, password, done) {
+
   debug('Attempt to register a new user: %s', username);
 
   findUser(username, function(existingUserId) {

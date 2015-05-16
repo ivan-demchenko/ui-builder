@@ -2,322 +2,355 @@
   "componentsTree": {
     "name": "YS UI",
     "subNodes": [
-
       {
         "name": "Layout",
         "subNodes": [
-
           {
             "name": "Common",
             "subNodes": [
-
               {
                 "name": "Wrapper",
-                "markup": "<div class=\"ys-ui-wrapper\"></div>"
+                "tagName": "div",
+                "children": [],
+                "attributes": [
+                  { "class": "ys-ui-wrapper" }
+                ]
               },
-
               {
                 "name": "Group",
-                "markup": "<div class=\"\"></div>",
+                "tagName": "div",
+                "children": [],
                 "parameters": [
-
                   {
                     "name": "Groupping direction",
-                    "attr": "class",
+                    "attribute": "class",
                     "type": "select",
-                    "possibleValues": [
-                      { "label": "Vertical", "value": "ys-ui-group-vertical" },
-                      { "label": "Horizontal", "value": "ys-ui-group-horizontal" }
+                    "options": [
+                      {
+                        "label": "Vertical",
+                        "value": "ys-ui-group-vertical"
+                      },
+                      {
+                        "label": "Horizontal",
+                        "value": "ys-ui-group-horizontal"
+                      }
                     ],
                     "value": "ys-ui-group-horizontal"
                   },
-
                   {
                     "name": "Scrollability direction",
-                    "attr": "class",
+                    "attribute": "class",
                     "type": "select",
-                    "possibleValues": [
-                      { "label": "Vertical", "value": "ys-ui-scrollable-vertically" },
-                      { "label": "Horizontal", "value": "ys-ui-scrollable-horizontally" }
+                    "options": [
+                      {
+                        "label": "Vertical",
+                        "value": "ys-ui-scrollable-vertically"
+                      },
+                      {
+                        "label": "Horizontal",
+                        "value": "ys-ui-scrollable-horizontally"
+                      }
                     ],
                     "value": "ys-ui-scrollable-vertically"
                   }
-
                 ]
               }
-
             ]
           },
-
           {
             "name": "Box",
-            "markup": "<div class=\"\"></div>",
+            "tagName": "div",
+            "children": [],
             "parameters": [
-
               {
                 "name": "Size",
-                "attr": "class",
+                "attributes": "class",
                 "type": "select",
-                "possibleValues": [
-                  { "label": "Small", "value": "ys-ui-box--small" },
-                  { "label": "Middle", "value": "ys-ui-box--middle" },
-                  { "label": "Big", "value": "ys-ui-box--big" },
-                  { "label": "Huge", "value": "ys-ui-box--huge" }
+                "options": [
+                  {
+                    "label": "Small",
+                    "value": "ys-ui-box--small"
+                  },
+                  {
+                    "label": "Middle",
+                    "value": "ys-ui-box--middle"
+                  },
+                  {
+                    "label": "Big",
+                    "value": "ys-ui-box--big"
+                  },
+                  {
+                    "label": "Huge",
+                    "value": "ys-ui-box--huge"
+                  }
                 ],
                 "value": "ys-ui-box--small"
               }
-
             ]
           },
-
           {
             "name": "Grid system",
             "subNodes": [
-
               {
                 "name": "Row",
-                "markup": "<div class=\"ys-ui-row\"></div>"
+                "tagName": "div",
+                "children": [],
+                "attributes": [{
+                  "class": "ys-ui-row"
+                }]
               },
-
               {
                 "name": "Column",
-                "markup": "<div class=\"\"></div>",
+                "tagName": "div",
+                "children": [],
                 "parameters": [
-
                   {
                     "name": "Size (in columns)",
-                    "attr": "class",
+                    "attributes": "class",
                     "type": "select",
-                    "possibleValues": [
-                      { "label": "Col 1", "value": "ys-ui-col-1" },
-                      { "label": "Col 2", "value": "ys-ui-col-2" },
-                      { "label": "Col 3", "value": "ys-ui-col-3" },
-                      { "label": "Col 4", "value": "ys-ui-col-4" },
-                      { "label": "Col 5", "value": "ys-ui-col-5" },
-                      { "label": "Col 6", "value": "ys-ui-col-6" },
-                      { "label": "Col 7", "value": "ys-ui-col-7" },
-                      { "label": "Col 8", "value": "ys-ui-col-8" },
-                      { "label": "Col 9", "value": "ys-ui-col-9" },
-                      { "label": "Col 10", "value": "ys-ui-col-10" },
-                      { "label": "Col 11", "value": "ys-ui-col-11" }
+                    "options": [
+                      {
+                        "label": "Col 1",
+                        "value": "ys-ui-col-1"
+                      },
+                      {
+                        "label": "Col 2",
+                        "value": "ys-ui-col-2"
+                      },
+                      {
+                        "label": "Col 3",
+                        "value": "ys-ui-col-3"
+                      },
+                      {
+                        "label": "Col 4",
+                        "value": "ys-ui-col-4"
+                      },
+                      {
+                        "label": "Col 5",
+                        "value": "ys-ui-col-5"
+                      },
+                      {
+                        "label": "Col 6",
+                        "value": "ys-ui-col-6"
+                      },
+                      {
+                        "label": "Col 7",
+                        "value": "ys-ui-col-7"
+                      },
+                      {
+                        "label": "Col 8",
+                        "value": "ys-ui-col-8"
+                      },
+                      {
+                        "label": "Col 9",
+                        "value": "ys-ui-col-9"
+                      },
+                      {
+                        "label": "Col 10",
+                        "value": "ys-ui-col-10"
+                      },
+                      {
+                        "label": "Col 11",
+                        "value": "ys-ui-col-11"
+                      }
                     ],
                     "value": "ys-ui-col-1"
                   }
-
                 ]
               }
-
             ]
           }
         ]
       },
-
       {
         "name": "Components",
         "subNodes": [
-
           {
             "name": "Date time picker",
-            "markup": "<ys-ui-date-time-picker model=\"dt\"></ys-ui-date-time-picker>",
+            "tagName": "ys-ui-date-time-picker",
             "parameters": [
-
+              {
+                "name": "Model",
+                "elemAttr": "model",
+                "type": "free-text",
+                "value": "dt"
+              },
               {
                 "name": "Minimal date",
-                "domAttr": "min-date",
+                "elemAttr": "min-date",
                 "type": "free-text",
                 "value": ""
               },
-
               {
                 "name": "Maximal date",
-                "domAttr": "max-date",
+                "elemAttr": "max-date",
                 "type": "free-text",
                 "value": ""
               }
-
             ]
           },
-
           {
             "name": "List",
-            "markup": "<ys-ui-list model=\"dt\"></ys-ui-list>",
+            "tagName": "ys-ui-list",
+            "children": [],
             "parameters": [
-
               {
                 "name": "Model",
-                "domAttr": "model",
+                "elemAttr": "model",
                 "type": "free-text",
-                "value": ""
+                "value": "listSource"
               }
-
             ]
           },
-
           {
             "name": "List items",
             "subNodes": [
-
               {
                 "name": "Person",
-                "markup": "<ys-ui-person-list-item model=\"item\"></ys-ui-person-list-item>"
+                "tagName": "ys-ui-person-list-item",
+                "parameters": [
+                  {
+                    "name": "Model",
+                    "elemAttr": "model",
+                    "type": "free-text",
+                    "value": "item"
+                  }
+                ]
               },
-
               {
                 "name": "Organization",
-                "markup": "<ys-ui-organization-list-item model=\"item\"></ys-ui-organization-list-item>"
+                "tagName": "ys-ui-organization-list-item",
+                "parameters": [
+                  {
+                    "name": "Model",
+                    "elemAttr": "model",
+                    "type": "free-text",
+                    "value": "item"
+                  }
+                ]
               }
-
             ]
           }
-
         ]
       },
-
       {
         "name": "Data access",
-        "subNodes" : [
-
+        "subNodes": [
           {
             "name": "Data Fetchers",
             "subNodes": [
-
               {
                 "name": "ES Search",
-                "markup": "<ys-ui-es-source model=\"\" max-items=\"\" query=\"\" end-point-url=\"\" searched-index=\"\"></ys-ui-es-source>",
+                "tagName": "ys-ui-es-source",
                 "parameters": [
-
                   {
                     "name": "Model",
-                    "domAttr": "model",
+                    "elemAttr": "model",
                     "type": "free-text",
                     "value": "peopleList"
                   },
-
                   {
                     "name": "Max items",
-                    "domAttr": "max-items",
+                    "elemAttr": "max-items",
                     "type": "free-text",
                     "value": "maxItems"
                   },
-
                   {
                     "name": "Query",
-                    "domAttr": "query",
+                    "elemAttr": "query",
                     "type": "free-text",
                     "value": "query"
                   },
-
                   {
                     "name": "URL",
-                    "domAttr": "end-point-url",
+                    "elemAttr": "end-point-url",
                     "type": "free-text",
                     "value": "/api/search"
                   },
-
                   {
                     "name": "Searched index",
-                    "domAttr": "searched-index",
+                    "elemAttr": "searched-index",
                     "type": "free-text",
                     "value": "persons"
                   }
-
                 ]
               }
-
             ]
           },
-
           {
             "name": "Query modifiers",
             "subNodes": [
-
               {
                 "name": "Query builder",
-                "markup": "<ys-ui-query-builder model=\"query\"></ys-ui-query-builder>",
+                "children": [],
+                "tagName": "ys-ui-query-builder",
                 "parameters": [
-
                   {
                     "name": "Model",
-                    "domAttr": "model",
+                    "elemAttr": "model",
                     "type": "free-text",
                     "value": "query"
                   }
-
                 ]
               },
-
               {
                 "name": "Where",
-                "markup": "<ys-ui-where search-key=\"\" search-string=\"\"></ys-ui-query-builder>",
+                "tagName": "ys-ui-where",
                 "parameters": [
-
                   {
                     "name": "Search Key",
-                    "domAttr": "search-key",
+                    "elemAttr": "search-key",
                     "type": "free-text",
                     "value": "'searchField'"
                   },
-
                   {
                     "name": "Search String",
-                    "domAttr": "search-string",
+                    "elemAttr": "search-string",
                     "type": "free-text",
                     "value": ""
                   }
-
                 ]
               },
-
               {
                 "name": "Paging",
-                "markup": "<ys-ui-page page-size=\"query\" page-index=\"\"></ys-ui-page>",
+                "tagName": "ys-ui-page",
                 "parameters": [
-
                   {
-                    "name": "Items per page?",
-                    "domAttr": "page-size",
+                    "name": "Items per page",
+                    "elemAttr": "page-size",
                     "type": "free-text",
                     "value": ""
                   },
-
                   {
                     "name": "Page index",
-                    "domAttr": "page-index",
+                    "elemAttr": "page-index",
                     "type": "free-text",
                     "value": ""
                   }
-
                 ]
               },
-
               {
                 "name": "Sorting",
-                "markup": "<ys-ui-sort sort-key=\"query\" sort-order=\"\"></ys-ui-sort>",
+                "tagName": "ys-ui-sort",
                 "parameters": [
-
                   {
                     "name": "Sort by ...",
-                    "domAttr": "sort-key",
+                    "elemAttr": "sort-key",
                     "type": "free-text",
                     "value": ""
                   },
-
                   {
                     "name": "Sort order",
-                    "domAttr": "sort-order",
+                    "elemAttr": "sort-order",
                     "type": "free-text",
                     "value": ""
                   }
-
                 ]
               }
-
             ]
           }
-
         ]
       }
-
     ]
   }
 }

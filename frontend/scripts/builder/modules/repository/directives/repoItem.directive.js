@@ -8,19 +8,19 @@ function RepositoryItemDirective() {
     scope: {
       model: '='
     },
-    templateUrl: 'scripts/builder/modules/repository/directives/repoItem.html',
+    templateUrl: __dirname + '/repoItem.html',
     link: function(scope, elem) {
 
       elem.on('dragstart', function(evt) {
-        if (!scope.model.markup) {
+        if (!scope.model.tagName) {
           return evt.preventDefault();
         }
         evt.dataTransfer.setData('elementDescription', JSON.stringify(scope.model));
-        elem[0].classList.add('drag-from');
+        elem.addClass('drag-from');
       });
 
       elem.on('dragend', function() {
-        elem[0].classList.remove('drag-from');
+        elem.removeClass('drag-from');
       });
 
     }

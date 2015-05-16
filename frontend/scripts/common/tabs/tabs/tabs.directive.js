@@ -25,7 +25,7 @@ function TabsDirective() {
     restrict: 'E',
     replace: true,
     transclude: true,
-    templateUrl: 'scripts/common/tabs/tabs/tabs.html',
+    templateUrl: __dirname + '/tabs.html',
     controller: TabsCtrl,
     link: function() {}
   };

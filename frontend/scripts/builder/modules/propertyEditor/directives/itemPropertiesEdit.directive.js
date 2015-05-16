@@ -1,19 +1,19 @@
 'use strict';
 
 /*@ngInject*/
-function ItemPropertiesEditDirective($rootScope, DomElem, ElemManager) {
+function ItemPropertiesEditDirective($rootScope, DomElem, ResultTree) {
   return {
     restrict: 'E',
     scope: {
       data: '='
     },
-    templateUrl: 'scripts/builder/modules/propertyEditor/directives/itemPropertiesEdit.html',
+    templateUrl: __dirname + '/itemPropertiesEdit.html',
     controller: function($scope) {
       $scope.elem = null;
 
       $scope.done = function() {
         // if ($scope.propsEditForm.$dirty) {
-          ElemManager.doneEditingElem($scope.elem);
+          ResultTree.doneEditingElem($scope.elem);
         // }
         $scope.close();
       };
@@ -23,12 +23,12 @@ function ItemPropertiesEditDirective($rootScope, DomElem, ElemManager) {
       };
 
       $scope.remove = function() {
-        ElemManager.removeElem($scope.elem);
+        ResultTree.removeElem($scope.elem);
         $scope.elem = null;
       };
 
       $scope.getParamTemplateUrl = function(param) {
-        return 'scripts/builder/modules/propertyEditor/directives/subViews/' + param.type + '.html';
+        return __dirname + '/subViews/' + param.type + '.html';
       };
 
       $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {

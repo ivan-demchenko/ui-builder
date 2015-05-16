@@ -43,6 +43,7 @@
     "kouto-swiss": "^0.11.11",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "^3.7.0",
+    "path": "^0.11.14",
     "time-grunt": "^1.0.0"
   },
   "engines": {

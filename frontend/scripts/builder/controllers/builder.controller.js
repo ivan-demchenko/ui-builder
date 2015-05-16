@@ -1,11 +1,11 @@
 'use strict';
 
 /*@ngInject*/
-function Controller(repository, initialCode, Session, Builder, Modal, Canvas) {
+function Controller($rootScope, repository, initialCode, Session, Builder, Modal, Canvas) {
 
   this.repoItems = repository;
   this.initial = initialCode;
-  this.domTree = {};
+  this.domTree = [];
 
   this.toggleSourceView = function() {
     Modal.toggle('html-view');

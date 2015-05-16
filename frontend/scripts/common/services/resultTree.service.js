@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /*@ngInject*/
-function ElemManagerService($rootScope, DomElem, Common, Modal) {
+function ResultTreeService($rootScope, DomElem, Common, Modal) {
   /**
    * Make drop of elem to target
    * @param  {DomElement} target  The element which will accept the drop event
@@ -11,26 +11,9 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
    * @param  {string} position  Specifier where to insert a new element relatively to the target
    * @return {boolean}
    */
-  this.dropElement = function(target, elementDescription, position) {
-    if (!position) {
-      position = 'child';
-    }
-    var elemModel = JSON.parse(elementDescription);
-    var newElement = this.buildElementToDrop(elemModel);
-    this.resetAttrsForElement(newElement);
-    switch (position) {
-      case 'before':
-        target.insertAdjacentElement('beforeBegin', newElement);
-        break;
-      case 'child':
-        target.appendChild(newElement);
-        break;
-      case 'after':
-        target.insertAdjacentElement('afterEnd', newElement);
-        break;
-    }
-    $rootScope.$emit('uib:element:dropped', newElement, target, elementDescription);
-    return newElement;
+  this.dropElement = function(childrenSet, dropEvent) {
+    childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
+    $rootScope.$emit('uib:element:dropped');
   };
 
   /**
@@ -85,6 +68,9 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
     if (!elementDescription.markup) {
       throw 'The markup for the element "' + elementDescription.name + '"" is not specified';
     }
+    if (!elementDescription.id) {
+      throw 'The id for the element "' + elementDescription.name + '"" is not specified';
+    }
     if (elementDescription.parameters) {
       elementDescription.parameters.forEach(function(param) {
         param.inUse = true;
@@ -92,6 +78,7 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
       });
     }
     var newElement = angular.element(elementDescription.markup)[0];
+    newElement.setAttribute('data-uibid', elementDescription.id);
 
     // If the element suppose to have params, add them to the element itself
     if (elementDescription.parameters) {
@@ -145,4 +132,4 @@ function ElemManagerService($rootScope, DomElem, Common, Modal) {
   };
 }
 
-module.exports = ElemManagerService;
+module.exports = ResultTreeService;

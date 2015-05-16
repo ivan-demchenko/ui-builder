@@ -8,7 +8,7 @@ function RepositoryTreeDirective(RecursionHelper) {
     scope: {
       tree: '='
     },
-    templateUrl: 'scripts/builder/modules/repository/directives/repoTree.html',
+    templateUrl: __dirname + '/repoTree.html',
     compile: function(element) {
       return RecursionHelper.compile(element);
     }

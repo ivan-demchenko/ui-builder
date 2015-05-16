@@ -115,10 +115,14 @@ module.exports = function(grunt) {
 
     html2js: {
       options: {
-        base: '<%= yeoman.app %>',
+        base: './',
         module: 'uib-templates',
         fileHeaderString: 'module.exports =',
         singleModule: true,
+        rename: function (moduleName) {
+          console.log(moduleName);
+          return '/' + moduleName;
+        },
         htmlmin: {
           collapseBooleanAttributes: true,
           collapseWhitespace: true,

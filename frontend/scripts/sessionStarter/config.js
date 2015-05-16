@@ -5,7 +5,7 @@ function config($routeProvider) {
   $routeProvider
     .when('/session-starter', {
       controller: 'SessionStarterCtrl as sessionStarter',
-      templateUrl: 'scripts/sessionStarter/views/index.html',
+      templateUrl: __dirname + '/views/index.html',
       access: { requiredAuthentication: true }
     });
 }

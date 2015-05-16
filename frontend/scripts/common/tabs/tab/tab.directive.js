@@ -10,7 +10,7 @@ function TabDirective() {
     scope: {
       name: '@'
     },
-    templateUrl: 'scripts/common/tabs/tab/tab.html',
+    templateUrl: __dirname + '/tab.html',
     link: function(scope, element, attrs, tabsCtrl) {
       tabsCtrl.addTab(scope);
     }
