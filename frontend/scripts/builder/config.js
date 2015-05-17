@@ -11,6 +11,11 @@ function fetchInitialCode($route, Builder) {
 }
 
 /*@ngInject*/
+function fetchLatestSnapshot($route, Session) {
+  return Session.getLatestSnapshot();
+}
+
+/*@ngInject*/
 function config($routeProvider) {
   $routeProvider
     .when('/builder/:sessionId', {
@@ -19,7 +24,8 @@ function config($routeProvider) {
       access: { requiredAuthentication: true },
       resolve: {
         repository: fetchRepositoryItems,
-        initialCode: fetchInitialCode
+        initialCode: fetchInitialCode,
+        latestSnapshot: fetchLatestSnapshot
       }
     });
 }

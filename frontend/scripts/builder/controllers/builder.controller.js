@@ -1,10 +1,11 @@
 'use strict';
 
 /*@ngInject*/
-function Controller($rootScope, repository, ResultTree, initialCode,  Session, Builder, Modal) {
+function Controller($rootScope, repository, latestSnapshot, initialCode, ResultTree, Session, Builder, Modal) {
 
   this.repoItems = repository;
   this.initial = initialCode;
+  ResultTree.setTree(latestSnapshot);
   this.domTree = ResultTree.tree;
 
   this.toggleSourceView = function() {

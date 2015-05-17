@@ -3,6 +3,15 @@
 /*@ngInject*/
 function ResultTree($rootScope, Modal, Behavior) {
   this.tree = [];
+
+  /**
+   * Setter for tree
+   * @param {hash} tree The snapshot of the result tree
+   */
+  this.setTree = function(tree) {
+    this.tree = tree;
+  };
+
   /**
    * Make drop of elem to target
    * @param  {DomElement} target  The element which will accept the drop event
@@ -65,6 +74,4 @@ function ResultTree($rootScope, Modal, Behavior) {
 
 }
 
-module.exports = ResultTree
-
-this.tree = [];
+module.exports = ResultTree;

@@ -12,7 +12,7 @@ function Session($http, $location, $route) {
 
   this.getLatestSnapshot = function() {
     return $http.get('/api/session/' + this._id + '/snapshot/latest').then(function(resp) {
-      return JSON.parse(resp.data);
+      return resp.data;
     });
   };
 
