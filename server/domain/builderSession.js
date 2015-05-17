@@ -131,7 +131,7 @@ function setDefaultAttributes(el, attrs) {
   });
 }
 
-function setParameters(el, params) {
+function setParameters(el, params, $) {
   var domElementAttrs = params.filter(function(par) {
     return typeof par.attribute !== 'undefined';
   }).reduce(function(initMap, parameter) {
@@ -149,18 +149,21 @@ function setParameters(el, params) {
   params.filter(function(par) {
     return typeof par.nodeAttribute !== 'undefined';
   }).forEach(function(par) {
-    el[par.nodeAttribute] = par.value;
+    if (par.nodeAttribute === 'innerText') {
+      debug('Set inner text %s', par.value)
+      $(el).text(par.value);
+    }
   });
 }
 
-function json2html(document, arrayOfItems, root) {
+function json2html(document, arrayOfItems, root, $) {
   arrayOfItems.forEach(function(rec) {
     var el = document.createElement(rec.tagName);
     if (rec.attributes) {
       setDefaultAttributes(el, rec.attributes);
     }
     if (rec.parameters) {
-      setParameters(el, rec.parameters);
+      setParameters(el, rec.parameters, $);
     }
     root.appendChild(el);
     if (rec.children && rec.children.length) {
@@ -192,13 +195,16 @@ function generateSessionResult(sessionId, snapshotId, done) {
     }
     var snapshot = getSessionSnapshotById(session, snapshotId);
 
-    jsdom.env(session.initial.html, [], function (errors, window) {
+    jsdom.env(session.initial.html,
+      [ 'http://code.jquery.com/jquery-1.5.min.js' ],
+      function (errors, window) {
+      var $ = window.jQuery;
       var doc = window.document;
       var head = doc.head;
       var body = doc.body;
 
       if (snapshot) {
-        json2html(doc, JSON.parse(snapshot.tree), body);
+        json2html(doc, JSON.parse(snapshot.tree), body, $);
       }
 
       var style = doc.createElement('link');
