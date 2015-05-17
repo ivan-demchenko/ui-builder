@@ -11,9 +11,13 @@
     "express-unless": "^0.1.0",
     "jade": "^1.9.2",
     "jsonwebtoken": "^5.0.0",
+    "lodash": "^3.7.0",
     "mongoose": "^4.0.2",
     "morgan": "^1.5.2",
-    "redis": "^0.12.1"
+    "node-jsdom": "^3.1.5",
+    "path": "^0.11.14",
+    "redis": "^0.12.1",
+    "ws": "^0.7.2"
   },
   "repository": {},
   "devDependencies": {
@@ -42,8 +46,6 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "kouto-swiss": "^0.11.11",
     "load-grunt-tasks": "^3.1.0",
-    "lodash": "^3.7.0",
-    "path": "^0.11.14",
     "time-grunt": "^1.0.0"
   },
   "engines": {

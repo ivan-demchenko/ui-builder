@@ -4,7 +4,7 @@ var debug = require('debug')('server:mongo'),
     mongoose = require('mongoose'),
     config = require('./config');
 
-module.exports = function() {
+module.exports.connect = function() {
   if (process.env.NODE_ENV === 'dev') {
     mongoose.set('debug', true);
   }

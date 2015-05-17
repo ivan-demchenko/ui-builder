@@ -64,7 +64,7 @@
             "parameters": [
               {
                 "name": "Size",
-                "attributes": "class",
+                "attribute": "class",
                 "type": "select",
                 "options": [
                   {
@@ -106,7 +106,7 @@
                 "parameters": [
                   {
                     "name": "Size (in columns)",
-                    "attributes": "class",
+                    "attribute": "class",
                     "type": "select",
                     "options": [
                       {
@@ -171,19 +171,19 @@
             "parameters": [
               {
                 "name": "Model",
-                "elemAttr": "model",
+                "attribute": "model",
                 "type": "free-text",
                 "value": "dt"
               },
               {
                 "name": "Minimal date",
-                "elemAttr": "min-date",
+                "attribute": "min-date",
                 "type": "free-text",
                 "value": ""
               },
               {
                 "name": "Maximal date",
-                "elemAttr": "max-date",
+                "attribute": "max-date",
                 "type": "free-text",
                 "value": ""
               }
@@ -196,7 +196,7 @@
             "parameters": [
               {
                 "name": "Model",
-                "elemAttr": "model",
+                "attribute": "model",
                 "type": "free-text",
                 "value": "listSource"
               }
@@ -211,7 +211,7 @@
                 "parameters": [
                   {
                     "name": "Model",
-                    "elemAttr": "model",
+                    "attribute": "model",
                     "type": "free-text",
                     "value": "item"
                   }
@@ -223,7 +223,7 @@
                 "parameters": [
                   {
                     "name": "Model",
-                    "elemAttr": "model",
+                    "attribute": "model",
                     "type": "free-text",
                     "value": "item"
                   }
@@ -245,31 +245,31 @@
                 "parameters": [
                   {
                     "name": "Model",
-                    "elemAttr": "model",
+                    "attribute": "model",
                     "type": "free-text",
                     "value": "peopleList"
                   },
                   {
                     "name": "Max items",
-                    "elemAttr": "max-items",
+                    "attribute": "max-items",
                     "type": "free-text",
                     "value": "maxItems"
                   },
                   {
                     "name": "Query",
-                    "elemAttr": "query",
+                    "attribute": "query",
                     "type": "free-text",
                     "value": "query"
                   },
                   {
                     "name": "URL",
-                    "elemAttr": "end-point-url",
+                    "attribute": "end-point-url",
                     "type": "free-text",
                     "value": "/api/search"
                   },
                   {
                     "name": "Searched index",
-                    "elemAttr": "searched-index",
+                    "attribute": "searched-index",
                     "type": "free-text",
                     "value": "persons"
                   }
@@ -287,7 +287,7 @@
                 "parameters": [
                   {
                     "name": "Model",
-                    "elemAttr": "model",
+                    "attribute": "model",
                     "type": "free-text",
                     "value": "query"
                   }
@@ -299,13 +299,13 @@
                 "parameters": [
                   {
                     "name": "Search Key",
-                    "elemAttr": "search-key",
+                    "attribute": "search-key",
                     "type": "free-text",
                     "value": "'searchField'"
                   },
                   {
                     "name": "Search String",
-                    "elemAttr": "search-string",
+                    "attribute": "search-string",
                     "type": "free-text",
                     "value": ""
                   }
@@ -317,13 +317,13 @@
                 "parameters": [
                   {
                     "name": "Items per page",
-                    "elemAttr": "page-size",
+                    "attribute": "page-size",
                     "type": "free-text",
                     "value": ""
                   },
                   {
                     "name": "Page index",
-                    "elemAttr": "page-index",
+                    "attribute": "page-index",
                     "type": "free-text",
                     "value": ""
                   }
@@ -335,13 +335,13 @@
                 "parameters": [
                   {
                     "name": "Sort by ...",
-                    "elemAttr": "sort-key",
+                    "attribute": "sort-key",
                     "type": "free-text",
                     "value": ""
                   },
                   {
                     "name": "Sort order",
-                    "elemAttr": "sort-order",
+                    "attribute": "sort-order",
                     "type": "free-text",
                     "value": ""
                   }

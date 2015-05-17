@@ -1,11 +1,13 @@
 'use strict';
 
-var expressServer = require('./server/express');
-var mongoServer = require('./server/mongo');
+var expressApp = require('./server/express');
+var socketServer = require('./server/socket');
+var mongoClient = require('./server/mongo');
 
-mongoServer();
+mongoClient.connect();
+socketServer.setUp();
 
-var runner = expressServer.listen(3000, function () {
+var runner = expressApp.listen(3000, function () {
   var host = runner.address().address;
   var port = runner.address().port;
   console.log('Example app listening at http://%s:%s', host, port);

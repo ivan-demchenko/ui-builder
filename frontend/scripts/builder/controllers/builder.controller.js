@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function Controller($rootScope, repository, ResultTree, initialCode,  Session, Builder, Modal, Canvas) {
+function Controller($rootScope, repository, ResultTree, initialCode,  Session, Builder, Modal) {
 
   this.repoItems = repository;
   this.initial = initialCode;
@@ -13,10 +13,6 @@ function Controller($rootScope, repository, ResultTree, initialCode,  Session, B
 
   this.setInitial = function() {
     Session.resetInitialCode(this.initial);
-  };
-
-  this.getSource = function() {
-    return Canvas.getSourceCode();
   };
 
 }

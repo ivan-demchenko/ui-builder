@@ -3,20 +3,16 @@
 var angular = require('angular');
 
 /*@ngInject*/
-function Service($http, $location, $route) {
+function Session($http, $location, $route) {
   this._id = $route.current.params.sessionId;
 
-  this.getCurrentSessionInitHTMLUrl = function() {
-    return '/api/session/' + this._id + '/html';
-  };
-
-  this.getCurrentSessionAssetUrl = function(type) {
-    return '/api/session/' + this._id + '/' + type;
+  this.getResultingURL = function() {
+    return '/api/session/' + this._id + '/result';
   };
 
   this.getLatestSnapshot = function() {
     return $http.get('/api/session/' + this._id + '/snapshot/latest').then(function(resp) {
-      return resp.data;
+      return JSON.parse(resp.data);
     });
   };
 
@@ -48,4 +44,4 @@ function Service($http, $location, $route) {
 
 }
 
-module.exports = Service;
+module.exports = Session;

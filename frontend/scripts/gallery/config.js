@@ -8,7 +8,7 @@ function fetchGalleryItems(Gallery) {
 /*@ngInject*/
 function config($routeProvider) {
   $routeProvider
-    .when('/gallery', {
+    .when('/', {
       controller: 'GalleryCtrl as gallery',
       templateUrl: __dirname + '/views/index.html',
       access: { requiredAuthentication: true },

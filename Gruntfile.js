@@ -27,7 +27,11 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['<%= yeoman.app %>/scripts/**/*.js'],
-        tasks: ['browserify']
+        tasks: ['browserify:app']
+      },
+      ws: {
+        files: ['<%= yeoman.app %>/uib-socket-client.js'],
+        tasks: ['browserify:ws']
       },
       jsTest: {
         files: ['<%= yeoman.app %>/spec/**/*.spec.js'],
@@ -85,9 +89,15 @@ module.exports = function(grunt) {
     },
 
     browserify: {
-      dist: {
-        src: '<%= yeoman.app %>/scripts/app.js',
-        dest: '.tmp/scripts/app.js'
+      app: {
+        files: {
+          '.tmp/scripts/uibuilder.js': '<%= yeoman.app %>/scripts/app.js'
+        }
+      },
+      ws: {
+        files: {
+          '.tmp/scripts/uib-socket-client.js': '<%= yeoman.app %>/uib-socket-client.js',
+        }
       },
       options: {
         browserifyOptions: {
@@ -199,6 +209,8 @@ module.exports = function(grunt) {
           cwd: '<%= yeoman.app %>/styles/font',
           dest: '.tmp/font',
           src: ['*.*']
+        }, {
+          '.tmp/scripts/uib-socket.client.js': '<%= yeoman.app %>/uib-socket-client.js'
         }]
       },
       dist: {

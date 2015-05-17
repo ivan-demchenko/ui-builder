@@ -1,26 +1,25 @@
 'use strict';
 
 /*@ngInject*/
-function CanvasDirective($rootScope, Canvas) {
+function CanvasDirective($rootScope, Session) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: __dirname + '/uiCanvas.html',
-    controller: function() {
-      $rootScope.$on('uib:element:dropped', function() {
-        Canvas.saveSnapshot();
-      });
-
-      $rootScope.$on('uib:elem:remove', function(evt, elementToBeRemoved) {
-        Canvas.removeElement(elementToBeRemoved);
-      });
-
-      $rootScope.$on('uib:elem:edit:done', function() {
-        Canvas.saveSnapshot();
-      });
-    },
     link: function(scope, elem) {
-      Canvas.register(elem);
+      var iframe = elem[0].querySelector('iframe');
+      iframe.src = Session.getResultingURL();
+      // $rootScope.$on('uib:element:dropped', function() {
+      //   iframe.src = Session.getResultingURL();
+      // });
+      //
+      // $rootScope.$on('uib:elem:remove', function() {
+      //   iframe.src = Session.getResultingURL();
+      // });
+      //
+      // $rootScope.$on('uib:elem:edit:done', function() {
+      //   iframe.src = Session.getResultingURL();
+      // });
     }
   };
 }

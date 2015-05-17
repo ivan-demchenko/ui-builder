@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express'),
+    path = require('path'),
     routes = require('./routes'),
     bodyParser = require('body-parser'),
     morgan = require('morgan');
@@ -15,14 +16,16 @@ app.use(bodyParser.json());
 
 app.use('/data', express.static('./data'));
 
+var staticPath;
 if (process.env.NODE_ENV === 'dev') {
-  app.use(express.static('./.tmp'));
+  staticPath = path.resolve(__dirname, '../.tmp');
   app.use(morgan('dev'));
   app.set('view cache', false);
 } else if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('./dist'));
+  staticPath = path.resolve(__dirname, '../dist');
   app.locals.cache = 'memory';
 }
+app.use(express.static(staticPath));
 
 routes(app);
 

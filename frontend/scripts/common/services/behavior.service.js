@@ -1,7 +1,7 @@
 'use strict';
 
 /*ngInject*/
-function Behavior($location, User, Session) {
+function Behavior($location, $rootScope, User, Session) {
   this.auth = {
     login: {
       success: function(response) {
@@ -9,7 +9,7 @@ function Behavior($location, User, Session) {
         // TODO: Show success message
         console.info(response.data.message);
         User.setLoggedIn(response);
-        $location.path('/gallery');
+        $location.path('/');
       },
       error: function(reason) {
         console.log('>> login failed');
@@ -60,7 +60,9 @@ function Behavior($location, User, Session) {
 
   this.drop = {
     success: function(tree) {
-      Session.saveSnapshot(JSON.stringify(tree));
+      Session.saveSnapshot(JSON.stringify(tree)).then(function() {
+        $rootScope.$emit('uib:element:dropped');
+      });
     }
   };
 }

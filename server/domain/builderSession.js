@@ -1,7 +1,9 @@
 'use strict';
 
 var debug = require('debug')('server:domain:builderSession'),
-    sessionModel = require('../models/session');
+    sessionModel = require('../models/session'),
+    jsdom = require('node-jsdom'),
+    serializeDocument = jsdom.serializeDocument;
 
 function startNew(userId, title, initialCode, done) {
   debug('Starting a new builder session');
@@ -121,6 +123,93 @@ function getLastSnapshotBySessionId(sessionId, done) {
   });
 }
 
+function setDefailtAttrsToElement(el, attrs) {
+  attrs.forEach(function(attr) {
+    for(var k in attr) {
+      el.setAttribute(k, attr[k]);
+    }
+  });
+}
+
+function setParameters(el, params) {
+  params.forEach(function(param) {
+    if (param.attribute) {
+      el.setAttribute(param.attribute, param.value);
+    }
+    if (param.nodeAttribute) {
+      el[param.nodeAttribute] = param.value;
+    }
+  });
+}
+
+function json2html(document, arrayOfItems, root) {
+  arrayOfItems.forEach(function(rec) {
+    var el = document.createElement(rec.tagName);
+    if (rec.attributes) {
+      setDefailtAttrsToElement(el, rec.attributes);
+    }
+    if (rec.parameters) {
+      setParameters(el, rec.parameters);
+    }
+    root.appendChild(el);
+    if (rec.children && rec.children.length) {
+      json2html(document, rec.children, el);
+    }
+  });
+}
+
+function getSessionSnapshotById(session, snapshotId) {
+  var snapshot;
+  if (snapshotId) {
+    snapshot = session.snapshots.id(snapshotId);
+    if (!snapshot) {
+      snapshot = session.snapshots[session.snapshots.length - 1];
+    }
+  } else {
+    snapshot = session.snapshots[session.snapshots.length - 1];
+  }
+  return snapshot;
+}
+
+function generateSessionResult(sessionId, snapshotId, done) {
+  debug('Attempt to generate session result for session "%s" and snapshot "%s"', sessionId, snapshotId);
+
+  sessionModel.findOne({_id: sessionId}, function(err, session) {
+    if (err || !session) {
+      debug(err);
+      done(err);
+    }
+    var snapshot = getSessionSnapshotById(session, snapshotId);
+
+    jsdom.env(session.initial.html, [], function (errors, window) {
+      var doc = window.document;
+      var head = doc.head;
+      var body = doc.body;
+      json2html(doc, JSON.parse(snapshot.tree), body);
+
+      var style = doc.createElement('link');
+      style.rel = 'stylesheet';
+      style.type = 'text/css';
+      style.href = '/api/session/' + sessionId + '/css';
+      head.appendChild(style);
+
+      var sessionScript = doc.createElement('script');
+      sessionScript.type = 'text/javascript';
+      sessionScript.charset = 'UTF-8';
+      sessionScript.src = '/api/session/' + sessionId + '/js';
+      head.appendChild(sessionScript);
+
+      var socketClientScript = doc.createElement('script');
+      socketClientScript.type = 'text/javascript';
+      socketClientScript.charset = 'UTF-8';
+      socketClientScript.src = '/scripts/uib-socket-client.js';
+      head.appendChild(socketClientScript);
+
+      done(null, serializeDocument(doc));
+    });
+  });
+}
+
 module.exports.startNew = startNew;
 module.exports.updateInitial = updateInitial;
 module.exports.getSessionsByUserId = getSessionsByUserId;
@@ -128,3 +217,4 @@ module.exports.getSessionInitialCode = getSessionInitialCode;
 module.exports.getSessionAsset = getSessionAsset;
 module.exports.appendSessionSnapshot = appendSessionSnapshot;
 module.exports.getLastSnapshotBySessionId = getLastSnapshotBySessionId;
+module.exports.generateSessionResult = generateSessionResult;
