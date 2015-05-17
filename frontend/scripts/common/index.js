@@ -8,7 +8,6 @@ module.exports = angular.module('uiBuilderApp.common', [
   ])
   .directive('uibAction', require('./directives/action/action.directive'))
   .service('Behavior', require('./services/behavior.service'))
-  .service('Common', require('./services/common.service'))
   .service('ResultTree', require('./services/resultTree.service'))
   .factory('RecursionHelper', require('./services/recursionHelper.service'))
   .factory('AuthInterceptor', require('./services/authInterceptor.service'))

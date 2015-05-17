@@ -60,7 +60,7 @@ function Behavior($location, $rootScope, User, Session) {
 
   this.resultTree = {
     modified: function(tree) {
-      Session.saveSnapshot(JSON.stringify(tree));
+      Session.saveSnapshot(JSON.stringify(angular.copy(tree)));
     }
   };
 }

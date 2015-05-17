@@ -73,7 +73,7 @@ function ResultTree($rootScope, Modal, Behavior) {
     */
    this.startEditElem = function(elem) {
      Modal.toggle('property-editor');
-     $rootScope.$emit('uib:elem:edit:begin', elem);
+     $rootScope.$emit('uib:elem:edit:begin', angular.copy(elem));
    };
 
   /**
