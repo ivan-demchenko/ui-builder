@@ -118,12 +118,12 @@ function getLastSnapshotBySessionId(sessionId, done) {
     if (session.snapshots.length) {
       return done(null, session.snapshots[session.snapshots.length - 1].tree || '');
     } else {
-      return done(null, '');
+      return done(null, []);
     }
   });
 }
 
-function setDefailtAttrsToElement(el, attrs) {
+function setDefaultAttributes(el, attrs) {
   attrs.forEach(function(attr) {
     for(var k in attr) {
       el.setAttribute(k, attr[k]);
@@ -132,13 +132,24 @@ function setDefailtAttrsToElement(el, attrs) {
 }
 
 function setParameters(el, params) {
-  params.forEach(function(param) {
-    if (param.attribute) {
-      el.setAttribute(param.attribute, param.value);
+  var domElementAttrs = params.filter(function(par) {
+    return typeof par.attribute !== 'undefined';
+  }).reduce(function(initMap, parameter) {
+    initMap[parameter.attribute] = initMap[parameter.attribute] || [];
+    if (parameter.value.trim()) {
+      initMap[parameter.attribute].push(parameter.value);
     }
-    if (param.nodeAttribute) {
-      el[param.nodeAttribute] = param.value;
-    }
+    return initMap;
+  }, {});
+
+  for(var k in domElementAttrs) {
+    el.setAttribute(k, domElementAttrs[k].join(' '));
+  }
+
+  params.filter(function(par) {
+    return typeof par.nodeAttribute !== 'undefined';
+  }).forEach(function(par) {
+    el[par.nodeAttribute] = par.value;
   });
 }
 
@@ -146,7 +157,7 @@ function json2html(document, arrayOfItems, root) {
   arrayOfItems.forEach(function(rec) {
     var el = document.createElement(rec.tagName);
     if (rec.attributes) {
-      setDefailtAttrsToElement(el, rec.attributes);
+      setDefaultAttributes(el, rec.attributes);
     }
     if (rec.parameters) {
       setParameters(el, rec.parameters);
@@ -185,7 +196,10 @@ function generateSessionResult(sessionId, snapshotId, done) {
       var doc = window.document;
       var head = doc.head;
       var body = doc.body;
-      json2html(doc, JSON.parse(snapshot.tree), body);
+
+      if (snapshot) {
+        json2html(doc, JSON.parse(snapshot.tree), body);
+      }
 
       var style = doc.createElement('link');
       style.rel = 'stylesheet';

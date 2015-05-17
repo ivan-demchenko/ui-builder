@@ -1,5 +1,29 @@
 'use strict';
 
+function hasChildren(el) {
+  return el.children && el.children.length;
+}
+
+// TODO: optimise it
+function findParentTree(node, elem) {
+  var res;
+  if (node.indexOf(elem) !== -1) {
+    res = node;
+  } else {
+    if (node && node.length) {
+      for (var i = 0, el = node[i]; i < node.length; i++) {
+        if (hasChildren(el)) {
+          res = findParentTree(el.children, elem, res);
+        }
+        if (res) {
+          return res;
+        }
+      }
+    }
+  }
+  return res;
+}
+
 /*@ngInject*/
 function ResultTree($rootScope, Modal, Behavior) {
   this.tree = [];
@@ -21,7 +45,7 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.dropElement = function(childrenSet, dropEvent) {
     childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
-    Behavior.drop.success(this.tree);
+    Behavior.resultTree.modified(this.tree);
   };
 
   /**
@@ -57,9 +81,9 @@ function ResultTree($rootScope, Modal, Behavior) {
    * @param  {DomElement} target The element to edit
    * @return {undefined}
    */
-  this.doneEditingElem = function(elem) {
+  this.doneEditingElem = function() {
     Modal.toggle('property-editor');
-    $rootScope.$emit('uib:elem:edit:done', elem);
+    Behavior.resultTree.modified(this.tree);
   };
 
   /**
@@ -68,8 +92,11 @@ function ResultTree($rootScope, Modal, Behavior) {
    * @return {undefined}
    */
   this.removeElem = function(elem) {
-    elem.remove();
-    $rootScope.$emit('uib:elem:remove', elem);
+    var set = findParentTree(this.tree, elem);
+    if (set) {
+      set.splice(set.indexOf(elem), 1);
+      Behavior.resultTree.modified(this.tree);
+    }
   };
 
 }

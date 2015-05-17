@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function ItemPropertiesEditDirective($rootScope, DomElem, ResultTree) {
+function ItemPropertiesEditDirective($rootScope, ResultTree) {
   return {
     restrict: 'E',
     scope: {
@@ -12,9 +12,7 @@ function ItemPropertiesEditDirective($rootScope, DomElem, ResultTree) {
       $scope.elem = null;
 
       $scope.done = function() {
-        // if ($scope.propsEditForm.$dirty) {
-          ResultTree.doneEditingElem($scope.elem);
-        // }
+        ResultTree.doneEditingElem($scope.elem);
         $scope.close();
       };
 
@@ -32,8 +30,6 @@ function ItemPropertiesEditDirective($rootScope, DomElem, ResultTree) {
       };
 
       $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
-        // $scope.propsEditForm.$setPristine();
-        $scope.elemIdentifier = DomElem.getElementIdentifier(elem);
         $scope.elem = elem;
       });
 

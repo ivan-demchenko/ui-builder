@@ -1,11 +1,11 @@
 <uib-modal name="property-editor">
-  <uib-modal-header label="{{elem.tagName}}" sub-label="{{elemIdentifier}}">
+  <uib-modal-header label="{{elem.name}}">
     <uib-action icon="i-ok" ng-click="done()"></uib-action>
     <uib-action icon="i-trash" ng-click="remove()"></uib-action>
   </uib-modal-header>
   <uib-modal-content>
     <form name="propsEditForm">
-      <div ng-repeat="param in elem.uibParams" class="uib-form__control">
+      <div ng-repeat="param in elem.parameters" class="uib-form__control">
         <div ng-include="getParamTemplateUrl(param)"></div>
       </div>
     </form>

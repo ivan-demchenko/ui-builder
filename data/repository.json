@@ -27,6 +27,10 @@
                     "type": "select",
                     "options": [
                       {
+                        "label": "None",
+                        "value": ""
+                      },
+                      {
                         "label": "Vertical",
                         "value": "ys-ui-group-vertical"
                       },
@@ -42,6 +46,10 @@
                     "attribute": "class",
                     "type": "select",
                     "options": [
+                      {
+                        "label": "None",
+                        "value": ""
+                      },
                       {
                         "label": "Vertical",
                         "value": "ys-ui-scrollable-vertically"
@@ -165,6 +173,21 @@
       {
         "name": "Components",
         "subNodes": [
+          {
+            "name": "Button",
+            "tagName": "button",
+            "attributes": [
+              { "class": "ys-ui-button" }
+            ],
+            "parameters": [
+              {
+                "name": "Caption",
+                "nodeAttribute": "innerText",
+                "type": "free-text",
+                "value": "Push me"
+              }
+            ]
+          },
           {
             "name": "Date time picker",
             "tagName": "ys-ui-date-time-picker",

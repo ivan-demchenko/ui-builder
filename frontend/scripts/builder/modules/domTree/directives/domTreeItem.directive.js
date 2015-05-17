@@ -27,11 +27,11 @@ function DomTreeItemDirective(ResultTree) {
       };
 
       $scope.editElem = function() {
-        ResultTree.startEditElem($scope.model.domElem);
+        ResultTree.startEditElem($scope.model);
       };
 
       $scope.removeElem = function() {
-        ResultTree.removeElem($scope.model.domElem);
+        ResultTree.removeElem($scope.model);
       };
     },
     link: function(scope, elem) {

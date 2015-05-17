@@ -58,11 +58,9 @@ function Behavior($location, $rootScope, User, Session) {
     }
   };
 
-  this.drop = {
-    success: function(tree) {
-      Session.saveSnapshot(JSON.stringify(tree)).then(function() {
-        $rootScope.$emit('uib:element:dropped');
-      });
+  this.resultTree = {
+    modified: function(tree) {
+      Session.saveSnapshot(JSON.stringify(tree));
     }
   };
 }
