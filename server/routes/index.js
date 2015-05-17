@@ -32,6 +32,7 @@ module.exports = function(app) {
   app.get('/api/session/:id/js', api.getSessionJS);
   app.get('/api/session/:id/css', api.getSessionCSS);
   app.get('/api/session/:id/html', api.getSessionHTML);
+  
   app.get('/api/session/:sessionId/result/:snapshotId?*', api.getSessionResult);
 
   secureRequest('get', '/api/session', api.getListOfSessions);

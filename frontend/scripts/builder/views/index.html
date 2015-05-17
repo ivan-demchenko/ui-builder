@@ -18,6 +18,9 @@
         <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
       <uib-tab name="Result">
+        <div>
+          <a ng-href="builder.currentSessionURL">{{builder.currentSessionURL}}</a>
+        </div>
         <textarea class="flex-prior" class="uib-source-view" rows="8">{{builder.getSource()}}</textarea>
       </uib-tab>
     </uib-tabs>

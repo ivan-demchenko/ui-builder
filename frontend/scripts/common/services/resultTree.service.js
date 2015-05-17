@@ -45,7 +45,7 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.dropElement = function(childrenSet, dropEvent) {
     childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
-    Behavior.resultTree.modified(this.tree);
+    Behavior.resultTree.modified(angular.copy(this.tree));
   };
 
   /**
@@ -73,7 +73,7 @@ function ResultTree($rootScope, Modal, Behavior) {
     */
    this.startEditElem = function(elem) {
      Modal.toggle('property-editor');
-     $rootScope.$emit('uib:elem:edit:begin', angular.copy(elem));
+     $rootScope.$emit('uib:elem:edit:begin', elem);
    };
 
   /**
@@ -83,7 +83,7 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.doneEditingElem = function() {
     Modal.toggle('property-editor');
-    Behavior.resultTree.modified(this.tree);
+    Behavior.resultTree.modified(angular.copy(this.tree));
   };
 
   /**
@@ -95,7 +95,7 @@ function ResultTree($rootScope, Modal, Behavior) {
     var set = findParentTree(this.tree, elem);
     if (set) {
       set.splice(set.indexOf(elem), 1);
-      Behavior.resultTree.modified(this.tree);
+      Behavior.resultTree.modified(angular.copy(this.tree));
     }
   };
 
