@@ -20,7 +20,7 @@ function DomTreeItemDirective(ResultTree) {
     scope: {
       model: '='
     },
-    templateUrl: __dirname + '/domTreeItem.html',
+    templateUrl: __dirname + '/resultTreeItem.html',
     controller: function($scope) {
       $scope.isEditable = function() {
         return typeof $scope.model.parameters !== 'undefined';

@@ -13,7 +13,7 @@ var angular = require('angular');
 module.exports = angular.module('uiBuilderApp.builder', [
   require('./modules/canvas').name,
   require('./modules/repository').name,
-  require('./modules/domTree').name,
+  require('./modules/resultTree').name,
   require('./modules/propertyEditor').name
 ])
 .controller('BuilderCtrl', require('./controllers/builder.controller'))
