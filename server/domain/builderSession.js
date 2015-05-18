@@ -3,7 +3,8 @@
 var debug = require('debug')('server:domain:builderSession'),
     sessionModel = require('../models/session'),
     jsdom = require('node-jsdom'),
-    serializeDocument = jsdom.serializeDocument;
+    serializeDocument = jsdom.serializeDocument,
+    beautifyHtml = require('js-beautify').html;
 
 function startNew(userId, title, initialCode, done) {
   debug('Starting a new builder session');
@@ -258,7 +259,7 @@ function generateSnapshotHTML(sessionId, snapshotId, done) {
           json2html(doc, JSON.parse(snapshot.tree), body, $);
         }
 
-        done(null, serializeDocument(body));
+        done(null, beautifyHtml(serializeDocument(body)));
       }
     );
   });

@@ -26,7 +26,9 @@ function Controller($rootScope, $scope, $location, repository, latestSnapshot, i
   };
 
   this.fetchResult = function() {
-    this.resultingSnapshotHTML = Session.fetchSnapshotHTML();
+    Session.fetchSnapshotHTML().then(function(html) {
+      this.resultingSnapshotHTML = html;
+    }.bind(this));
   };
 
 }
