@@ -6,7 +6,7 @@ var debug = require('debug')('server:routes:api'),
     token = require('../token'),
     session = require('../domain/builderSession');
 
-function serverError(msg) {
+function serverError(res, msg) {
   return function(err) {
     return res.status(500).json(message.error(msg, err));
   };
@@ -24,7 +24,7 @@ module.exports.getListOfSessions = function(req, res) {
       res.status(200).json(message.success('List is ready', sessionsList));
     }, function(err) {
       return res.status(404).json(message.error('Unable to fetch session list', err));
-    }).catch(serverError('Error while fetching session list'));
+    }).catch(serverError(res, 'Error while fetching session list'));
   });
 };
 
@@ -71,7 +71,7 @@ module.exports.setSessionInitial = function(req, res) {
     }, function(err) {
       return res.status(400).json(message.error('Unable to update session code', err));
     })
-    .catch(serverError('Unable to update session code'));
+    .catch(serverError(res, 'Unable to update session code'));
   });
 };
 
@@ -89,7 +89,7 @@ module.exports.getSessionInitial = function(req, res) {
       return res.status(200).json(message.success('Here the initial code is', initial));
     }, function(err) {
       return res.status(404).json(message.error('Seems that session %s does not exists: ', err));
-    }).catch(serverError('Error while fetching initial data for session'));
+    }).catch(serverError(res, 'Error while fetching initial data for session'));
   });
 };
 
@@ -148,7 +148,7 @@ module.exports.getSessionHTML = function(req, res) {
     res.set('Content-Type', 'text/html').send(code);
   }, function(err) {
     return res.status(400).json(message.error('Unable to fetch code code', err));
-  }).catch(serverError('Unable to fetch code code'));
+  }).catch(serverError(res, 'Unable to fetch code code'));
 };
 
 module.exports.getSessionJS = function(req, res) {
@@ -160,7 +160,7 @@ module.exports.getSessionJS = function(req, res) {
     res.set('Content-Type', 'text/html').send(code);
   }, function(err) {
     return res.status(400).json(message.error('Unable to fetch code code', err));
-  }).catch(serverError('Unable to fetch code code'));
+  }).catch(serverError(res, 'Unable to fetch code code'));
 };
 
 module.exports.getSessionCSS = function(req, res) {
@@ -172,7 +172,7 @@ module.exports.getSessionCSS = function(req, res) {
     res.set('Content-Type', 'text/html').send(code);
   }, function(err) {
     return res.status(400).json(message.error('Unable to fetch code code', err));
-  }).catch(serverError('Unable to fetch code code'));
+  }).catch(serverError(res, 'Unable to fetch code code'));
 };
 
 module.exports.getSessionResult = function(req, res) {
@@ -183,14 +183,14 @@ module.exports.getSessionResult = function(req, res) {
     res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
   }, function(err) {
     res.status(404).send(err);
-  }).catch(serverError('Unable to generate the result for the session'));
+  }).catch(serverError(res, 'Unable to generate the result for the session'));
 };
 
 module.exports.getSharedSessionResult = function(req, res) {
   var shortSessionId = req.param('shortId') || '';
   session.generateSessionResultByShortId(shortSessionId).then(function(resultingHTML) {
     res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-  }).catch(serverError('Unable to generate the result for the session'));
+  }).catch(serverError(res, 'Unable to generate the result for the session'));
 };
 
 module.exports.getLastSessionSnapshotAsHTML = function(req, res) {
@@ -198,5 +198,5 @@ module.exports.getLastSessionSnapshotAsHTML = function(req, res) {
 
   session.generateSnapshotHTML(sessionId, null).then(function(resultingHTML) {
     res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-  }).catch(serverError('Unable to generate the result for the session'));
+  }).catch(serverError(res, 'Unable to generate the result for the session'));
 };
