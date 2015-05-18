@@ -196,3 +196,15 @@ module.exports.getSessionResult = function(req, res) {
     res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
   });
 };
+
+module.exports.getLastSessionSnapshotAsHTML = function(req, res) {
+  var sessionId = req.param('id') || '';
+
+  session.generateSnapshotHTML(sessionId, null, function(err, resultingHTML) {
+    if (err) {
+      return res.status(500).json(message.error('Unable to generate html from snapshot for the session', err));
+    }
+
+    res.status(200).send(message.success('HTML has been generated', resultingHTML));
+  });
+};

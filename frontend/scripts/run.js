@@ -3,7 +3,6 @@
 /*@ngInject*/
 function Run($rootScope, $location, Storage, User) {
   $rootScope.$on('$routeChangeStart', function(event, nextRoute) {
-    console.log('>> route start request: ', nextRoute);
     //redirect only if both isAuthenticated is false and no token is set
     if (nextRoute &&
         nextRoute.access &&

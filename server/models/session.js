@@ -7,6 +7,7 @@ var debug = require('debug')('server:sessionModel'),
 
 var sessionSchema = new mongoose.Schema({
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    readableId: { type: String, required: true },
     title: { type: String, default: '' },
     created: { type: Date, default: Date.now },
     initial: {

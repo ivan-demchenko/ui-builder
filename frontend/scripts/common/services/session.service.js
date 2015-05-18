@@ -16,6 +16,12 @@ function Session($http, $location, $route) {
     });
   };
 
+  this.fetchSnapshotHTML = function() {
+    return $http.get('/api/session/' + this._id + '/snapshot/latest/html').then(function(resp) {
+      return resp.data.data;
+    });
+  };
+
   this.startNew = function(title, initialSetup) {
     return $http.post('/api/session/new', {
       title: title,

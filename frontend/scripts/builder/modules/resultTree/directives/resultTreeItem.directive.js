@@ -13,7 +13,7 @@ function preventDefault(e) {
 }
 
 /*@ngInject*/
-function DomTreeItemDirective(ResultTree) {
+function ResultTreeItemDirective(ResultTree) {
   return {
     restrict: 'E',
     replace: true,
@@ -70,4 +70,4 @@ function DomTreeItemDirective(ResultTree) {
   };
 }
 
-module.exports = DomTreeItemDirective;
+module.exports = ResultTreeItemDirective;

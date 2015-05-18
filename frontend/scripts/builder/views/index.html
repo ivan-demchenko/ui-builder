@@ -18,13 +18,12 @@
         <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
       <uib-tab name="Result">
-        <div>
-          <a ng-href="builder.currentSessionURL">{{builder.currentSessionURL}}</a>
-        </div>
-        <textarea class="flex-prior" class="uib-source-view" rows="8">{{builder.getSource()}}</textarea>
+        <input type="text" value="{{::builder.currentSessionURL}}">
+        <textarea class="flex-prior" class="uib-source-view" rows="8">{{builder.resultingSnapshotHTML}}</textarea>
+        <button ng-click="builder.fetchResult()" class="uib-btn uib-btn--dark">Get the result</button>
       </uib-tab>
     </uib-tabs>
   </div>
-  <uib-result-tree tree="builder.domTree"></uib-dom-tree-view>
+  <uib-result-tree tree="builder.resultTree"></uib-dom-tree-view>
 </div>
 <uib-item-properties-edit data="builder.editableElement"></uib-item-properties-edit>

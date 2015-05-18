@@ -32,7 +32,7 @@ module.exports = function(app) {
   app.get('/api/session/:id/js', api.getSessionJS);
   app.get('/api/session/:id/css', api.getSessionCSS);
   app.get('/api/session/:id/html', api.getSessionHTML);
-  
+
   app.get('/api/session/:sessionId/result/:snapshotId?*', api.getSessionResult);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
@@ -40,6 +40,7 @@ module.exports = function(app) {
   secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);
   secureRequest('get', '/api/session/:id/snapshot/latest', api.getLastSessionSnapshot);
+  secureRequest('get', '/api/session/:id/snapshot/latest/html', api.getLastSessionSnapshotAsHTML);
   secureRequest('post', '/api/session/:id/snapshot', api.appendSessionSnapshot);
 
   app.get('*', main.indexPage);
