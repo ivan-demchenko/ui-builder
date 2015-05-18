@@ -4,7 +4,149 @@ var debug = require('debug')('server:domain:builderSession'),
     sessionModel = require('../models/session'),
     jsdom = require('node-jsdom'),
     serializeDocument = jsdom.serializeDocument,
+    Q = require('q'),
     beautifyHtml = require('js-beautify').html;
+
+function setDefaultAttributes(el, attrs) {
+  attrs.forEach(function(attr) {
+    for(var k in attr) {
+      el.setAttribute(k, attr[k]);
+    }
+  });
+}
+
+function setParameters(el, params, $) {
+  var domElementAttrs = params.filter(function(par) {
+    return typeof par.attribute !== 'undefined';
+  }).reduce(function(initMap, parameter) {
+    initMap[parameter.attribute] = initMap[parameter.attribute] || [];
+    if (parameter.value.trim()) {
+      initMap[parameter.attribute].push(parameter.value);
+    }
+    return initMap;
+  }, {});
+
+  for(var k in domElementAttrs) {
+    el.setAttribute(k, domElementAttrs[k].join(' '));
+  }
+
+  params.filter(function(par) {
+    return typeof par.nodeAttribute !== 'undefined';
+  }).forEach(function(par) {
+    if (par.nodeAttribute === 'innerText') {
+      debug('Set inner text %s', par.value)
+      $(el).text(par.value);
+    }
+  });
+}
+
+function json2html(arrayOfItems, document, root, $) {
+  arrayOfItems.forEach(function(rec) {
+    var el = document.createElement(rec.tagName);
+    if (rec.attributes) {
+      setDefaultAttributes(el, rec.attributes);
+    }
+    if (rec.parameters) {
+      setParameters(el, rec.parameters, $);
+    }
+    root.appendChild(el);
+    if (rec.children && rec.children.length) {
+      json2html(rec.children, document, el, $);
+    }
+  });
+}
+
+function oneSession(params) {
+  var def = Q.defer();
+  sessionModel.findOne(params, function(err, session) {
+    if (err) {
+      throw new Error(err);
+    }
+    if (!session) {
+      return def.reject('Session has not been found');
+    }
+    return def.resolve(session);
+  });
+  return def.promise;
+}
+
+function allSessions(params) {
+  var def = Q.defer();
+  sessionModel.find(params, function(err, list) {
+    if (err) {
+      throw new Error(err);
+    }
+    if (!list) {
+      return def.reject('Sessions has not been found');
+    }
+    return def.resolve(list);
+  });
+  return def.promise;
+}
+
+function getRendererEnv(session) {
+  var def = Q.defer();
+  jsdom.env(session.initial.html, ['http://code.jquery.com/jquery-1.5.min.js'], function (errors, window) {
+    def.resolve({
+      $: window.jQuery,
+      document: window.document,
+      body: window.document.body
+    });
+  });
+  return def.promise;
+}
+
+function renderSession(session, snapshot) {
+  var def = Q.defer();
+  if (snapshot) {
+    getRendererEnv(session).then(function(env) {
+      json2html(JSON.parse(snapshot.tree), env.document, env.body, env.$);
+      def.resolve(beautifyHtml(serializeDocument(env.body)));
+    });
+  } else {
+    def.reject('No snapshot found');
+  }
+  return def.promise;
+}
+
+function renderFullSession(session, snapshot) {
+  debug('Appempt to render full session');
+
+  var def = Q.defer();
+  if (snapshot) {
+    debug('...Using snapshot');
+    getRendererEnv(session).then(function(env) {
+      debug('...environment has been setup');
+      json2html(JSON.parse(snapshot.tree), env.document, env.body, env.$);
+
+      var style = env.document.createElement('link');
+      style.rel = 'stylesheet';
+      style.type = 'text/css';
+      style.href = '/api/session/' + session._id + '/css';
+      env.document.head.appendChild(style);
+
+      var sessionScript = env.document.createElement('script');
+      sessionScript.type = 'text/javascript';
+      sessionScript.charset = 'UTF-8';
+      sessionScript.src = '/api/session/' + session._id + '/js';
+      env.document.head.appendChild(sessionScript);
+
+      var socketClientScript = env.document.createElement('script');
+      socketClientScript.type = 'text/javascript';
+      socketClientScript.charset = 'UTF-8';
+      socketClientScript.src = '/scripts/uib-socket-client.js';
+      env.document.head.appendChild(socketClientScript);
+
+      def.resolve(serializeDocument(env.document));
+    });
+  } else {
+    debug('...Wihtout snapshot, just session');
+    getRendererEnv(session).then(function(env) {
+      def.resolve(serializeDocument(env.document));
+    });
+  }
+  return def.promise;
+}
 
 function startNew(userId, title, initialCode, done) {
   debug('Starting a new builder session');
@@ -31,66 +173,44 @@ function startNew(userId, title, initialCode, done) {
   });
 }
 
-function updateInitial(sessionId, ownerId, newInitial, done) {
+function updateInitial(sessionId, ownerId, newInitial) {
   debug('Updating the initial code for sesssion %s of owner %s', sessionId, ownerId);
 
+  var def = Q.defer();
   var query = { '_id': sessionId, 'owner': ownerId };
   var update = { $set: { initial: newInitial } };
 
   sessionModel.findOneAndUpdate(query, update, {}, function(err, session) {
-    if (err || !session) {
-      return done(new Error('Can not find session with id: ' + sessionId));
+    if (err) {
+      throw err;
     }
-
-    debug('Session initials has been updated');
-
-    done(null, session);
+    if (!session) {
+      def.reject('Can not set session initial');
+    }
+    def.resolve(session);
   });
+  return def.promise;
 }
 
-function getSessionsByUserId(userId, done) {
+function getSessionsByUserId(userId) {
   debug('Attempt to get list of sessions for user', userId);
 
-  sessionModel.find({ owner: userId }, function(err, list) {
-    if (err || !list) {
-      return done(err);
-    }
-
-    debug('Sessions list has been fetched: %s', list.length);
-
-    return done(null, list);
-  });
+  return allSessions({ owner: userId });
 }
 
-function getSessionInitialCode(sessionId, done) {
+function getSessionInitialCode(sessionId) {
   debug('Attempt to get initial code for session: %s', sessionId);
 
-  sessionModel.findOne({_id: sessionId}, 'initial', function(err, initial) {
-    if (err) {
-      return done(err);
-    }
-
-    if (!initial) {
-      debug('Session initials have been found');
-      return done(null, null);
-    }
-
-    return done(null, initial);
+  return oneSession({_id: sessionId}).then(function(session) {
+    return session.initial;
   });
 }
 
-function getSessionAsset(sessionId, type, done) {
+function getSessionAsset(sessionId, type) {
   debug('Attempt to get assets for session id # %s', sessionId);
 
-  sessionModel.findOne({_id: sessionId}, function(err, session) {
-    if (err || !session) {
-      debug('Failes to find a session %s', sessionId);
-      return done(err);
-    }
-
-    debug('Session initials have been found');
-
-    return done(null, session.initial[type]);
+  return oneSession({_id: sessionId}).then(function(session) {
+    return session.initial[type];
   });
 }
 
@@ -127,141 +247,43 @@ function getLastSnapshotBySessionId(sessionId, done) {
   });
 }
 
-function setDefaultAttributes(el, attrs) {
-  attrs.forEach(function(attr) {
-    for(var k in attr) {
-      el.setAttribute(k, attr[k]);
-    }
-  });
-}
-
-function setParameters(el, params, $) {
-  var domElementAttrs = params.filter(function(par) {
-    return typeof par.attribute !== 'undefined';
-  }).reduce(function(initMap, parameter) {
-    initMap[parameter.attribute] = initMap[parameter.attribute] || [];
-    if (parameter.value.trim()) {
-      initMap[parameter.attribute].push(parameter.value);
-    }
-    return initMap;
-  }, {});
-
-  for(var k in domElementAttrs) {
-    el.setAttribute(k, domElementAttrs[k].join(' '));
-  }
-
-  params.filter(function(par) {
-    return typeof par.nodeAttribute !== 'undefined';
-  }).forEach(function(par) {
-    if (par.nodeAttribute === 'innerText') {
-      debug('Set inner text %s', par.value)
-      $(el).text(par.value);
-    }
-  });
-}
-
-function json2html(document, arrayOfItems, root, $) {
-  arrayOfItems.forEach(function(rec) {
-    var el = document.createElement(rec.tagName);
-    if (rec.attributes) {
-      setDefaultAttributes(el, rec.attributes);
-    }
-    if (rec.parameters) {
-      setParameters(el, rec.parameters, $);
-    }
-    root.appendChild(el);
-    if (rec.children && rec.children.length) {
-      json2html(document, rec.children, el);
-    }
-  });
-}
-
 function getSessionSnapshotById(session, snapshotId) {
-  var snapshot;
+  var def = Q.defer();
   if (snapshotId) {
-    snapshot = session.snapshots.id(snapshotId);
-    if (!snapshot) {
-      snapshot = session.snapshots[session.snapshots.length - 1];
-    }
+    def.resolve(session.snapshots.id(snapshotId));
+  } else if (session.snapshots.length) {
+    def.resolve(session.snapshots[session.snapshots.length - 1]);
   } else {
-    snapshot = session.snapshots[session.snapshots.length - 1];
+    def.reject(null);
   }
-  return snapshot;
+  return def.promise;
 }
 
-function generateSessionResult(sessionId, snapshotId, done) {
+function generateSessionResult(sessionId, snapshotId) {
   debug('Attempt to generate session result for session "%s" and snapshot "%s"', sessionId, snapshotId);
 
-  sessionModel.findOne({_id: sessionId}, function(err, session) {
-    if (err || !session) {
-      debug(err);
-      done(err);
-    }
-    var snapshot = getSessionSnapshotById(session, snapshotId);
-
-    jsdom.env(
-      session.initial.html,
-      [ 'http://code.jquery.com/jquery-1.5.min.js' ],
-      function (errors, window) {
-        var $ = window.jQuery;
-        var doc = window.document;
-        var head = doc.head;
-        var body = doc.body;
-
-        if (snapshot) {
-          json2html(doc, JSON.parse(snapshot.tree), body, $);
-        }
-
-        var style = doc.createElement('link');
-        style.rel = 'stylesheet';
-        style.type = 'text/css';
-        style.href = '/api/session/' + sessionId + '/css';
-        head.appendChild(style);
-
-        var sessionScript = doc.createElement('script');
-        sessionScript.type = 'text/javascript';
-        sessionScript.charset = 'UTF-8';
-        sessionScript.src = '/api/session/' + sessionId + '/js';
-        head.appendChild(sessionScript);
-
-        var socketClientScript = doc.createElement('script');
-        socketClientScript.type = 'text/javascript';
-        socketClientScript.charset = 'UTF-8';
-        socketClientScript.src = '/scripts/uib-socket-client.js';
-        head.appendChild(socketClientScript);
-
-        done(null, serializeDocument(doc));
-      }
-    );
+  return oneSession({_id: sessionId}).then(function(session) {
+    return getSessionSnapshotById(session, snapshotId).then(function(snapshot) {
+      return renderFullSession(session, snapshot);
+    });
   });
 }
 
-function generateSnapshotHTML(sessionId, snapshotId, done) {
-  sessionModel.findOne({_id: sessionId}, function(err, session) {
-    if (err || !session) {
-      return done(err);
-    }
-    var snapshot;
-    if (snapshotId) {
-      snapshot = getSessionSnapshotById(session, snapshotId);
-    }
-    snapshot = session.snapshots[session.snapshots.length - 1];
+function generateSnapshotHTML(sessionId, snapshotId) {
+  debug('Attempt to generate snapshot html for session "%s" and snapshot "%s"', sessionId, snapshotId);
 
-    jsdom.env(
-      session.initial.html,
-      [ 'http://code.jquery.com/jquery-1.5.min.js' ],
-      function (errors, window) {
-        var $ = window.jQuery;
-        var doc = window.document;
-        var body = doc.body;
+  return oneSession({_id: sessionId}).then(function(session) {
+    return getSessionSnapshotById(session, snapshotId).then(function(snapshot) {
+      return renderSession(session, snapshot);
+    });
+  });
+}
 
-        if (snapshot) {
-          json2html(doc, JSON.parse(snapshot.tree), body, $);
-        }
-
-        done(null, beautifyHtml(serializeDocument(body)));
-      }
-    );
+function generateSessionResultByShortId(shortId) {
+  return oneSession({readableId: shortId}).then(function(session) {
+    return getSessionSnapshotById(session).then(function(snapshot) {
+      return renderSession(session, snapshot);
+    });
   });
 }
 
@@ -274,3 +296,4 @@ module.exports.appendSessionSnapshot = appendSessionSnapshot;
 module.exports.getLastSnapshotBySessionId = getLastSnapshotBySessionId;
 module.exports.generateSessionResult = generateSessionResult;
 module.exports.generateSnapshotHTML = generateSnapshotHTML;
+module.exports.generateSessionResultByShortId = generateSessionResultByShortId;

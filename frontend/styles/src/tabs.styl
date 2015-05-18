@@ -10,10 +10,12 @@
   &__button
     padding .5rem
     flex-grow 1
+    flex-basis 0
     text-align center
 
     &.selected
-      border-bottom solid 2px activeValueColor
+      border-bottom solid 2px primaryColor
+      color primaryColor
 
   &__content
     @extend .flex-col
