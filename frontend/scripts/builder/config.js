@@ -6,13 +6,8 @@ function fetchRepositoryItems(Repository) {
 }
 
 /*@ngInject*/
-function fetchInitialCode($route, Builder) {
-  return Builder.fetchInitialCode($route.current.params.sessionId);
-}
-
-/*@ngInject*/
-function fetchLatestSnapshot($route, Session) {
-  return Session.getLatestSnapshot();
+function fetchSession($route, Session) {
+  return Session.fetchSession($route.current.params.sessionId);
 }
 
 /*@ngInject*/
@@ -24,8 +19,7 @@ function config($routeProvider) {
       access: { requiredAuthentication: true },
       resolve: {
         repository: fetchRepositoryItems,
-        initialCode: fetchInitialCode,
-        latestSnapshot: fetchLatestSnapshot
+        currentSession: fetchSession
       }
     });
 }

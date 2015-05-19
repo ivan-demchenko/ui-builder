@@ -1,5 +1,6 @@
 'use strict';
 
+var Q = require('q');
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
@@ -26,11 +27,18 @@ userSchema.pre('save', function(next) {
   });
 });
 
-userSchema.methods.comparePassword = function(password, cb) {
+userSchema.methods.comparePassword = function(password) {
+  return Q.promise(function(resolve, reject) {
     bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err) { return cb(err); }
-        cb(isMatch);
+        if (err) {
+          return reject(err);
+        }
+        if (!isMatch) {
+          throw new Error('Passwords do not match');
+        }
+        resolve(true);
     });
+  }.bind(this));
 };
 
 module.exports = mongoose.model('User', userSchema);

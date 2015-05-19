@@ -1,16 +1,19 @@
 'use strict';
 
 /*@ngInject*/
-function Controller($rootScope, $scope, $location, repository, latestSnapshot, initialCode, ResultTree, Session, Builder, Modal) {
+function Controller($rootScope, $scope, $location, repository, currentSession, ResultTree, Session, Builder, Modal) {
 
-  ResultTree.setTree(latestSnapshot);
+  var latestSnapshot = currentSession.snapshots.length ? currentSession.snapshots[currentSession.snapshots.length-1] : '[]';
+  if (latestSnapshot.tree) {
+    ResultTree.setTree(JSON.parse(latestSnapshot.tree));
+  }
 
   $scope.$on('$destroy', function() {
     ResultTree.setTree(null);
   });
 
   this.repoItems = repository;
-  this.initial = initialCode;
+  this.initial = currentSession.initial;
   this.resultTree = ResultTree.tree;
   this.resultingSnapshotHTML = '';
   this.currentSessionURL = $location.protocol() + '://' +

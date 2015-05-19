@@ -53,8 +53,9 @@ function Behavior($location, $rootScope, User, Session) {
       Session.startNew(title, initialSetup);
     },
     continue: function(id) {
-      Session.continue(id);
-      $location.path('/builder/' + id);
+      Session.fetchSession(id).then(function(session) {
+        $location.path('/builder/' + session._id);
+      });
     }
   };
 

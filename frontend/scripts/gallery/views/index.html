@@ -3,7 +3,7 @@
     <div class="uib-pane">
       <h1>Your gallery</h1>
       <ul class="uib-gallery uib-pane--small">
-        <li class="uib-gallery__item" ng-repeat="item in gallery.items">
+        <li class="uib-gallery__item" ng-repeat="item in gallery.items track by $index">
           <h3 class="uib-gallery__item__title">{{::item.title || 'Untitled'}}</h3>
           <h6>{{::item.created | date}}</h6>
           <button ng-click="gallery.continue(item._id)" class="uib-btn uib-btn--dark uib-btn--small">Continue</button>

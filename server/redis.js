@@ -1,6 +1,7 @@
 'use strict';
 
-var redis = require('redis'),
+var Q = require('q'),
+    redis = require('redis'),
     debug = require('debug')('server:redis'),
     redisClient = redis.createClient(6379);
 
@@ -16,5 +17,7 @@ redisClient.on('connect', function () {
   debug('Redis ready');
 });
 
-exports.redis = redis;
-exports.redisClient = redisClient;
+module.exports.redis = redis;
+module.exports.get = Q.nbind(redisClient.get, redisClient);
+module.exports.set = Q.nbind(redisClient.set, redisClient);
+module.exports.expire = Q.nbind(redisClient.expire, redisClient);

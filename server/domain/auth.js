@@ -1,32 +1,22 @@
 'use strict';
 
-var User = require('../models/user'),
+var Q = require('q'),
+    User = require('../models/user'),
     debug = require('debug')('server:domain:auth'),
     token = require('../token');
 
-function findUser(username, done) {
+function findUser(username) {
   debug('Attempt to find a user by username %s ', username);
-
-  User.findOne({ username: username }, '_id', function (err, userId) {
-    if (err) {
-      debug('Error while looking for a user: %s', err);
-      return done(err);
-    }
-
-    debug('User has been found: %s', userId);
-
-    done(null, userId);
-  });
+  return Q.ninvoke(User, 'findOne', {username: username});
 }
 
-module.exports.registerUser = function(username, password, done) {
-
+module.exports.registerUser = function(username, password) {
   debug('Attempt to register a new user: %s', username);
 
-  findUser(username, function(existingUserId) {
+  return findUser(username).then(function(existingUserId) {
     if (existingUserId) {
       debug('User already exists, id: %s', existingUserId);
-      return done(new Error('User already exists.'));
+      throw new Error('User already exists.');
     }
 
     debug('User `%s` does not exists. Add a new one', username);
@@ -35,56 +25,23 @@ module.exports.registerUser = function(username, password, done) {
       username: username,
       password: password
     });
-    newUser.save(function(err) {
-      if (err) {
-        debug('Failed to save a user rec in DB');
-        return done(err);
-      }
 
-      debug('A new user record has been saved in DB');
-
-      return done(null, newUser);
-    });
+    return Q.nfcall(newUser.save);
   });
 };
 
-module.exports.logUserIn = function(username, password, done) {
-
+module.exports.logUserIn = function(username, password) {
   debug('Try to log user in');
 
-  findUser(username, function(err, user) {
-    if (!user) {
-      return done(new Error('User has not been not found'));
-    }
-
+  return findUser(username).then(function(user) {
     debug('User has been found, compare passwords');
-
-    user.comparePassword(password, function(isMatch) {
-      if (!isMatch) {
-        debug('Attempt failed to login with %s', user.username);
-        return done(new Error('Password is incorrect'));
-      }
-
-      debug('Password is good');
-
-      token.create(user, function(err, userData) {
-        if (err) {
-          return done(err);
-        }
-
-        debug('New User record has been saved');
-
-        return done(null, userData);
-      });
+    return user.comparePassword(password).then(function() {
+      return token.create(user);
     });
   });
 };
 
-module.exports.logUserOut = function(userData, done) {
-  token.expire(userData.token, function(err, isDone) {
-    if (err || !isDone) {
-      return done(err);
-    }
-    return done(null, isDone);
-  });
+module.exports.logUserOut = function(userData) {
+  debug('Attempt to logout');
+  return token.expire(userData.token);
 };

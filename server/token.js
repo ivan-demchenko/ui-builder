@@ -1,136 +1,104 @@
 'use strict';
 
-var _ = require('lodash'),
+var Q = require('q'),
+    _ = require('lodash'),
     debug = require('debug')('server:token'),
     jsonwebtoken = require('jsonwebtoken'),
-    redisClient = require('./redis').redisClient,
+    redisClient = require('./redis'),
     config = require('./config');
 
-function extractFromHeader(headers) {
-  if (headers && headers.authorization) {
-    var authorization = headers.authorization;
-
-    debug('Extract token from header %s', authorization);
-
-    var part = authorization.split(' ');
-    if (part.length === 2) {
-      return part[1];
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
+function jwtVerify(token) {
+  debug('Verify token %s', token);
+  return Q.ninvoke(jsonwebtoken, 'verify', token, config.token.secret).then(function() {
+    return token;
+  });
 }
 
-function create(user, done) {
-
-  debug('Create a new token');
-
-  if (_.isEmpty(user)) {
-    return done(new Error('User data cannot be empty.'));
-  }
-
-  var token = jsonwebtoken.sign({ _id: user._id }, config.token.secret, {
+function sign(user) {
+  return Q.fcall(function() {
+    var token = jsonwebtoken.sign({ _id: user._id }, config.token.secret, {
       expiresInMinutes: config.token.exp / 60
+    });
+    return [user, token];
   });
+}
 
+function extractFromHeader(headers) {
+  return Q.promise(function(resolve, reject) {
+    if (headers && headers.authorization) {
+      var authorization = headers.authorization;
+
+      debug('Extract token from header %s', authorization);
+
+      var part = authorization.split(' ');
+      if (part.length === 2) {
+        return resolve(part[1]);
+      }
+      return reject(null);
+    }
+    return reject(null);
+  });
+}
+
+function generateStoredData(user, token) {
+  if (!token) {
+    throw new Error('Error is null');
+  }
   var data = {
     _id: user._id,
     username: user.username,
     token: token
   };
-
   var decoded = jsonwebtoken.decode(token);
   data.token_exp = decoded.exp;
   data.token_iat = decoded.iat;
-
-  redisClient.set(token, JSON.stringify(data), function(err, reply) {
-    if (err) {
-      return done(new Error(err));
-    }
-
-    if (reply) {
-      redisClient.expire(token, config.token.exp, function(err, reply) {
-        if (err) {
-          return done(new Error('Cannot set the expire value for the token key'));
-        }
-        if (reply) {
-          done(null, data);
-        } else {
-          return done(new Error('Expiration not set on Redis'));
-        }
-      });
-    } else {
-      return done(new Error('Token not set in Redis'));
-    }
-  });
+  return [data, token];
 }
 
-function retrieve(token, done) {
-  if (_.isNull(token)) {
-    return done(new Error('token_invalid'));
+function create(user) {
+  debug('Create a new token');
+  if (_.isNull(user)) {
+    throw new Error('User is null');
   }
-
-  redisClient.get(token, function (err, reply) {
-    if (err) {
-      return done(err);
-    }
-
-    if (_.isNull(reply)) {
-      return done(new Error('Invalid token'));
-    }
-
-    var data = JSON.parse(reply);
-    debug('User data fetched from Redis: ', JSON.stringify(data));
-    if (_.isEqual(data.token, token)) {
-      return done(null, data);
-    } else {
-      return done(new Error('Invalid token'));
-    }
-
-  });
-}
-
-// Middleware for token verification
-function verify(headers, done) {
-
-  debug('Token verification');
-
-  var token = extractFromHeader(headers);
-
-  jsonwebtoken.verify(token, config.token.secret, function(err) {
-    if (err) {
-      return done(new Error('invalid_token'));
-    }
-    retrieve(token, function(err, data) {
-      if (err || !data) {
-        return done(new Error('Invalid token'));
-      }
-      done(null, data);
+  return sign(user)
+  .spread(generateStoredData)
+  .spread(function(data, token) {
+    return redisClient.set(token, JSON.stringify(data)).then(function() {
+      return redisClient.expire(token, config.token.exp).then(function() {
+        return data;
+      });
     });
   });
 }
 
-function expire(token, done) {
-  debug('Expiring token: %s', token);
-
-  if (token !== null) {
-    redisClient.expire(token, 0);
+function retrieve(token) {
+  if (_.isNull(token)) {
+    throw new Error('token_invalid');
   }
-
-  debug('Check token expiration');
-
-  redisClient.get(token, function (err, reply) {
-    if (err) {
-      debug('Error while Check token expiration');
-      return done(err);
+  debug('Retrieving data from Redis via token %s', token);
+  return redisClient.get(token).then(function(reply) {
+    var data = JSON.parse(reply);
+    if (data.token !== token) {
+      throw new Error('Invalid token');
     }
+    return data;
+  });
+}
 
-    if (_.isNull(reply)) {
-      debug('Token expired successfully');
-      return done(null, true);
-    }
+// Middleware for token verification
+function verify(headers) {
+  debug('Token verification');
+  return extractFromHeader(headers).then(jwtVerify).then(retrieve);
+}
+
+function expire(token) {
+  debug('Expiring token: %s', token);
+  return Q.fcall(function() {
+    return redisClient.expire(token, 0).then(function() {
+      return redisClient.get(token).then(function (reply) {
+        return _.isNull(reply) ? true : false;
+      });
+    });
   });
 }
 

@@ -19,7 +19,6 @@ var sessionSchema = new mongoose.Schema({
 });
 
 sessionSchema.statics.addSnapshot = function(sessionId, snapshotTree, done) {
-
   debug('Try to append a snaphot %s', snapshotTree);
 
   var newSnapshot = new snapshotModel({ tree: snapshotTree, _session: sessionId });

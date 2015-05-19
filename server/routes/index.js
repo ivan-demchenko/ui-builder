@@ -37,6 +37,7 @@ module.exports = function(app) {
   app.get('/s/:shortId', api.getSharedSessionResult);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
+  secureRequest('get', '/api/session/:sessionId', api.getSessionById);
   secureRequest('get', '/api/session/:id/initial', api.getSessionInitial);
   secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
   secureRequest('post', '/api/session/new', api.startNewSession);
