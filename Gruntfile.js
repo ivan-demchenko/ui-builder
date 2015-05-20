@@ -210,7 +210,8 @@ module.exports = function(grunt) {
           dest: '.tmp/font',
           src: ['*.*']
         }, {
-          '.tmp/scripts/uib-socket.client.js': '<%= yeoman.app %>/uib-socket-client.js'
+          '.tmp/scripts/uib-socket.client.js': '<%= yeoman.app %>/uib-socket-client.js',
+          '.tmp/internal/jquery.js': '<%= yeoman.app %>/internal/jquery.js'
         }]
       },
       dist: {

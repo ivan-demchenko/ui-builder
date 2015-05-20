@@ -17,12 +17,15 @@ app.use(bodyParser.json());
 app.use('/data', express.static('./data'));
 
 var staticPath;
-if (process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV === 'development') {
   staticPath = path.resolve(__dirname, '../.tmp');
+  app.use('/internal', express.static('../.tmp/internal'));
   app.use(morgan('dev'));
   app.set('view cache', false);
-} else if (process.env.NODE_ENV === 'production') {
+}
+if (process.env.NODE_ENV === 'production') {
   staticPath = path.resolve(__dirname, '../dist');
+  app.use('/internal', express.static('../dist/internal'));
   app.locals.cache = 'memory';
 }
 app.use(express.static(staticPath));

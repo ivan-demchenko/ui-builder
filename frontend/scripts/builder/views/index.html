@@ -7,15 +7,15 @@
       </uib-tab>
       <uib-tab name="Canvas HTML">
         <textarea class="flex-prior" ng-model="builder.initial.html"></textarea>
-        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set HTML</button>
+        <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set HTML</button>
       </uib-tab>
       <uib-tab name="Canvas JS">
         <textarea class="flex-prior" ng-model="builder.initial.js"></textarea>
-        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set JS</button>
+        <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set JS</button>
       </uib-tab>
       <uib-tab name="Canvas CSS">
         <textarea class="flex-prior" ng-model="builder.initial.css"></textarea>
-        <button ng-click="builder.setInitial()" class="uib-btn uib-btn--dark">Set CSS</button>
+        <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
       <uib-tab name="Result">
         <input type="text" value="{{::builder.currentSessionURL}}">

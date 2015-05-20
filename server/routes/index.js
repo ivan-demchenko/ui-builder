@@ -29,21 +29,21 @@ module.exports = function(app) {
   app.post('/auth/login', auth.login);
   app.post('/auth/logout', auth.logout);
 
-  app.get('/api/session/:id/js', api.getSessionJS);
-  app.get('/api/session/:id/css', api.getSessionCSS);
-  app.get('/api/session/:id/html', api.getSessionHTML);
+  app.get('/api/session/:sessionId/js', api.getSessionJS);
+  app.get('/api/session/:sessionId/css', api.getSessionCSS);
+  app.get('/api/session/:sessionId/html', api.getSessionHTML);
 
-  app.get('/api/session/:sessionId/result/:snapshotId?*', api.getSessionResult);
-  app.get('/s/:shortId', api.getSharedSessionResult);
+  app.get('/api/session/:sessionId/result/:snapshotId?*', api.renderSession);
+  app.get('/s/:shortId', api.renderSession);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
+  secureRequest('post', '/api/session', api.startNewSession);
+
   secureRequest('get', '/api/session/:sessionId', api.getSessionById);
-  secureRequest('get', '/api/session/:id/initial', api.getSessionInitial);
-  secureRequest('put', '/api/session/:id/initial', api.setSessionInitial);
-  secureRequest('post', '/api/session/new', api.startNewSession);
-  secureRequest('get', '/api/session/:id/snapshot/latest', api.getLastSessionSnapshot);
-  secureRequest('get', '/api/session/:id/snapshot/latest/html', api.getLastSessionSnapshotAsHTML);
-  secureRequest('post', '/api/session/:id/snapshot', api.appendSessionSnapshot);
+  secureRequest('put', '/api/session/:sessionId', api.updateSession);
+
+  secureRequest('get', '/api/session/:sessionId/snapshot/latest/render', api.renderLatestsSnapshot);
+  secureRequest('post', '/api/session/:sessionId/snapshot', api.appendSnapshotToSession);
 
   app.get('*', main.indexPage);
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function Controller($rootScope, $scope, $location, repository, currentSession, ResultTree, Session, Builder, Modal) {
+function Controller($rootScope, $scope, $location, repository, currentSession, ResultTree, Session) {
 
   var latestSnapshot = currentSession.snapshots.length ? currentSession.snapshots[currentSession.snapshots.length-1] : '[]';
   if (latestSnapshot.tree) {
@@ -20,16 +20,12 @@ function Controller($rootScope, $scope, $location, repository, currentSession, R
     $location.host() + ':' + $location.port() +
     Session.getResultingURL();
 
-  this.toggleSourceView = function() {
-    Modal.toggle('html-view');
-  };
-
-  this.setInitial = function() {
-    Session.resetInitialCode(this.initial);
+  this.updateSession = function() {
+    Session.updateSession(this.currentSession);
   };
 
   this.fetchResult = function() {
-    Session.fetchSnapshotHTML().then(function(html) {
+    Session.renderSnapshot().then(function(html) {
       this.resultingSnapshotHTML = html;
     }.bind(this));
   };

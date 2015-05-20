@@ -1,15 +1,8 @@
-var config = {
-  httpServer: {
-    host: 'http://localhost'
-  },
-  mongo: {
-    host: 'mongodb://localhost/uibuilder',
-    options: {}
-  },
-  token: {
-    exp: 360,
-    secret: 'b0a06e9e-a0a4-461f-b608-d5afbe1ce2ac'
-  }
-};
+'use strict';
 
-module.exports = config;
+var _ = require('lodash'),
+    env = process.env.NODE_ENV;
+
+module.exports = _.extend(
+    require('./config/general'),
+    require('./config/' + env) || {});

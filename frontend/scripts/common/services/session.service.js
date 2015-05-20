@@ -10,20 +10,14 @@ function Session($q, $http, $location) {
     return '/api/session/' + this.session._id + '/result';
   };
 
-  this.getLatestSnapshot = function() {
-    return $http.get('/api/session/' + this.session._id + '/snapshot/latest').then(function(resp) {
-      return resp.data;
-    });
-  };
-
-  this.fetchSnapshotHTML = function() {
-    return $http.get('/api/session/' + this.session._id + '/snapshot/latest/html').then(function(resp) {
+  this.renderSnapshot = function() {
+    return $http.get('/api/session/' + this.session._id + '/snapshot/latest/render').then(function(resp) {
       return resp.data.data;
     });
   };
 
   this.startNew = function(title, initialSetup) {
-    return $http.post('/api/session/new', {
+    return $http.post('/api/session', {
       title: title,
       initialSetup: initialSetup
     }).then(function(resp) {
@@ -36,7 +30,7 @@ function Session($q, $http, $location) {
 
   this.fetchSession = function(id) {
     if (this.session && this.session._id === id) {
-      return this.session;
+      return $q.when(this.session);
     }
     return $http.get('/api/session/' + id).then(function(resp) {
       this.session = resp.data.data;
@@ -44,8 +38,8 @@ function Session($q, $http, $location) {
     }.bind(this));
   };
 
-  this.resetInitialCode = function(initial) {
-    return $http.put('/api/session/' + this.session._id + '/initial', {initial: initial}).then(function(resp) {
+  this.updateSession = function(session) {
+    return $http.put('/api/session/' + this.session._id, {session: session}).then(function(resp) {
       return resp.data.data;
     });
   };

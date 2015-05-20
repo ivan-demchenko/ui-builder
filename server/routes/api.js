@@ -2,9 +2,10 @@
 
 var debug = require('debug')('server:routes:api'),
     ws = require('../socket'),
-    message = require('./responseMessages'),
     token = require('../token'),
-    session = require('../domain/builderSession');
+    session = require('../domain/builderSession'),
+    renderer = require('../domain/renderer'),
+    message = require('./responseMessages');
 
 function serverError(res, msg) {
   return function(err) {
@@ -71,38 +72,23 @@ module.exports.startNewSession = function (req, res) {
   }, invalidTokenError(res));
 };
 
-module.exports.setSessionInitial = function(req, res) {
+module.exports.updateSession = function(req, res) {
   token.verify(req.headers)
   .then(function(err, userData) {
-    var sessionId = req.params.id;
+    var sessionId = req.params.sessionId;
 
     debug('Attempt to update initials for session %s', sessionId);
 
-    // TODO: check if initial is set in request
-    session.updateInitial(sessionId, userData._id, req.body.initial)
+    session.updateSession(sessionId, userData._id, req.body.initial)
     .then(success(res, 'The initial code was updated'), serverError(res, 'Unable to update session code'))
     .catch(serverError(res, 'Unable to update session code'));
   }, invalidTokenError(res));
 };
 
-module.exports.getSessionInitial = function(req, res) {
+module.exports.appendSnapshotToSession = function(req, res) {
   token.verify(req.headers)
   .then(function() {
-    var sessionId = req.params.id || '';
-
-    debug('Attempt to get initial code for session %s', sessionId);
-
-    session.getSessionInitialCode(sessionId)
-    .then(success(res, 'Here the initial code is'), serverError(res, 'Seems that session %s does not exists'))
-    .catch(serverError(res, 'Error while fetching initial data for session'));
-  }, invalidTokenError(res));
-};
-
-module.exports.appendSessionSnapshot = function(req, res) {
-  // TODO: refactor this method to use promises
-  token.verify(req.headers)
-  .then(function() {
-    var sessionId = req.params.id;
+    var sessionId = req.params.sessionId;
     if (!sessionId) {
       return serverError(req, 'Session has not been found')();
     }
@@ -116,7 +102,7 @@ module.exports.appendSessionSnapshot = function(req, res) {
     debug('Attempt to append a new snapshot for the session %s', sessionId);
     debug('A new snaphot: ', tree);
 
-    session.appendSessionSnapshot(sessionId, tree)
+    session.appendSnapshotToSession(sessionId, tree)
     .then(function(updatedSession) {
       ws.broadcast('reload');
       success(res, 'A new snapshot have been appended')(updatedSession);
@@ -124,18 +110,8 @@ module.exports.appendSessionSnapshot = function(req, res) {
   }, invalidTokenError(res));
 };
 
-module.exports.getLastSessionSnapshot = function(req, res) {
-  var sessionId = req.params.id || '';
-
-  debug('Attempt to get the result for the session %s', sessionId);
-
-  session.getLastSnapshotBySessionId(sessionId)
-  .then(res.send, serverError(res, 'Unable to fetch latest snapshot'))
-  .catch(serverError(res, 'Unable to fetch latest snapshot'));
-};
-
 module.exports.getSessionHTML = function(req, res) {
-  var sessionId = req.params.id || '';
+  var sessionId = req.params.sessionId || '';
 
   debug('Attempt to get HTML code for session %s', sessionId);
 
@@ -147,7 +123,7 @@ module.exports.getSessionHTML = function(req, res) {
 };
 
 module.exports.getSessionJS = function(req, res) {
-  var sessionId = req.params.id || '';
+  var sessionId = req.params.sessionId || '';
 
   debug('Attempt to get JS code for session %s', sessionId);
 
@@ -159,7 +135,7 @@ module.exports.getSessionJS = function(req, res) {
 };
 
 module.exports.getSessionCSS = function(req, res) {
-  var sessionId = req.params.id || '';
+  var sessionId = req.params.sessionId || '';
 
   debug('Attempt to get CSS code for session %s', sessionId);
 
@@ -170,34 +146,47 @@ module.exports.getSessionCSS = function(req, res) {
   .catch(serverError(res, 'Unable to fetch code code'));
 };
 
-module.exports.getSessionResult = function(req, res) {
+module.exports.renderSession = function(req, res) {
   debug('Get session result');
-  var sessionId = req.params.sessionId || '',
-      snapshotId = req.params.snapshotId || '';
+  var sessionPromise, sessionId, snapshotId;
 
-  session.generateSessionResult(sessionId, snapshotId)
-  .then(function(resultingHTML) {
-    return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-  }, serverError(res, 'Problem while generation of result'))
+  if (req.params.shortId) {
+    debug('... by shared id');
+    sessionPromise = session.getSessionsBySharedId(req.params.shortId);
+  } else {
+    debug('... by session id');
+    sessionId = req.params.sessionId || '';
+    snapshotId = req.params.snapshotId || '';
+    sessionPromise = session.getSessionsById(sessionId);
+  }
+
+  sessionPromise
+  .then(session.getSessionSnapshotById(snapshotId))
+  .spread(function(session, snapshot) {
+    debug('We have session and snapshot');
+    return renderer.renderSession(session, snapshot);
+  })
+  .then(
+    function(resultingHTML) {
+      return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
+    },
+    serverError(res, 'Problem while generation of result')
+  )
   .catch(serverError(res, 'Unable to generate the result for the session'));
 };
 
-module.exports.getSharedSessionResult = function(req, res) {
-  debug('Get shared session result');
-  var shortSessionId = req.params.shortId || '';
-  session.generateSessionResultByShortId(shortSessionId)
-  .then(function(resultingHTML) {
-    res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-  }, serverError(res, 'Unable to generate the result for the session'))
-  .catch(serverError(res, 'Unable to generate the result for the session'));
-};
+module.exports.renderLatestsSnapshot = function(req, res) {
+  var sessionId = req.params.sessionId || '';
 
-module.exports.getLastSessionSnapshotAsHTML = function(req, res) {
-  var sessionId = req.param('id') || '';
-
-  session.generateSnapshotHTML(sessionId, null)
-  .then(function(resultingHTML) {
-    res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-  }, serverError('Unable to generate the result for the session'))
+  session.getSessionsById(sessionId)
+  .then(session.getSessionSnapshotById(null))
+  .spread(renderer.renderSnapshot)
+  .then(
+    function(resultingHTML) {
+      debug('Got rendering result %s', resultingHTML);
+      res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
+    },
+    serverError('Unable to generate the result for the session')
+  )
   .catch(serverError(res, 'Unable to generate the result for the session'));
 };
