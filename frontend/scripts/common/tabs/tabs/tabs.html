@@ -1,6 +1,7 @@
 <div class="uib-tabs">
   <div class="uib-tabs__row">
     <div class="uib-tab__button" ng-repeat="tab in tabs" ng-click="selectTab(tab)" ng-class="{selected:tab.selected}">
+      <i class="{{::tab.icon}}"></i>
       <span class="uib-tab__name">{{::tab.name}}</span>
     </div>
   </div>

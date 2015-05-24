@@ -8,6 +8,7 @@ function TabDirective() {
     replace: true,
     transclude: true,
     scope: {
+      icon: '@',
       name: '@'
     },
     templateUrl: __dirname + '/tab.html',

@@ -2,28 +2,28 @@
   <uib-repo-items-tree tree="builder.repoItems.componentsTree"></uib-repo-items-tree>
   <div class="uib-container">
     <uib-tabs>
-      <uib-tab name="Canvas">
+      <uib-tab name="Canvas" icon="i-canvas">
         <uib-canvas></uib-canvas>
       </uib-tab>
-      <uib-tab name="Canvas HTML">
+      <uib-tab name="Canvas HTML" icon="i-code">
         <textarea class="flex-prior" ng-model="builder.currentSession.initial.html"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set HTML</button>
       </uib-tab>
-      <uib-tab name="Canvas JS">
+      <uib-tab name="Canvas JS" icon="i-code">
         <textarea class="flex-prior" ng-model="builder.currentSession.initial.js"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set JS</button>
       </uib-tab>
-      <uib-tab name="Canvas CSS">
+      <uib-tab name="Canvas CSS" icon="i-code">
         <textarea class="flex-prior" ng-model="builder.currentSession.initial.css"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
-      <uib-tab name="Result">
+      <uib-tab name="Result" icon="i-result">
         <input type="text" value="{{::builder.currentSessionURL}}">
         <textarea class="flex-prior" class="uib-source-view" rows="8">{{builder.resultingSnapshotHTML}}</textarea>
         <button ng-click="builder.fetchResult()" class="uib-btn uib-btn--dark">Get the result</button>
       </uib-tab>
     </uib-tabs>
   </div>
-  <uib-result-tree tree="builder.resultTree"></uib-dom-tree-view>
+  <uib-result-tree tree="builder.resultTree"></uib-result-tree-view>
 </div>
 <uib-item-properties-edit data="builder.editableElement"></uib-item-properties-edit>

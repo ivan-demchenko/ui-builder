@@ -1,15 +1,39 @@
 'use strict';
 
 function toggleElementHightlight(elem, state) {
-  elem.classList[state ? 'add' : 'remove']('uib-dom-tree__item--hovered');
+  elem.classList[state ? 'add' : 'remove']('uib-result-tree__item--hovered');
 }
 
 function togglePlaceholderHighlight(placeholder, state) {
-  placeholder.classList[state ? 'add' : 'remove']('uib-dom-tree__item__placeholder--hovered');
+  placeholder.classList[state ? 'add' : 'remove']('uib-result-tree__item__placeholder--hovered');
 }
 
 function preventDefault(e) {
   e.preventDefault();
+}
+
+/*ngInject*/
+function ResultTreeItemCtrl($scope, ResultTree) {
+  $scope.isEditable = function() {
+    return typeof $scope.model.parameters !== 'undefined';
+  };
+
+  $scope.editElem = function() {
+    ResultTree.startEditElem($scope.model);
+  };
+
+  $scope.removeElem = function() {
+    ResultTree.removeElem($scope.model);
+  };
+
+  $scope.canMove = function(direction) {
+    if (direction === 'up') {
+      return $scope.canMoveUp();
+    }
+    if (direction === 'down') {
+      return $scope.canMoveDown();
+    }
+  };
 }
 
 /*@ngInject*/
@@ -18,22 +42,14 @@ function ResultTreeItemDirective(ResultTree) {
     restrict: 'E',
     replace: true,
     scope: {
-      model: '='
+      model: '=',
+      canMoveUp: '&',
+      canMoveDown: '&',
+      moveUp: '&',
+      moveDown: '&'
     },
     templateUrl: __dirname + '/resultTreeItem.html',
-    controller: function($scope) {
-      $scope.isEditable = function() {
-        return typeof $scope.model.parameters !== 'undefined';
-      };
-
-      $scope.editElem = function() {
-        ResultTree.startEditElem($scope.model);
-      };
-
-      $scope.removeElem = function() {
-        ResultTree.removeElem($scope.model);
-      };
-    },
+    controller: ResultTreeItemCtrl,
     link: function(scope, elem) {
       // `dragleave` fires after `dragenter` for nested elements. Thus wee need a
       // deep counter in order to determine from where do we leave.

@@ -1,5 +1,14 @@
 <ul class="uib-tree">
   <li ng-repeat="elem in tree track by $index" class="uib-tree__item">
-    <uib-result-tree-item model="elem"></uib-dom-tree-item>
+    <div class="uib-result-tree__item">
+      <uib-result-tree-item
+        model="elem"
+        can-move-up="canMoveUp(elem)"
+        can-move-down="canMoveDown(elem)"
+        move-up="moveUp(elem)"
+        move-down="moveDown(elem)">
+      </uib-result-tree-item>
+      <uib-result-tree ng-if="elem.children" tree="elem.children"></uib-result-tree-view>
+    </div>
   </li>
 </ul>
