@@ -9,16 +9,17 @@ function Controller($rootScope, $scope, $location, repository, currentSession, R
   }
 
   $scope.$on('$destroy', function() {
+    Session.dropSession();
     ResultTree.setTree(null);
   });
 
   this.repoItems = repository;
-  this.initial = currentSession.initial;
+  this.currentSession = currentSession;
   this.resultTree = ResultTree.tree;
   this.resultingSnapshotHTML = '';
   this.currentSessionURL = $location.protocol() + '://' +
     $location.host() + ':' + $location.port() +
-    Session.getResultingURL();
+    Session.getShareURL();
 
   this.updateSession = function() {
     Session.updateSession(this.currentSession);

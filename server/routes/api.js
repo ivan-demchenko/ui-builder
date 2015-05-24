@@ -73,14 +73,19 @@ module.exports.startNewSession = function (req, res) {
 };
 
 module.exports.updateSession = function(req, res) {
-  token.verify(req.headers)
-  .then(function(err, userData) {
-    var sessionId = req.params.sessionId;
+  debug('Attempt to update session');
+  token.verify(req.headers).then(function(userData) {
+    var sessionId = req.params.sessionId || '';
 
-    debug('Attempt to update initials for session %s', sessionId);
+    debug('Attempt to update session %s user id %s', sessionId, userData._id);
 
-    session.updateSession(sessionId, userData._id, req.body.initial)
-    .then(success(res, 'The initial code was updated'), serverError(res, 'Unable to update session code'))
+    debug('req body', JSON.stringify(req.body));
+
+    session.updateSession(sessionId, userData._id, req.body)
+    .then(function(session) {
+      ws.broadcast('reload');
+      success(res, 'The initial code was updated')(session);
+    }, serverError(res, 'Unable to update session code'))
     .catch(serverError(res, 'Unable to update session code'));
   }, invalidTokenError(res));
 };

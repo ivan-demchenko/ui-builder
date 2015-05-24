@@ -6,15 +6,15 @@
         <uib-canvas></uib-canvas>
       </uib-tab>
       <uib-tab name="Canvas HTML">
-        <textarea class="flex-prior" ng-model="builder.initial.html"></textarea>
+        <textarea class="flex-prior" ng-model="builder.currentSession.initial.html"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set HTML</button>
       </uib-tab>
       <uib-tab name="Canvas JS">
-        <textarea class="flex-prior" ng-model="builder.initial.js"></textarea>
+        <textarea class="flex-prior" ng-model="builder.currentSession.initial.js"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set JS</button>
       </uib-tab>
       <uib-tab name="Canvas CSS">
-        <textarea class="flex-prior" ng-model="builder.initial.css"></textarea>
+        <textarea class="flex-prior" ng-model="builder.currentSession.initial.css"></textarea>
         <button ng-click="builder.updateSession()" class="uib-btn uib-btn--dark">Set CSS</button>
       </uib-tab>
       <uib-tab name="Result">

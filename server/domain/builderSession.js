@@ -67,8 +67,14 @@ module.exports.updateSession = function(sessionId, ownerId, newSessionData) {
   debug('Updating the initial code for session %s of owner %s', sessionId, ownerId);
 
   var query = { '_id': sessionId, 'owner': ownerId };
-  var update = { $set: newSessionData };
-  return Q.ninvoke(sessionModel, 'findOneAndUpdate', query, update);
+  return Q.promise(function(resolve) {
+    sessionModel.findOneAndUpdate(query, newSessionData, {}, function(err, session) {
+      if (err) {
+        throw new Error(err);
+      }
+      resolve(session);
+    });
+  });
 };
 
 module.exports.getSessionsByUserId = function(userId) {

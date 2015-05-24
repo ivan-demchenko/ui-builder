@@ -45,7 +45,7 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.dropElement = function(childrenSet, dropEvent) {
     childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
-    Behavior.resultTree.modified(angular.copy(this.tree));
+    Behavior.resultTree.modified(this.tree);
   };
 
   /**

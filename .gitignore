@@ -1,5 +1,6 @@
 app/test-framework
 _db
+*.rdb
 logs
 node_modules
 dist

@@ -77,10 +77,13 @@ function retrieve(token) {
   }
   debug('Retrieving data from Redis via token %s', token);
   return redisClient.get(token).then(function(reply) {
+    debug('Got reply from Redis %s', reply);
     var data = JSON.parse(reply);
     if (data.token !== token) {
+      debug('Token are not equal');
       throw new Error('Invalid token');
     }
+    debug('Token are equal');
     return data;
   });
 }

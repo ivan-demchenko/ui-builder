@@ -10,6 +10,14 @@ function Session($q, $http, $location) {
     return '/api/session/' + this.session._id + '/result';
   };
 
+  this.getShareURL = function() {
+    return '/s/' + this.session.sharedId;
+  };
+
+  this.dropSession = function() {
+    this.session = null;
+  };
+
   this.renderSnapshot = function() {
     return $http.get('/api/session/' + this.session._id + '/snapshot/latest/render').then(function(resp) {
       return resp.data.data;
@@ -39,17 +47,13 @@ function Session($q, $http, $location) {
   };
 
   this.updateSession = function(session) {
-    return $http.put('/api/session/' + this.session._id, {session: session}).then(function(resp) {
+    return $http.put('/api/session/' + this.session._id, session).then(function(resp) {
       return resp.data.data;
     });
   };
 
   this.saveSnapshot = function(tree) {
     return $http.post('/api/session/' + this.session._id + '/snapshot', {tree: tree});
-  };
-
-  this.continue = function(id) {
-    this.session._id = id;
   };
 
 }
