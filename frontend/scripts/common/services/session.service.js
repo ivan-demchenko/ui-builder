@@ -11,7 +11,7 @@ function Session($q, $http, $location) {
   };
 
   this.getShareURL = function() {
-    return '/s/' + this.session.sharedId;
+    return $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/s/' + this.session.sharedId;
   };
 
   this.dropSession = function() {
@@ -20,7 +20,7 @@ function Session($q, $http, $location) {
 
   this.renderSnapshot = function() {
     return $http.get('/api/session/' + this.session._id + '/snapshot/latest/render').then(function(resp) {
-      return resp.data.data;
+      return resp.data;
     });
   };
 

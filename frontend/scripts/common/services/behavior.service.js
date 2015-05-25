@@ -1,7 +1,7 @@
 'use strict';
 
 /*ngInject*/
-function Behavior($location, $rootScope, User, Session) {
+function Behavior($location, $rootScope, User, Session, ResultTree) {
   this.auth = {
     login: {
       success: function(response) {
@@ -61,7 +61,18 @@ function Behavior($location, $rootScope, User, Session) {
 
   this.resultTree = {
     modified: function(tree) {
-      Session.saveSnapshot(JSON.stringify(tree));
+      if (tree) {
+        tree = angular.copy(tree);
+        ResultTree.setTree(tree);
+        Session.saveSnapshot(JSON.stringify(tree));
+      }
+    }
+  };
+
+  this.builder = {
+    turnOff: function() {
+      Session.dropSession();
+      ResultTree.setTree(null);
     }
   };
 }

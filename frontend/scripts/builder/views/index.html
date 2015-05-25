@@ -19,7 +19,7 @@
       </uib-tab>
       <uib-tab name="Result" icon="i-result">
         <input type="text" value="{{::builder.currentSessionURL}}">
-        <textarea class="flex-prior" class="uib-source-view" rows="8">{{builder.resultingSnapshotHTML}}</textarea>
+        <textarea class="flex-prior" class="uib-source-view" ng-model="builder.resultingHTML" rows="8"></textarea>
         <button ng-click="builder.fetchResult()" class="uib-btn uib-btn--dark">Get the result</button>
       </uib-tab>
     </uib-tabs>

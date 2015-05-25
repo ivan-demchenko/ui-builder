@@ -1,31 +1,31 @@
 'use strict';
 
-function hasChildren(el) {
-  return el.children && el.children.length;
+function shiftItems(arr, position) {
+  var partOne = arr.slice(0, position);
+  var partTwo = arr.slice(position);
+
+  var partOneLastEl = partOne.splice(position - 1, 1);
+  var partTwoFstEl = partTwo.splice(0, 1);
+  return partOne.concat(partTwoFstEl).concat(partOneLastEl.concat(partTwo));
 }
 
-// TODO: optimise it
-function findParentTree(node, elem) {
+function findContainingNode(tree, elem) {
   var res;
-  if (node.indexOf(elem) !== -1) {
-    res = node;
+  if (tree.indexOf(elem) > -1) {
+    res = tree;
   } else {
-    if (node && node.length) {
-      for (var i = 0, el = node[i]; i < node.length; i++) {
-        if (hasChildren(el)) {
-          res = findParentTree(el.children, elem, res);
-        }
-        if (res) {
-          return res;
-        }
+    tree.every(function(el) {
+      if (el.children && el.children.length) {
+        res = findContainingNode(el.children, elem);
       }
-    }
+      return !!!res;
+    });
   }
   return res;
 }
 
 /*@ngInject*/
-function ResultTree($rootScope, Modal, Behavior) {
+function ResultTree($rootScope, Modal) {
   this.tree = [];
 
   /**
@@ -34,6 +34,7 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.setTree = function(tree) {
     this.tree = tree;
+    return this;
   };
 
   /**
@@ -45,7 +46,16 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.dropElement = function(childrenSet, dropEvent) {
     childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
-    Behavior.resultTree.modified(this.tree);
+  };
+
+  this.moveElementUp = function(elem, subtree) {
+    var position = subtree.indexOf(elem);
+    return shiftItems(subtree, position);
+  };
+
+  this.moveElementDown = function(elem, subtree) {
+    var position = subtree.indexOf(elem) + 1;
+    return shiftItems(subtree, position);
   };
 
   /**
@@ -83,7 +93,6 @@ function ResultTree($rootScope, Modal, Behavior) {
    */
   this.doneEditingElem = function() {
     Modal.toggle('property-editor');
-    Behavior.resultTree.modified(angular.copy(this.tree));
   };
 
   /**
@@ -92,10 +101,9 @@ function ResultTree($rootScope, Modal, Behavior) {
    * @return {undefined}
    */
   this.removeElem = function(elem) {
-    var set = findParentTree(this.tree, elem);
+    var set = findContainingNode(this.tree, elem);
     if (set) {
       set.splice(set.indexOf(elem), 1);
-      Behavior.resultTree.modified(angular.copy(this.tree));
     }
   };
 
