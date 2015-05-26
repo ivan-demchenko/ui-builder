@@ -3,24 +3,11 @@
 /*ngInject*/
 function ResultTreeItemCtrl($scope, ResultTree) {
   $scope.isEditable = function() {
-    return typeof $scope.model.parameters !== 'undefined';
+    return Boolean($scope.model.parameters);
   };
 
   $scope.editElem = function() {
     ResultTree.startEditElem($scope.model);
-  };
-
-  $scope.removeElem = function() {
-    ResultTree.removeElem($scope.model);
-  };
-
-  $scope.canMove = function(direction) {
-    if (direction === 'up') {
-      return $scope.canMoveUp();
-    }
-    if (direction === 'down') {
-      return $scope.canMoveDown();
-    }
   };
 }
 
@@ -34,7 +21,9 @@ function ResultTreeItemDirective(ResultTree) {
       canMoveUp: '&',
       canMoveDown: '&',
       moveUp: '&',
-      moveDown: '&'
+      moveDown: '&',
+      edit: '&',
+      remove: '&'
     },
     templateUrl: __dirname + '/resultTreeItem.html',
     controller: ResultTreeItemCtrl,

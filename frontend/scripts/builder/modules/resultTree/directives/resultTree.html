@@ -6,7 +6,8 @@
         can-move-up="canMoveUp(elem)"
         can-move-down="canMoveDown(elem)"
         move-up="moveUp(elem)"
-        move-down="moveDown(elem)">
+        move-down="moveDown(elem)",
+        remove="removeElem(elem)">
       </uib-result-tree-item>
       <uib-result-tree ng-if="elem.children" tree="elem.children"></uib-result-tree-view>
     </div>

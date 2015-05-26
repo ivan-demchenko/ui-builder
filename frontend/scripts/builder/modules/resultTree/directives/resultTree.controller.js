@@ -17,6 +17,10 @@ function ResultTreeCtrl($scope, ResultTree) {
   $scope.moveDown = function(elem) {
     $scope.tree = ResultTree.moveElementDown(elem, $scope.tree);
   };
+
+  $scope.removeElem = function(elem) {
+    ResultTree.removeElem($scope.tree, elem);
+  };
 }
 
 module.exports = ResultTreeCtrl;

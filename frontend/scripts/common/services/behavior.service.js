@@ -62,8 +62,6 @@ function Behavior($location, $rootScope, User, Session, ResultTree) {
   this.resultTree = {
     modified: function(tree) {
       if (tree) {
-        tree = angular.copy(tree);
-        ResultTree.setTree(tree);
         Session.saveSnapshot(JSON.stringify(tree));
       }
     }
@@ -72,7 +70,6 @@ function Behavior($location, $rootScope, User, Session, ResultTree) {
   this.builder = {
     turnOff: function() {
       Session.dropSession();
-      ResultTree.setTree(null);
     }
   };
 }

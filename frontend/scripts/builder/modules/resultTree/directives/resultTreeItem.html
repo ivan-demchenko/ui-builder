@@ -1,13 +1,13 @@
 <div class="flex-row uib-result-tree__item__label">
   <aside class="uib-tree__item__aside">
-    <i class="i-up" ng-show="canMove('up')" ng-click="moveUp()"></i>
-    <i class="i-down" ng-show="canMove('down')" ng-click="moveDown()"></i>
+    <i class="i-up" ng-show="canMoveUp()" ng-click="moveUp()"></i>
+    <i class="i-down" ng-show="canMoveDown()" ng-click="moveDown()"></i>
   </aside>
   <div class="uib-tree__item__label">
     <span class="uib-elem-tag-name">{{model.name}}</span>
   </div>
   <aside class="uib-tree__item__aside">
     <a href="#" ng-click="editElem()" ng-if="isEditable()" class="uib-btn"><i class="i-wrench"></i></a>
-    <a href="#" ng-click="removeElem()" class="uib-btn"><i class="i-trash"></i></a>
+    <a href="#" ng-click="remove()" class="uib-btn"><i class="i-trash"></i></a>
   </aside>
 </div>
