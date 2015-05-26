@@ -26,16 +26,22 @@ module.exports = function(grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/scripts/**/*.js'],
-        tasks: ['browserify:app']
+        files: [
+          '<%= yeoman.app %>/scripts/**/*.js',
+          '!<%= yeoman.app %>/scripts/**/*.spec.js'
+        ],
+        tasks: ['newer:jshint', 'browserify:app']
       },
       ws: {
         files: ['<%= yeoman.app %>/uib-socket-client.js'],
         tasks: ['browserify:ws']
       },
       jsTest: {
-        files: ['<%= yeoman.app %>/spec/**/*.spec.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        files: [
+          '<%= yeoman.app %>/**/*.spec.js',
+          '<%= yeoman.app %>/test/mock/**/*.js'
+        ],
+        tasks: ['browserify:app', 'newer:jshint', 'karma']
       },
       fontIcons: {
         files: [
@@ -76,7 +82,6 @@ module.exports = function(grunt) {
           middleware: function(connect) {
             return [
               connect.static('.tmp'),
-              connect.static('test'),
               connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
@@ -129,7 +134,7 @@ module.exports = function(grunt) {
         module: 'uib-templates',
         fileHeaderString: 'module.exports =',
         singleModule: true,
-        rename: function (moduleName) {
+        rename: function(moduleName) {
           console.log(moduleName);
           return '/' + moduleName;
         },
@@ -173,12 +178,6 @@ module.exports = function(grunt) {
       },
       all: {
         src: ['<%= yeoman.app %>/scripts/**/*.js']
-      },
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/**/*.js']
       }
     },
 
@@ -236,7 +235,7 @@ module.exports = function(grunt) {
     // Test settings
     karma: {
       unit: {
-        configFile: 'test/karma.conf.js',
+        configFile: 'karma.conf.js',
         singleRun: true
       }
     }

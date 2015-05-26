@@ -1,7 +1,7 @@
 'use strict';
 
 /*ngInject*/
-function Behavior($location, $rootScope, User, Session, ResultTree) {
+function Behavior($location, $rootScope, User, Session) {
   this.auth = {
     login: {
       success: function(response) {

@@ -21,4 +21,4 @@ module.exports = function Elem(template, scopeDef, linkFn, ctrl, compileFn) {
   if (compileFn) {
     this.compileFn = compileFn;
   }
-}
+};
