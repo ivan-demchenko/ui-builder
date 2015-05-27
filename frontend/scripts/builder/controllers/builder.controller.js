@@ -17,6 +17,9 @@ function Controller($scope, repository, currentSession, ResultTree, Session, Beh
   this.resultingHTML = '';
   this.currentSessionURL = Session.getShareURL();
 
+  // Every single time anything is changed in the result tree,
+  // we save a snapshot. It might be anything, from element added to property
+  // modified.
   $scope.$watch(function() {
     return this.resultTree;
   }.bind(this), function(newTree) {

@@ -1,4 +1,7 @@
 <label>{{::param.name}}</label>
 <div class="uib-form__control">
-  <input type="text" ng-model="param.value" ng-value="p.value">
+  <input type="text"
+    ng-model="param.value"
+    ng-model-options="{ updateOn: 'blur' }"
+    ng-value="p.value">
 </div>

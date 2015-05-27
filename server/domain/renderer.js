@@ -8,7 +8,7 @@ var debug = require('debug')('server:domain:renderer'),
 
 function setDefaultAttributes(el, attrs) {
   attrs.forEach(function(attr) {
-    for(var k in attr) {
+    for (var k in attr) {
       el.setAttribute(k, attr[k]);
     }
   });
@@ -33,7 +33,7 @@ function setElementParameters(el, params, $) {
     return initMap;
   }, {});
 
-  for(var k in domElementAttrs) {
+  for (var k in domElementAttrs) {
     el.setAttribute(k, domElementAttrs[k].join(' '));
   }
 

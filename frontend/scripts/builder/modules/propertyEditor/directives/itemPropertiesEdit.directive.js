@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function ItemPropertiesEditDirective($rootScope, ResultTree) {
+function ItemPropertiesEditDirective($rootScope) {
   return {
     restrict: 'E',
     scope: {
@@ -11,17 +11,7 @@ function ItemPropertiesEditDirective($rootScope, ResultTree) {
     controller: function($scope) {
       $scope.elem = null;
 
-      $scope.done = function() {
-        ResultTree.doneEditingElem($scope.elem);
-        $scope.close();
-      };
-
       $scope.close = function() {
-        $scope.elem = null;
-      };
-
-      $scope.remove = function() {
-        ResultTree.removeElem($scope.elem);
         $scope.elem = null;
       };
 

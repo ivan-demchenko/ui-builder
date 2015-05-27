@@ -30,7 +30,8 @@ module.exports.broadcast = function(msg) {
   }
 
   debug('Broadcasting %s message', msg);
-
+  debug('Number of clients', clients.length);
   clients = clients.filter(clientIsActive);
+  debug('Number of active clients', clients.length);
   clients.forEach(notifyClient(msg));
 };

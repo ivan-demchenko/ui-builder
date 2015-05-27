@@ -65,9 +65,6 @@ function ResultTree($rootScope, Modal) {
    * @param  {DomElement} target The element to edit
    * @return {undefined}
    */
-  this.doneEditingElem = function() {
-    Modal.toggle('property-editor');
-  };
 
   /**
    * Removed element from DOM.

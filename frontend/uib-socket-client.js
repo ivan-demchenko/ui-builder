@@ -1,7 +1,8 @@
 'use strict';
 
 var socket = require('ws'),
-    ws = new socket('ws://localhost:3001');
+    host = window.location.hostname,
+    ws = new socket('ws://' + host + ':3001');
 
 ws.onopen = function() {
     console.log('connected!');
