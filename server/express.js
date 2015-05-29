@@ -22,11 +22,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/internal', express.static('../.tmp/internal'));
   app.use(morgan('dev'));
   app.set('view cache', false);
-}
-if (process.env.NODE_ENV === 'production') {
+} else if (process.env.NODE_ENV === 'production') {
   staticPath = path.resolve(__dirname, '../dist');
   app.use('/internal', express.static('../dist/internal'));
   app.locals.cache = 'memory';
+} else {
+  staticPath = path.resolve(__dirname, '../.tmp');
+  app.use('/internal', express.static('../.tmp/internal'));
+  app.use(morgan('dev'));
+  app.set('view cache', false);
 }
 app.use(express.static(staticPath));
 

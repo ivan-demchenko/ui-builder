@@ -1,19 +1,20 @@
 'use strict';
 
-var Q = require('q'),
+var config = require('./config'),
+    Q = require('q'),
     redis = require('redis'),
     debug = require('debug')('server:redis'),
-    redisClient = redis.createClient(6379);
+    redisClient = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
 
 if (process.env.NODE_ENV === 'dev') {
   redis.debug_mode = true;
 }
 
-redisClient.on('error', function (err) {
+redisClient.on('error', function(err) {
   debug('Redis error %s', err);
 });
 
-redisClient.on('connect', function () {
+redisClient.on('connect', function() {
   debug('Redis ready');
 });
 
