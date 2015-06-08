@@ -15,8 +15,8 @@ function clientIsActive(client) {
   return client.readyState !== 3;
 }
 
-module.exports.setUp = function() {
-  wss = new WebSocketServer({ port: 3001 });
+module.exports.setUp = function(config) {
+  wss = new WebSocketServer({ port: config.webSocketsServer.port });
   debug('Websocket server has been setup');
   wss.on('connection', function(client) {
     debug('A new connection');

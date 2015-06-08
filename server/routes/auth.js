@@ -19,7 +19,7 @@ function success(res, msg) {
   };
 }
 
-module.exports.register = function (req, res) {
+module.exports.register = function(req, res) {
   var username = req.body.username.trim() || '';
   var password = req.body.password.trim() || '';
   var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
@@ -34,7 +34,7 @@ module.exports.register = function (req, res) {
   .catch(serverError(res, 'Trouble while registering a new user'));
 };
 
-module.exports.login = function (req, res) {
+module.exports.login = function(req, res) {
   var username = req.body.username.trim() || '';
   var password = req.body.password.trim() || '';
 
@@ -50,7 +50,7 @@ module.exports.login = function (req, res) {
   .catch(serverError(res, 'Error while logging user in'));
 };
 
-module.exports.logout = function (req, res) {
+module.exports.logout = function(req, res) {
   debug('Attempt to logout');
 
   token.verify(req.headers)

@@ -6,12 +6,10 @@ The general idea is to have a UI builder which can use any CSS framework. Bootst
 
 Run `grunt` for building and `grunt serve` for preview.
 
-## Testing
+## Run options
 
-Running `grunt test` will run the unit tests with karma.
-
-
-## Plans for the future
-
-* Create a server in order to store/restore/share your work with other or preview it on devices.
-* Make it possible to reorder elements inside of DOM-tree preview.
+* `SRV_HOST` - node app host name
+* `SRV_PORT` - node app port name
+* `MNG` - connect string for mongoDB (for example, `mongodb://localhost/uibuilder`)
+* `RDS_HOST` - redis host
+* `RDS_PORT` - redis port

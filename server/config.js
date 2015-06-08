@@ -1,8 +1,9 @@
 'use strict';
 
-var _ = require('lodash'),
-    env = process.env.NODE_ENV || 'default';
+var _ = require('lodash');
 
-module.exports = _.extend(
+module.exports = function(env) {
+  return _.merge(
     require('./config/general'),
     require('./config/' + env) || {});
+};

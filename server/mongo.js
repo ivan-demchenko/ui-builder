@@ -1,15 +1,14 @@
 'use strict';
 
 var debug = require('debug')('server:mongo'),
-    mongoose = require('mongoose'),
-    config = require('./config');
+    mongoose = require('mongoose');
 
-module.exports.connect = function() {
-  if (process.env.NODE_ENV === 'dev') {
+module.exports.setUp = function(env, config) {
+  if (env === 'dev') {
     mongoose.set('debug', true);
   }
 
-  mongoose.connect(config.mongo.host, config.mongo.options, function (err) {
+  mongoose.connect(config.mongo.host, config.mongo.options, function(err) {
       if (err) {
           debug('Connection refused to %s', config.mongo.host);
           debug(err);

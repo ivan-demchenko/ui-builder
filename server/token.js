@@ -5,7 +5,8 @@ var Q = require('q'),
     debug = require('debug')('server:token'),
     jsonwebtoken = require('jsonwebtoken'),
     redisClient = require('./redis'),
-    config = require('./config');
+    configSetup = require('./config'),
+    config = configSetup(process.env.NODE_ENV || 'production');
 
 function jwtVerify(token) {
   debug('Verify token %s', token);
@@ -98,7 +99,7 @@ function expire(token) {
   debug('Expiring token: %s', token);
   return Q.fcall(function() {
     return redisClient.expire(token, 0).then(function() {
-      return redisClient.get(token).then(function (reply) {
+      return redisClient.get(token).then(function(reply) {
         return _.isNull(reply) ? true : false;
       });
     });

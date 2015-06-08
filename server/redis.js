@@ -1,12 +1,13 @@
 'use strict';
 
-var config = require('./config'),
-    Q = require('q'),
+var Q = require('q'),
     redis = require('redis'),
     debug = require('debug')('server:redis'),
+    env = process.env.NODE_ENV || 'production',
+    config = require('./config')(env),
     redisClient = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
 
-if (process.env.NODE_ENV === 'dev') {
+if (env === 'dev') {
   redis.debug_mode = true;
 }
 

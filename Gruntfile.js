@@ -101,7 +101,7 @@ module.exports = function(grunt) {
       },
       ws: {
         files: {
-          '.tmp/scripts/uib-socket-client.js': '<%= yeoman.app %>/uib-socket-client.js',
+          '.tmp/scripts/uib-socket-client.js': '<%= yeoman.app %>/uib-socket-client.js'
         }
       },
       options: {
@@ -135,7 +135,6 @@ module.exports = function(grunt) {
         fileHeaderString: 'module.exports =',
         singleModule: true,
         rename: function(moduleName) {
-          console.log(moduleName);
           return '/' + moduleName;
         },
         htmlmin: {
@@ -192,14 +191,6 @@ module.exports = function(grunt) {
       server: '.tmp'
     },
 
-    uglify: {
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/scripts/app.js': '.tmp/scripts/app.js'
-        }
-      }
-    },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dev: {
@@ -223,11 +214,21 @@ module.exports = function(grunt) {
             '*.txt',
             '*.ico'
           ]
-        },{
+        }, {
           expand: true,
           cwd: '<%= yeoman.app %>/styles/font',
           dest: '<%= yeoman.dist %>/font',
           src: ['*.*']
+        }, {
+          expand: true,
+          cwd: '.tmp/scripts',
+          dest: '<%= yeoman.dist %>/scripts',
+          src: ['*.js']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/internal',
+          dest: '<%= yeoman.dist %>/internal',
+          src: ['*.js']
         }]
       }
     },
@@ -258,17 +259,11 @@ module.exports = function(grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('default', [
     'clean:dist',
     'html2js',
     'browserify',
     'stylus:dist',
-    'copy:dist',
-    'uglify'
-  ]);
-
-  grunt.registerTask('default', [
-    'test',
-    'build'
+    'copy:dist'
   ]);
 };

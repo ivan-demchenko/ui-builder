@@ -1,12 +1,11 @@
 'use strict';
 
 var jwt = require('express-jwt'),
-    config = require('../config'),
     main = require('./main'),
     auth = require('./auth'),
     api = require('./api');
 
-module.exports = function(app) {
+module.exports = function(app, config) {
 
   app.all('*', function(req, res, next) {
     res.set('Access-Control-Allow-Origin', config.httpServer.host);
