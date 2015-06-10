@@ -1,17 +1,15 @@
 nginx:
+  image: nginx
   links:
     - app
   ports:
     - "80:80"
 
 app:
-  image: node:0.10
-  command: node app.js
+  build: .
   links:
     - mongo
     - redis
-  volumes:
-    - ./:/ui-builder-app
   ports:
    - "3000:3000"
 

@@ -1,5 +1,6 @@
 {
   "name": "uibuilder",
+  "description": "UI Builder app",
   "version": "0.0.0",
   "dependencies": {
     "bcrypt": "^0.8.3",

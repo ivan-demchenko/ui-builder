@@ -1,18 +1,16 @@
 FROM node
 
-RUN mkdir /ui-builder-app
+RUN mkdir -p /app
 
-RUN npm install nodemon pm2 grunt-cli bower -g
+ADD ./package.json /app/package.json
+ADD ./nodemon.json /app/nodemon.json
 
-WORKDIR /ui-builder-app
+WORKDIR /app
+ADD . /app
 
-ADD ./package.json /ui-builder-app/package.json
-
-RUN npm install
-
-ADD ./nodemon.json /ui-builder-app/nodemon.json
+RUN npm i -g nodemon pm2 grunt-cli bower
+RUN npm i
 
 EXPOSE 3000
 
-CMD grunt
-CMD node app.js
+CMD ["nodemon", "/app/app.js"]
