@@ -1,5 +1,7 @@
 'use strict';
 
+console.log(process.env);
+
 module.exports = {
   token: {
     exp: (60 * 60),
@@ -13,12 +15,12 @@ module.exports = {
     port: process.env.SRV_PORT || 3000
   },
   mongo: {
-    host: process.env.MNG || 'mongodb://localhost/uibuilder',
+    host: process.env.MONGO_PORT_27017_TCP_ADDR ? 'mongodb://' + process.env.MONGO_PORT_27017_TCP_ADDR + '/uibuilder' : 'mongodb://localhost/uibuilder',
     options: {}
   },
   redis: {
-    host: process.env.RDS_HOST || '127.0.0.1',
-    port: process.env.RDS_PORT || 6379,
+    host: process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
+    port: process.env.REDIS_PORT_6379_TCP_PORT || 6379,
     options: {}
   }
 };

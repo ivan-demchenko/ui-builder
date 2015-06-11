@@ -1,21 +1,18 @@
-nginx:
-  image: nginx
-  links:
-    - app
-  ports:
-    - "80:80"
-
 app:
   build: .
   links:
     - mongo
     - redis
   ports:
-   - "3000:3000"
+    - "3000:3000"
+    - "3001:3001"
+  environment:
+    - DEBUG=*
 
 mongo:
   image: mongo
-  command: mongod --smallfiles --quiet --logpath=/dev/null
+  ports:
+    - "27017"
 
 redis:
   image: redis
