@@ -1,7 +1,5 @@
 'use strict';
 
-console.log(process.env);
-
 module.exports = {
   token: {
     exp: (60 * 60),
