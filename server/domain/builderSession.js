@@ -4,38 +4,45 @@ var debug = require('debug')('server:domain:builderSession'),
     Q = require('q'),
     sessionModel = require('../models/session');
 
-function oneSession(params) {
-  debug('one session %s', JSON.stringify(params));
-  return Q.ninvoke(sessionModel, 'findOne', params);
+function tail(arr) {
+  return arr.length ? arr[arr.length - 1] : null;
 }
 
-function allSessions(params) {
-  return Q.ninvoke(sessionModel, 'find', params);
+function oneSession(query) {
+  debug('Find one session by query %s', JSON.stringify(query));
+  return Q.Promise(function(resolve, reject) {
+    sessionModel.findOne(query).then(function(res) {
+      if (res) {
+        resolve(res);
+      } else {
+        reject(null);
+      }
+    });
+  });
+}
+
+function allSessions(query) {
+  debug('All sessions by %s', JSON.stringify(query));
+  return Q.ninvoke(sessionModel, 'find', query);
 }
 
 module.exports.getSessionSnapshotById = function(snapshotId) {
   return function(session) {
+    debug('get snapshot by id %s for session %s', snapshotId, session.id);
     return Q.promise(function(resolve) {
-      var snapshot = null;
-      if (snapshotId) {
-        debug('Get snapshot by id');
-        snapshot = session.snapshots.id(snapshotId);
-      } else if (session.snapshots.length) {
-        debug('Get latest snapshot for session %s', session._id);
-        snapshot = session.snapshots[session.snapshots.length - 1];
-      }
-      resolve([session, snapshot]);
+      var snapshot = snapshotId ? session.snapshots.id(snapshotId) : tail(session.snapshots);
+      return resolve([session, snapshot]);
     });
   };
 };
 
 module.exports.getSessionsBySharedId = function(sharedId) {
-  debug('Attempt to find a session by shared id %s', sharedId);
+  debug('Find a session by shared id %s', sharedId);
   return oneSession({sharedId: sharedId});
 };
 
 module.exports.getSessionsById = function(sessionId) {
-  debug('Attempt to find a session %s', sessionId);
+  debug('Find a session by id %s', sessionId);
   return oneSession({_id: sessionId});
 };
 

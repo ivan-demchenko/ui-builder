@@ -152,17 +152,16 @@ module.exports.getSessionCSS = function(req, res) {
 };
 
 module.exports.renderSession = function(req, res) {
-  debug('Get session result');
-  var sessionPromise, sessionId, snapshotId;
+  debug('Get session result %s', req.params.shortId || req.params.sessionId || 'N/S');
+  var sessionPromise, snapshotId = req.params.snapshotId || null;
 
   if (req.params.shortId) {
-    debug('... by shared id');
     sessionPromise = session.getSessionsBySharedId(req.params.shortId);
+  } else if (req.params.sessionId) {
+    sessionPromise = session.getSessionsById(req.params.sessionId);
   } else {
-    debug('... by session id');
-    sessionId = req.params.sessionId || '';
-    snapshotId = req.params.snapshotId || '';
-    sessionPromise = session.getSessionsById(sessionId);
+    debug('Session id is not specified!');
+    return serverError(res, 'Sessions id is not specified');
   }
 
   sessionPromise
@@ -173,6 +172,7 @@ module.exports.renderSession = function(req, res) {
   })
   .then(
     function(resultingHTML) {
+      debug('Sessions has been rendered');
       return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
     },
     serverError(res, 'Problem while generation of result')

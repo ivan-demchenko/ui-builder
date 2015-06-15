@@ -1,10 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function ResultTreeDirective($rootScope, RecursionHelper, ResultTree) {
-  // Because there is a recursive directive usage,
-  // I need to check if event listener alread has been set. Thus, I need a flag.
-  var bounded = false;
+function ResultTreeDirective($rootScope, ResultTree) {
   return {
     restrict: 'E',
     replace: true,
@@ -13,25 +10,19 @@ function ResultTreeDirective($rootScope, RecursionHelper, ResultTree) {
     },
     templateUrl: __dirname + '/resultTree.html',
     controller: 'ResultTreeController',
-    compile: function(elem) {
-      return RecursionHelper.compile(elem, function(scope) {
-        // Fix for nested directives
-        if (!bounded) {
-          bounded = true;
+    link: function(scope, elem) {
+      elem[0].addEventListener('dragover', function(e) {
+        e.preventDefault();
+        return false;
+      });
 
-          elem.on('dragover', function(e) {
-            e.preventDefault();
-          });
-
-          elem.on('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            scope.$apply(function() {
-              ResultTree.dropElement(scope.tree, e);
-            });
-          });
+      elem[0].addEventListener('drop', function(e) {
+        e.stopPropagation();
+        if (scope.tree) {
+          ResultTree.dropElement(scope.tree, e);
+          $rootScope.$digest();
         }
-
+        return false;
       });
     }
   };

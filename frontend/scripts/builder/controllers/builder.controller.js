@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function Controller($scope, repository, currentSession, ResultTree, Session, Behavior) {
+function Controller($scope, repository, currentSession, Session, Behavior) {
 
   var latestSnapshot = currentSession.snapshots[currentSession.snapshots.length - 1];
   if (latestSnapshot && latestSnapshot.tree) {
@@ -22,8 +22,8 @@ function Controller($scope, repository, currentSession, ResultTree, Session, Beh
   // modified.
   $scope.$watch(function() {
     return this.resultTree;
-  }.bind(this), function(newTree) {
-    if (newTree && Array.isArray(newTree) && newTree.length) {
+  }.bind(this), function(newTree, oldTree) {
+    if (oldTree.length > 0 || (newTree.length > 0 && oldTree.length === 0)) {
       Behavior.resultTree.modified(newTree);
     }
   }, true);

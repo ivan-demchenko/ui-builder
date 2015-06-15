@@ -1,18 +1,7 @@
 'use strict';
 
-/*ngInject*/
-function ResultTreeItemCtrl($scope, ResultTree) {
-  $scope.isEditable = function() {
-    return Boolean($scope.model.parameters);
-  };
-
-  $scope.editElem = function() {
-    ResultTree.startEditElem($scope.model);
-  };
-}
-
 /*@ngInject*/
-function ResultTreeItemDirective(ResultTree) {
+function ResultTreeItemDirective($compile, $rootScope, ResultTree) {
   return {
     restrict: 'E',
     replace: true,
@@ -26,20 +15,38 @@ function ResultTreeItemDirective(ResultTree) {
       remove: '&'
     },
     templateUrl: __dirname + '/resultTreeItem.html',
-    controller: ResultTreeItemCtrl,
+    controller: 'ResultTreeItemController',
     link: function(scope, elem) {
+      if (Array.isArray(scope.model.children) && scope.model.children.length) {
+        $compile('<uib-result-tree tree="model.children"></uib-result-tree>')(scope, function(cloned) {
+          elem.append(cloned);
+        });
+      }
+
+      scope.$watch(function() {
+        return !!scope.model.children && scope.model.children.length > 0;
+      }, function(newVal) {
+        if (newVal) {
+          $compile('<uib-result-tree tree="model.children"></uib-result-tree>')(scope, function(cloned) {
+            elem.append(cloned);
+          });
+        }
+      });
+
       elem[0].addEventListener('dragover', function(e) {
         e.preventDefault();
+        return false;
       });
 
       elem[0].addEventListener('drop', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (scope.model.children) {
-          scope.$apply(function() {
-            ResultTree.dropElement(scope.model.children, e);
-          });
+        if (e.stopPropagation) {
+          e.stopPropagation();
         }
+        if (scope.model.children) {
+          ResultTree.dropElement(scope.model.children, e);
+          $rootScope.$digest();
+        }
+        return false;
       });
     }
   };

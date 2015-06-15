@@ -1,17 +1,14 @@
 'use strict';
 
 /*@ngInject*/
-function RepositoryTreeDirective(RecursionHelper) {
+function RepositoryTreeDirective() {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       tree: '='
     },
-    templateUrl: __dirname + '/repoTree.html',
-    compile: function(element) {
-      return RecursionHelper.compile(element);
-    }
+    templateUrl: __dirname + '/repoTree.html'
   };
 }
 
