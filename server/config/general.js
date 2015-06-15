@@ -1,5 +1,11 @@
 'use strict';
 
+var env = process.env;
+
+function mongoAddr(addr) {
+  return addr ? 'mongodb://' + addr + '/' : null;
+}
+
 module.exports = {
   token: {
     exp: (60 * 60),
@@ -9,16 +15,16 @@ module.exports = {
     port: 3001
   },
   httpServer: {
-    host: process.env.SRV_HOST || 'http://localhost',
-    port: process.env.SRV_PORT || 3000
+    host: env.UIB_SRV_HOST || 'http://localhost',
+    port: env.UIB_SRV_PORT || 3000
   },
   mongo: {
-    host: process.env.MONGO_PORT_27017_TCP_ADDR ? 'mongodb://' + process.env.MONGO_PORT_27017_TCP_ADDR + '/uibuilder' : 'mongodb://localhost/uibuilder',
+    host: (env.UIB_MNG_HOST || mongoAddr(env.MONGO_PORT_27017_TCP_ADDR) || 'mongodb://localhost/') + 'uibuilder',
     options: {}
   },
   redis: {
-    host: process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
-    port: process.env.REDIS_PORT_6379_TCP_PORT || 6379,
+    host: env.UIB_RDS_HOST || env.UIB_REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
+    port: env.UIB_RDS_PORT || env.UIB_REDIS_PORT_6379_TCP_PORT || 6379,
     options: {}
   }
 };
