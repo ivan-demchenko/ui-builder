@@ -31,15 +31,51 @@ function addUser(username, password, cb) {
   newUser.save(cb);
 }
 
+module.exports.registerPayloadCorrect = function(req) {
+  debug('Check register payload');
+  return Q.Promise(function(resolve, reject) {
+    var username = req.body.username.trim() || '';
+    var password = req.body.password.trim() || '';
+    var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
+
+    if (username === '' || password === '' || passwordConfirmation === '') {
+      return reject(new Error('Login data is not provided'));
+    }
+
+    if (password !== passwordConfirmation) {
+      return reject(new Error('Login data is not provided'));
+    }
+
+    resolve([username, password]);
+  });
+};
+
+module.exports.loginPayloadCorrect = function(req) {
+  debug('Check login payload');
+  return Q.Promise(function(resolve, reject) {
+    var username = req.body.username.trim() || '';
+    var password = req.body.password.trim() || '';
+
+    if (username === '' || password === '') {
+      return reject(new Error('Login data has not been provided'));
+    }
+
+    resolve([username, password]);
+  });
+};
+
+
 module.exports.registerUser = function(username, password) {
   debug('Attempt to register a new user: %s', username);
 
-  return findUser(username)
-  .then(function() {
-    throw new Error('User already exists.');
-  }, function() {
-    return Q.nfcall(addUser, username, password);
-  });
+  return findUser(username).then(
+    function() {
+      throw new Error('User already exists.');
+    },
+    function() {
+      return Q.nfcall(addUser, username, password);
+    }
+  );
 };
 
 module.exports.logUserIn = function(username, password) {

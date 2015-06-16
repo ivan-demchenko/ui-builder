@@ -15,7 +15,7 @@ function oneSession(query) {
       if (res) {
         resolve(res);
       } else {
-        reject(null);
+        reject(new Error('Session has not been found'));
       }
     });
   });
@@ -23,8 +23,32 @@ function oneSession(query) {
 
 function allSessions(query) {
   debug('All sessions by %s', JSON.stringify(query));
-  return Q.ninvoke(sessionModel, 'find', query);
+  return Q.Promise(function(resolve, reject) {
+    sessionModel.find(query).then(function(res) {
+      if (res) {
+        resolve(res);
+      } else {
+        reject(new Error('Sessions list can not be build'));
+      }
+    });
+  });
 }
+
+module.exports.sessionSnapshotPayloadValid = function(req) {
+  debug('Validate session snapshot payload');
+  return Q.Promise(function(resolve, reject) {
+    var sessionId = req.params.sessionId;
+    if (!sessionId) {
+      return reject(new Error('Session has not been found'));
+    }
+
+    if (typeof req.body.tree === 'undefined') {
+      return reject(new Error('Tree has not been provided for a new snapshot'));
+    }
+
+    return resolve([sessionId, (req.body.tree.trim() || '')]);
+  });
+};
 
 module.exports.getSessionSnapshotById = function(snapshotId) {
   return function(session) {
@@ -46,12 +70,25 @@ module.exports.getSessionsById = function(sessionId) {
   return oneSession({_id: sessionId});
 };
 
+module.exports.getNewSessionInitials = function(req, userData) {
+  debug('Prepare Initials for the new session');
+  return Q.Promise(function(resolve) {
+    var title = req.body.title.trim() || '';
+    var initial = {
+      html: req.body.initialSetup.html.trim() || '',
+      css: req.body.initialSetup.css.trim() || '',
+      js: req.body.initialSetup.js.trim() || ''
+    };
+    resolve([userData._id, title, initial]);
+  });
+};
+
 module.exports.startNew = function(userId, title, initialCode) {
   debug('Starting a new builder session');
   return Q.promise(function(resolve, reject) {
-    var id = Math.random().toString(16).substr(2);
+    var sharedId = Math.random().toString(16).substr(2);
     var newSession = new sessionModel({
-      sharedId: id,
+      sharedId: sharedId,
       owner: userId,
       title: title,
       initial: initialCode,
@@ -67,6 +104,16 @@ module.exports.startNew = function(userId, title, initialCode) {
 
       resolve(newSession);
     });
+  });
+};
+
+module.exports.fetchSessionId = function(req) {
+  return Q.Promise(function(resolve, reject) {
+    var sessionId = req.params.sessionId;
+    if (sessionId) {
+      return resolve(sessionId);
+    }
+    reject(new Error('Session id has not beed provided'));
   });
 };
 
@@ -90,7 +137,7 @@ module.exports.getSessionsByUserId = function(userId) {
 };
 
 module.exports.getSessionAsset = function(sessionId, type) {
-  debug('Attempt to get assets %s for session id # %s', type, sessionId);
+  debug('Attempt to get assets %s for session id %s', type, sessionId);
 
   return oneSession({_id: sessionId}).then(function(session) {
     return session.initial[type];
