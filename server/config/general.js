@@ -2,8 +2,8 @@
 
 var env = process.env;
 
-function mongoAddr(addr) {
-  return addr ? 'mongodb://' + addr + '/' : null;
+function valOrNUll(val) {
+  return val ? val : null;
 }
 
 module.exports = {
@@ -12,14 +12,14 @@ module.exports = {
     secret: 'b0a06e9e-a0a4-461f-b608-d5afbe1ce2ac'
   },
   webSocketsServer: {
-    port: 3001
+    port: env.UIB_WEBSOCKET_PORT || 3001
   },
   httpServer: {
     host: env.UIB_SRV_HOST || 'http://localhost',
     port: env.UIB_SRV_PORT || 3000
   },
   mongo: {
-    host: (env.UIB_MNG_HOST || mongoAddr(env.MONGO_PORT_27017_TCP_ADDR) || 'mongodb://localhost/') + 'uibuilder',
+    host: 'mongodb://' + (env.UIB_MNG_HOST || valOrNUll(env.MONGO_PORT_27017_TCP_ADDR) || 'localhost') + '/uibuilder',
     options: {}
   },
   redis: {
