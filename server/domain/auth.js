@@ -7,26 +7,38 @@ var Q = require('q'),
 
 function findUser(username) {
   debug('Attempt to find a user by username %s ', username);
-  return Q.ninvoke(User, 'findOne', {username: username});
+  return Q.Promise(function(resolve, reject) {
+    User.findOne({username: username}).then(function(res) {
+      if (res) {
+        debug('... User has been found');
+        resolve(res);
+      } else {
+        debug('... User has not been found');
+        reject(null);
+      }
+    });
+  });
+}
+
+function addUser(username, password, cb) {
+  debug('Adding a new user %s', username);
+
+  var newUser = new User({
+    username: username,
+    password: password
+  });
+
+  newUser.save(cb);
 }
 
 module.exports.registerUser = function(username, password) {
   debug('Attempt to register a new user: %s', username);
 
-  return findUser(username).then(function(existingUserId) {
-    if (existingUserId) {
-      debug('User already exists, id: %s', existingUserId);
-      throw new Error('User already exists.');
-    }
-
-    debug('User `%s` does not exists. Add a new one', username);
-
-    var newUser = new User({
-      username: username,
-      password: password
-    });
-
-    return Q.nfcall(newUser.save);
+  return findUser(username)
+  .then(function() {
+    throw new Error('User already exists.');
+  }, function() {
+    return Q.nfcall(addUser, username, password);
   });
 };
 

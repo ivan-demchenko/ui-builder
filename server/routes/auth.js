@@ -5,10 +5,10 @@ var debug = require('debug')('server:routes:auth'),
     token = require('../token'),
     message = require('./responseMessages');
 
-function serverError(res, msg) {
-  return function(err) {
-    debug(msg, err);
-    return res.status(500).json(message.error(msg, err));
+function serverError(res) {
+  return function(reason) {
+    debug(reason);
+    return res.status(500).json(message.error(reason));
   };
 }
 
@@ -24,14 +24,21 @@ module.exports.register = function(req, res) {
   var password = req.body.password.trim() || '';
   var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
 
-  if (username === '' || password === '' || password !== passwordConfirmation) {
+  if (username === '' || password === '' || passwordConfirmation === '') {
     return serverError(res, 'Form is empty')(new Error('Form is empty'));
+  }
+
+  if (password !== passwordConfirmation) {
+    return serverError(res, 'Please enter the same password two times')(new Error('Please enter the same password two times'));
   }
 
   authDomain
   .registerUser(username, password)
-  .then(success(res, 'A new user has successfully been registered'), serverError(res, 'Trouble while registering a new user'))
-  .catch(serverError(res, 'Trouble while registering a new user'));
+  .then(
+    success(res, 'Hi ' + username + '! You have registered, now you can login'),
+    serverError(res)
+  )
+  .catch(serverError(res));
 };
 
 module.exports.login = function(req, res) {

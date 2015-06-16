@@ -6,6 +6,10 @@ function config($routeProvider) {
     .when('/login', {
       controller: 'LoginCtrl as login',
       templateUrl: __dirname + '/views/login.html'
+    })
+    .when('/registration', {
+      controller: 'LoginCtrl as login',
+      templateUrl: __dirname + '/views/registration.html'
     });
 }
 

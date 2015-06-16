@@ -20,13 +20,12 @@ function Behavior($location, $rootScope, User, Session) {
 
     registration: {
       success: function(response) {
-        // TODO: Show success message
-        console.info(response.data.message);
+        window.alert(response.data.message);
+        $location.path('login');
       },
 
       error: function(reason) {
-        // TODO: Show error message
-        console.error(reason);
+        window.alert(reason.data.message);
       }
     },
 

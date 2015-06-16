@@ -6,8 +6,8 @@ function Message(message, severity, data) {
   this.data = data;
 }
 
-module.exports.error = function(message, data) {
-  return new Message(message, 'error', data);
+module.exports.error = function(errorObj) {
+  return new Message(errorObj ? errorObj.message : 'Error', 'error', errorObj);
 };
 
 module.exports.success = function(message, data) {

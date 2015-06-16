@@ -5,6 +5,9 @@
       <h1 class="uib-pane__title">Login</h1>
     </div>
     <div class="uib-pane uib-pane--small">
+      <h3>No account? <a href="registration">Register</a></h3>
+    </div>
+    <div class="uib-pane uib-pane--small">
       <form name="loginForm" id="loginForm" ng-submit="login.logUserIn()" novalidate>
         <div class="uib-form__control">
           <label for="username-login">Your username</label>
@@ -16,31 +19,6 @@
         </div>
         <div class="uib-form__control">
           <input type="submit" class="uib-btn uib-btn--dark" value="Log me in">
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="uib-pane">
-    <div class="uib-pane uib-pane--small">
-      <h1 class="uib-pane__title">Register</h1>
-    </div>
-    <div class="uib-pane uib-pane--small">
-      <form name="registerForm" id="registerForm" ng-submit="login.registerNewUser()" novalidate>
-        <div class="uib-form__control">
-          <label for="reg-username">Username</label>
-          <input type="text" name="login" id="reg-username" ng-model="login.registerData.username">
-        </div>
-        <div class="uib-form__control">
-          <label for="reg-password">Password</label>
-          <input type="password" name="password" id="reg-password" ng-model="login.registerData.password">
-        </div>
-        <div class="uib-form__control">
-          <label for="reg-password-confirm">Password confirmation</label>
-          <input type="password" name="passwordConfirmation" id="reg-password-confirm" ng-model="login.registerData.passwordConfirmation">
-        </div>
-        <div class="uib-form__control">
-          <input type="submit" class="uib-btn uib-btn--dark" value="Register me">
         </div>
       </form>
     </div>
