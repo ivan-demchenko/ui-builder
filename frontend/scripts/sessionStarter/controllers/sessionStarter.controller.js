@@ -10,6 +10,9 @@ function Controller(Behavior) {
   };
 
   this.start = function() {
+    if (!this.initials.html) {
+      return window.alert('Please, enter initial HTML');
+    }
     Behavior.session.startNew(this.title, this.initials);
   };
 }
