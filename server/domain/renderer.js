@@ -1,8 +1,10 @@
 'use strict';
 
+var env = process.env.NODE_ENV || 'production';
 var debug = require('debug')('server:domain:renderer'),
     Q = require('q'),
     jsdom = require('node-jsdom'),
+    config = require('../config')(env),
     serializeDocument = jsdom.serializeDocument,
     beautifyHtml = require('js-beautify').html;
 
@@ -64,7 +66,8 @@ function json2html(arrayOfItems, document, root, $) {
 
 function getRendererEnv(sessionHTML) {
   return Q.promise(function(resolve) {
-    jsdom.env(sessionHTML, ['http://localhost:3000/internal/jquery.js'], function (errors, window) {
+    var jqueryUrl = config.httpServer.host + ':' + config.httpServer.port + '/internal/jquery.js';
+    jsdom.env(sessionHTML, [jqueryUrl], function(errors, window) {
       resolve({
         $: window.jQuery,
         document: window.document,
@@ -120,7 +123,7 @@ module.exports.renderSession = function(session, snapshot) {
         resolve(serializeDocument(env.document));
       });
     } else {
-      debug('...Without snapshot, just session');
+      debug('...Without a snapshot, just session');
       return resolve(getRendererEnv(session.initial.html).then(function(env) {
         return serializeDocument(env.document);
       }));
