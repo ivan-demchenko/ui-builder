@@ -1,7 +1,7 @@
 'use strict';
 
 /*@ngInject*/
-function ResultTreeItemDirective($compile, $rootScope, ResultTree) {
+function ResultTreeItemDirective($compile, ResultTree) {
   return {
     restrict: 'E',
     replace: true,
@@ -42,10 +42,7 @@ function ResultTreeItemDirective($compile, $rootScope, ResultTree) {
         if (e.stopPropagation) {
           e.stopPropagation();
         }
-        if (scope.model.children) {
-          ResultTree.dropElement(scope.model.children, e);
-          $rootScope.$digest();
-        }
+        ResultTree.dropElement(scope.model, e);
         return false;
       });
     }

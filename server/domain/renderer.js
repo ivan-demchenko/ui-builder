@@ -24,6 +24,16 @@ function parameterIsNodeAttribute(par) {
   return typeof par.nodeAttribute !== 'undefined';
 }
 
+function setElementBehaviours(el, behavioursList, $) {
+  behavioursList.forEach(function(behav) {
+    if (behav.attr === 'class') {
+      $(el).addClass(behav.value);
+    } else {
+      $(el).attr(behav.attr, behav.value);
+    }
+  });
+}
+
 function setElementParameters(el, params, $) {
   var domElementAttrs = params
   .filter(parameterIsAttribute)
@@ -56,6 +66,9 @@ function json2html(arrayOfItems, document, root, $) {
     }
     if (rec.parameters) {
       setElementParameters(el, rec.parameters, $);
+    }
+    if (rec.behaviours) {
+      setElementBehaviours(el, rec.behaviours, $);
     }
     root.appendChild(el);
     if (rec.children && rec.children.length) {

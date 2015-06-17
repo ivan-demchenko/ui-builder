@@ -10,6 +10,7 @@
             "subNodes": [
               {
                 "name": "Wrapper",
+                "type": "component",
                 "tagName": "div",
                 "children": [],
                 "attributes": [
@@ -18,6 +19,7 @@
               },
               {
                 "name": "Group",
+                "type": "component",
                 "tagName": "div",
                 "children": [],
                 "parameters": [
@@ -40,26 +42,6 @@
                       }
                     ],
                     "value": "ys-ui-group-horizontal"
-                  },
-                  {
-                    "name": "Scrollability direction",
-                    "attribute": "class",
-                    "type": "select",
-                    "options": [
-                      {
-                        "label": "None",
-                        "value": ""
-                      },
-                      {
-                        "label": "Vertical",
-                        "value": "ys-ui-scrollable-vertically"
-                      },
-                      {
-                        "label": "Horizontal",
-                        "value": "ys-ui-scrollable-horizontally"
-                      }
-                    ],
-                    "value": "ys-ui-scrollable-vertically"
                   }
                 ]
               }
@@ -67,6 +49,7 @@
           },
           {
             "name": "Box",
+            "type": "component",
             "tagName": "div",
             "children": [],
             "parameters": [
@@ -101,6 +84,7 @@
             "subNodes": [
               {
                 "name": "Row",
+                "type": "component",
                 "tagName": "div",
                 "children": [],
                 "attributes": [{
@@ -109,6 +93,7 @@
               },
               {
                 "name": "Column",
+                "type": "component",
                 "tagName": "div",
                 "children": [],
                 "parameters": [
@@ -175,6 +160,7 @@
         "subNodes": [
           {
             "name": "Button",
+            "type": "component",
             "tagName": "button",
             "attributes": [
               { "class": "ys-ui-button" }
@@ -190,6 +176,7 @@
           },
           {
             "name": "Date time picker",
+            "type": "component",
             "tagName": "ys-ui-date-time-picker",
             "parameters": [
               {
@@ -214,6 +201,7 @@
           },
           {
             "name": "List",
+            "type": "component",
             "tagName": "ys-ui-list",
             "children": [],
             "parameters": [
@@ -230,6 +218,7 @@
             "subNodes": [
               {
                 "name": "Person",
+                "type": "component",
                 "tagName": "ys-ui-person-list-item",
                 "parameters": [
                   {
@@ -242,6 +231,7 @@
               },
               {
                 "name": "Organization",
+                "type": "component",
                 "tagName": "ys-ui-organization-list-item",
                 "parameters": [
                   {
@@ -264,6 +254,7 @@
             "subNodes": [
               {
                 "name": "ES Search",
+                "type": "component",
                 "tagName": "ys-ui-es-source",
                 "parameters": [
                   {
@@ -306,6 +297,7 @@
               {
                 "name": "Query builder",
                 "children": [],
+                "type": "component",
                 "tagName": "ys-ui-query-builder",
                 "parameters": [
                   {
@@ -319,6 +311,7 @@
               {
                 "name": "Where",
                 "tagName": "ys-ui-where",
+                "type": "component",
                 "parameters": [
                   {
                     "name": "Search Key",
@@ -337,6 +330,7 @@
               {
                 "name": "Paging",
                 "tagName": "ys-ui-page",
+                "type": "component",
                 "parameters": [
                   {
                     "name": "Items per page",
@@ -355,6 +349,7 @@
               {
                 "name": "Sorting",
                 "tagName": "ys-ui-sort",
+                "type": "component",
                 "parameters": [
                   {
                     "name": "Sort by ...",
@@ -371,6 +366,57 @@
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "name": "Behaviours",
+        "subNodes": [
+          {
+            "name": "Scrollability",
+            "type": "behaviour",
+            "attr": "class",
+            "value": "ys-ui-scrollable-vertically",
+            "optionsType": "select",
+            "options": [
+              {
+                "label": "Vertically",
+                "value": "ys-ui-scrollable-vertically"
+              },
+              {
+                "label": "Horizontally",
+                "value": "ys-ui-scrollable-horizontally"
+              }
+            ]
+          },
+          {
+            "name": "Text alignment",
+            "type": "behaviour",
+            "attr": "class",
+            "value": "ys-ui-text-left",
+            "optionsType": "select",
+            "options": [
+              {
+                "label": "Left",
+                "value": "ys-ui-text-left"
+              },
+              {
+                "label": "Center",
+                "value": "ys-ui-text-center"
+              },
+              {
+                "label": "Right",
+                "value": "ys-ui-text-right"
+              }
+            ]
+          },
+          {
+            "name": "Popover caller",
+            "type": "behaviour",
+            "attr": "popover-call",
+            "value": "pop1",
+            "optionsType": "free-text",
+            "optionLabel": "Popover component name"
           }
         ]
       }

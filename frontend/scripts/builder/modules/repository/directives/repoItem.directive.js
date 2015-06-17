@@ -16,7 +16,7 @@ function RepositoryItemDirective($compile) {
         $compile('<uib-repo-items-tree tree="model"></uib-repo-items-tree>')(scope, function(cloned) {
           elem.append(cloned);
         });
-      } else if (scope.model.tagName) {
+      } else if (scope.model.type) {
         elem.on('dragstart', function(evt) {
           var copy = angular.copy(scope.model);
           evt.dataTransfer.setData('elementDescription', JSON.stringify(copy));

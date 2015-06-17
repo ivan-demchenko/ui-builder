@@ -10,8 +10,20 @@ function ResultTree($rootScope, Modal) {
    * @param  {string} position  Specifier where to insert a new element relatively to the target
    * @return {boolean}
    */
-  this.dropElement = function(childrenSet, dropEvent) {
-    childrenSet.push(JSON.parse(dropEvent.dataTransfer.getData('elementDescription')));
+  this.dropElement = function(targetElement, dropEvent) {
+    var element = JSON.parse(dropEvent.dataTransfer.getData('elementDescription'));
+    if (Array.isArray(targetElement)) {
+      targetElement.push(element);
+    } else {
+      if (element.type === 'component') {
+        targetElement.children.push(element);
+      }
+      if (element.type === 'behaviour') {
+        targetElement.behaviours = targetElement.behaviours || [];
+        targetElement.behaviours.push(element);
+      }
+    }
+    $rootScope.$digest();
   };
 
   /**

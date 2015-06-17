@@ -3,9 +3,22 @@
   </uib-modal-header>
   <uib-modal-content>
     <form name="propsEditForm">
+
       <div ng-repeat="param in elem.parameters" class="uib-form__control">
         <div ng-include="getParamTemplateUrl(param)"></div>
       </div>
+
+      <div ng-if="elem.behaviours">
+        <h4>Added behaviour</h4>
+        <div ng-repeat="behav in elem.behaviours track by $index" class="uib-form__control">
+          <button class="uib-btn uib-btn--dark" ng-click="removeBehaviour(elem, behav)">
+            <i class="i-trash"></i>
+          </button>
+          <strong>{{::behav.name}}</strong>
+          <div ng-include="getBehaviourTemplateUrl(behav)"></div>
+        </div>
+      </div>
+
     </form>
   </uib-modal-content>
 </uib-modal>

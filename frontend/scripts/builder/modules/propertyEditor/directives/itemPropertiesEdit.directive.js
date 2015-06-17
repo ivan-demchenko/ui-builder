@@ -8,15 +8,28 @@ function ItemPropertiesEditDirective($rootScope) {
       data: '='
     },
     templateUrl: __dirname + '/itemPropertiesEdit.html',
+
+    // TODO: move it into a separate file
     controller: function($scope) {
       $scope.elem = null;
-
+      // TODO: bind methods to controller
       $scope.close = function() {
         $scope.elem = null;
       };
 
+      $scope.removeBehaviour = function(element, behav) {
+        var pos = element.behaviours.indexOf(behav);
+        if (window.confirm('Are you sure')) {
+          element.behaviours.splice(pos, 1);
+        }
+      };
+
       $scope.getParamTemplateUrl = function(param) {
-        return __dirname + '/subViews/' + param.type + '.html';
+        return __dirname + '/parameters/' + param.type + '.html';
+      };
+
+      $scope.getBehaviourTemplateUrl = function(behav) {
+        return __dirname + '/behaviours/' + behav.optionsType + '.html';
       };
 
       $rootScope.$on('uib:elem:edit:begin', function(evt, elem) {
