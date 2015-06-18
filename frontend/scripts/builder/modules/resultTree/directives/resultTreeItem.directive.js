@@ -17,19 +17,17 @@ function ResultTreeItemDirective($compile, ResultTree) {
     templateUrl: __dirname + '/resultTreeItem.html',
     controller: 'ResultTreeItemController',
     link: function(scope, elem) {
-      if (Array.isArray(scope.model.children) && scope.model.children.length) {
-        $compile('<uib-result-tree tree="model.children"></uib-result-tree>')(scope, function(cloned) {
-          elem.append(cloned);
-        });
-      }
-
       scope.$watch(function() {
-        return !!scope.model.children && scope.model.children.length > 0;
+        return scope.model.children ? scope.model.children.length : 0;
       }, function(newVal) {
-        if (newVal) {
-          $compile('<uib-result-tree tree="model.children"></uib-result-tree>')(scope, function(cloned) {
-            elem.append(cloned);
-          });
+        if (newVal === 0 && elem.find('ul').length > 0) {
+          return elem.find('ul').remove();
+        } else {
+          if (elem.find('ul').length === 0 && (scope.model.children && scope.model.children.length > 0)) {
+            $compile('<uib-result-tree tree="model.children"></uib-result-tree>')(scope, function(cloned) {
+              elem.append(cloned);
+            });
+          }
         }
       });
 
@@ -39,9 +37,7 @@ function ResultTreeItemDirective($compile, ResultTree) {
       });
 
       elem[0].addEventListener('drop', function(e) {
-        if (e.stopPropagation) {
-          e.stopPropagation();
-        }
+        e.stopPropagation();
         ResultTree.dropElement(scope.model, e);
         return false;
       });

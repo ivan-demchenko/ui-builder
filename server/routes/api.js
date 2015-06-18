@@ -12,7 +12,7 @@ function sendReloadSignal(res, message) {
     ws.broadcast('reload');
     responce.success(res, message)(data);
   };
-};
+}
 
 module.exports.getSessionById = function(req, res) {
   token
@@ -65,7 +65,7 @@ module.exports.updateSession = function(req, res) {
   debug('Attempt to update session');
   token.verify(req.headers).then(
     function(userData) {
-      sessionDomain.fetchSessionId().then(
+      sessionDomain.fetchSessionId(req).then(
         function(sessionId) {
           sessionDomain
           .updateSession(sessionId, userData._id, req.body)

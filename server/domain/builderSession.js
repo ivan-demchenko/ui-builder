@@ -120,6 +120,9 @@ module.exports.fetchSessionId = function(req) {
 module.exports.updateSession = function(sessionId, ownerId, newSessionData) {
   debug('Updating the initial code for session %s of owner %s', sessionId, ownerId);
 
+  var data = newSessionData;
+  delete data._id;
+  delete data.__v;
   var query = { '_id': sessionId, 'owner': ownerId };
   return Q.promise(function(resolve) {
     sessionModel.findOneAndUpdate(query, newSessionData, {}, function(err, session) {

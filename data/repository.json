@@ -29,10 +29,6 @@
                     "type": "select",
                     "options": [
                       {
-                        "label": "None",
-                        "value": ""
-                      },
-                      {
                         "label": "Vertical",
                         "value": "ys-ui-group-vertical"
                       },
@@ -52,12 +48,19 @@
             "type": "component",
             "tagName": "div",
             "children": [],
+            "attributes": [
+              { "class": "ys-ui-box" }
+            ],
             "parameters": [
               {
                 "name": "Size",
                 "attribute": "class",
                 "type": "select",
                 "options": [
+                  {
+                    "label": "Tiny",
+                    "value": "ys-ui-box--tiny"
+                  },
                   {
                     "label": "Small",
                     "value": "ys-ui-box--small"
@@ -87,9 +90,9 @@
                 "type": "component",
                 "tagName": "div",
                 "children": [],
-                "attributes": [{
-                  "class": "ys-ui-row"
-                }]
+                "attributes": [
+                  { "class": "ys-ui-row" }
+                ]
               },
               {
                 "name": "Column",
@@ -159,18 +162,160 @@
         "name": "Components",
         "subNodes": [
           {
-            "name": "Button",
+            "name": "User input",
+            "subNodes": [
+              {
+                "name": "Simple button",
+                "type": "component",
+                "tagName": "button",
+                "attributes": [
+                  { "class": "ys-ui-button" }
+                ],
+                "parameters": [
+                  {
+                    "name": "Caption",
+                    "nodeAttribute": "innerText",
+                    "type": "free-text",
+                    "value": "Push me"
+                  }
+                ]
+              },
+              {
+                "name": "Action button",
+                "type": "component",
+                "tagName": "ys-ui-action-button",
+                "attributes": [
+                  { "class": "ys-ui-button" }
+                ],
+                "parameters": [
+                  {
+                    "name": "Label",
+                    "attribute": "label",
+                    "type": "free-text",
+                    "value": "And Action!"
+                  },
+                  {
+                    "name": "Action method",
+                    "attribute": "action",
+                    "type": "free-text",
+                    "value": "ctrl.doDeferredAction()"
+                  }
+                ]
+              },
+              {
+                "name": "Toggle button",
+                "type": "component",
+                "tagName": "ys-ui-toggle-button",
+                "parameters": [
+                  {
+                    "name": "Toggled",
+                    "attribute": "toggled",
+                    "type": "free-text",
+                    "value": "ctrl.state"
+                  }
+                ]
+              },
+              {
+                "name": "Input",
+                "type": "component",
+                "tagName": "input",
+                "attributes": [
+                  { "class": "ys-ui-form-input" }
+                ],
+                "parameters": [
+                  {
+                    "name": "Type",
+                    "attribute": "type",
+                    "type": "select",
+                    "value": "text",
+                    "options": [
+                      {
+                        "label": "Text",
+                        "value": "text"
+                      },
+                      {
+                        "label": "Number",
+                        "value": "number"
+                      },
+                      {
+                        "label": "E-mail",
+                        "value": "email"
+                      },
+                      {
+                        "label": "URL",
+                        "value": "url"
+                      },
+                      {
+                        "label": "Telephone",
+                        "value": "tel"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Search field",
+                "type": "component",
+                "tagName": "ys-ui-search-field",
+                "parameters": [
+                  {
+                    "name": "Model",
+                    "attribute": "model",
+                    "type": "free-text",
+                    "value": "ctrl.searchBy"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Save-cancel",
             "type": "component",
-            "tagName": "button",
-            "attributes": [
-              { "class": "ys-ui-button" }
-            ],
+            "tagName": "ys-ui-save-cancel",
             "parameters": [
               {
-                "name": "Caption",
-                "nodeAttribute": "innerText",
+                "name": "Save click function",
+                "attribute": "save-click",
                 "type": "free-text",
-                "value": "Push me"
+                "value": "ctrl.save()"
+              },
+              {
+                "name": "Cancel click function",
+                "attribute": "cancel-click",
+                "type": "free-text",
+                "value": "ctrl.cancel()"
+              },
+              {
+                "name": "Validation",
+                "attribute": "validation",
+                "type": "free-text",
+                "value": "ctrl.isValidFn()"
+              }
+            ]
+          },
+          {
+            "name": "Wizard progress step indicator",
+            "type": "component",
+            "tagName": "ys-ui-wizard-progress-step-indicator",
+            "parameters": [
+              {
+                "name": "Steps definition",
+                "attribute": "steps-definition",
+                "type": "free-text",
+                "value": "ctrl.progressIndicator"
+              }
+            ]
+          },
+          {
+            "name": "Yes/No",
+            "type": "component",
+            "tagName": "ys-ui-yes-no",
+            "parameters": [
+              {
+                "name": "Model",
+                "attribute": "model",
+                "type": "free-text",
+                "value": "ctrl.decision"
               }
             ]
           },
@@ -200,6 +345,142 @@
             ]
           },
           {
+            "name": "Date time range picker",
+            "type": "component",
+            "tagName": "ys-ui-date-time-picker-range",
+            "parameters": [
+              {
+                "name": "Start date model",
+                "attribute": "start-date",
+                "type": "free-text",
+                "value": "ctrl.startDate"
+              },
+              {
+                "name": "End date model",
+                "attribute": "end-date",
+                "type": "free-text",
+                "value": "ctrl.endDate"
+              },
+              {
+                "name": "Start of range",
+                "attribute": "range-begins",
+                "type": "free-text",
+                "value": "ctrl.rangeStarts"
+              },
+              {
+                "name": "End of range",
+                "attribute": "range-ends",
+                "type": "free-text",
+                "value": "ctrl.tangeEnds"
+              },
+              {
+                "name": "Layout",
+                "attribute": "range-ends",
+                "type": "select",
+                "value": "horizontal",
+                "options": [
+                  {
+                    "label": "Horizontal",
+                    "value": "horizontal"
+                  },
+                  {
+                    "label": "Vertical",
+                    "value": "vertical"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Budget allocator",
+            "type": "component",
+            "tagName": "ys-ui-budget-allocator",
+            "parameters": [
+              {
+                "name": "Model",
+                "attribute": "model",
+                "type": "free-text",
+                "value": "budgetLines"
+              },
+              {
+                "name": "Budget type",
+                "attribute": "budget-type",
+                "type": "free-text",
+                "value": "'Business Unit'"
+              }
+            ]
+          },
+          {
+            "name": "Download",
+            "type": "component",
+            "tagName": "ys-ui-download",
+            "children": [],
+            "parameters": [
+              {
+                "name": "URL",
+                "attribute": "url",
+                "type": "free-text",
+                "value": "http://..."
+              }
+            ]
+          },
+          {
+            "name": "Dropdown",
+            "type": "component",
+            "tagName": "ys-ui-drop-down",
+            "parameters": [
+              {
+                "name": "Model",
+                "attribute": "model",
+                "type": "free-text",
+                "value": "ctrl.selectedItem"
+              },
+              {
+                "name": "Available options",
+                "attribute": "options",
+                "type": "free-text",
+                "value": "ctrl.options"
+              },
+              {
+                "name": "Expression",
+                "attribute": "expression",
+                "type": "free-text",
+                "value": "item as item"
+              }
+            ]
+          },
+          {
+            "name": "File uploader",
+            "type": "component",
+            "tagName": "ys-ui-file-uploader",
+            "parameters": [
+              {
+                "name": "URL",
+                "attribute": "url",
+                "type": "free-text",
+                "value": "'http://'"
+              },
+              {
+                "name": "Output file name",
+                "attribute": "output-file-name",
+                "type": "free-text",
+                "value": "filename"
+              },
+              {
+                "name": "Title",
+                "attribute": "title",
+                "type": "free-text",
+                "value": "Important document"
+              }
+            ]
+          },
+          {
+            "name": "Loading indicator",
+            "type": "component",
+            "tagName": "ys-ui-loading-indicator",
+            "parameters": []
+          },
+          {
             "name": "List",
             "type": "component",
             "tagName": "ys-ui-list",
@@ -210,6 +491,40 @@
                 "attribute": "model",
                 "type": "free-text",
                 "value": "listSource"
+              }
+            ]
+          },
+          {
+            "name": "Popover",
+            "type": "component",
+            "tagName": "ys-ui-popover",
+            "children": [],
+            "parameters": [
+              {
+                "name": "Name",
+                "attribute": "name",
+                "type": "free-text",
+                "value": "pop1"
+              }
+            ]
+          },
+          {
+            "name": "Progress bar",
+            "type": "component",
+            "tagName": "ys-ui-progress-bar",
+            "children": [],
+            "parameters": [
+              {
+                "name": "Current value",
+                "attribute": "current-value",
+                "type": "free-text",
+                "value": "ctrl.currentValue"
+              },
+              {
+                "name": "Max value",
+                "attribute": "max-value",
+                "type": "free-text",
+                "value": "ctrl.maxValue"
               }
             ]
           },
@@ -411,12 +726,20 @@
             ]
           },
           {
-            "name": "Popover caller",
+            "name": "Popover trigger",
             "type": "behaviour",
-            "attr": "popover-call",
+            "attr": "ys-ui-popover-trigger",
             "value": "pop1",
             "optionsType": "free-text",
-            "optionLabel": "Popover component name"
+            "optionLabel": "The name of a popover to trigger"
+          },
+          {
+            "name": "Popover cancel",
+            "type": "behaviour",
+            "attr": "ys-ui-popover-cancel",
+            "value": "pop1",
+            "optionsType": "free-text",
+            "optionLabel": "The name of a popover to close"
           }
         ]
       }
