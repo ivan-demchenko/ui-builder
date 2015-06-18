@@ -40,6 +40,72 @@
                     "value": "ys-ui-group-horizontal"
                   }
                 ]
+              },
+              {
+                "name": "Typography",
+                "subNodes": [
+                  {
+                    "name": "Line of text",
+                    "type": "component",
+                    "tagName": "span",
+                    "parameters": [
+                      {
+                        "name": "Content",
+                        "nodeAttribute": "innerText",
+                        "type": "free-text",
+                        "value": "Lorem ipsum..."
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Section title",
+                    "type": "component",
+                    "tagName": "span",
+                    "attributes": [
+                      { "class": "ys-ui-section-title" }
+                    ],
+                    "parameters": [
+                      {
+                        "name": "Content",
+                        "nodeAttribute": "innerText",
+                        "type": "free-text",
+                        "value": "Lorem ipsum..."
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Entity title",
+                    "type": "component",
+                    "tagName": "span",
+                    "attributes": [
+                      { "class": "ys-ui-entity-label" }
+                    ],
+                    "parameters": [
+                      {
+                        "name": "Content",
+                        "nodeAttribute": "innerText",
+                        "type": "free-text",
+                        "value": "Lorem ipsum..."
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Hint",
+                    "type": "component",
+                    "tagName": "span",
+                    "attributes": [
+                      { "class": "ys-ui-hint-label" }
+                    ],
+                    "parameters": [
+                      {
+                        "name": "Content",
+                        "nodeAttribute": "innerText",
+                        "type": "free-text",
+                        "value": "Lorem ipsum..."
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -701,6 +767,228 @@
               {
                 "label": "Horizontally",
                 "value": "ys-ui-scrollable-horizontally"
+              }
+            ]
+          },
+          {
+            "name": "Text color",
+            "type": "behaviour",
+            "attr": "class",
+            "value": "ys-ui-text-gray-darker",
+            "optionsType": "select",
+            "options": [
+              {
+                "label": "Green 100",
+                "value": "ys-ui-text-green-darker"
+              },
+              {
+                "label": "Green 200",
+                "value": "ys-ui-text-green-dark"
+              },
+              {
+                "label": "Green 300",
+                "value": "ys-ui-text-green-main"
+              },
+              {
+                "label": "Green 400",
+                "value": "ys-ui-text-green-light"
+              },
+              {
+                "label": "Green 500",
+                "value": "ys-ui-text-green-lighter"
+              },
+              {
+                "label": "Yellow 100",
+                "value": "ys-ui-text-yellow-darker"
+              },
+              {
+                "label": "Yellow 200",
+                "value": "ys-ui-text-yellow-dark"
+              },
+              {
+                "label": "Yellow 300",
+                "value": "ys-ui-text-yellow-main"
+              },
+              {
+                "label": "Yellow 400",
+                "value": "ys-ui-text-yellow-light"
+              },
+              {
+                "label": "Yellow 500",
+                "value": "ys-ui-text-yellow-lighter"
+              },
+              {
+                "label": "Blue 100",
+                "value": "ys-ui-text-blue-darker"
+              },
+              {
+                "label": "Blue 200",
+                "value": "ys-ui-text-blue-dark"
+              },
+              {
+                "label": "Blue 300",
+                "value": "ys-ui-text-blue-main"
+              },
+              {
+                "label": "Blue 400",
+                "value": "ys-ui-text-blue-light"
+              },
+              {
+                "label": "Blue 500",
+                "value": "ys-ui-text-blue-lighter"
+              },
+
+              {
+                "label": "Red 100",
+                "value": "ys-ui-text-red-darker"
+              },
+              {
+                "label": "Red 200",
+                "value": "ys-ui-text-red-dark"
+              },
+              {
+                "label": "Red 300",
+                "value": "ys-ui-text-red-main"
+              },
+              {
+                "label": "Red 400",
+                "value": "ys-ui-text-red-light"
+              },
+              {
+                "label": "Red 500",
+                "value": "ys-ui-text-red-lighter"
+              },
+
+              {
+                "label": "Gray 100",
+                "value": "ys-ui-text-gray-darker"
+              },
+              {
+                "label": "Gray 200",
+                "value": "ys-ui-text-gray-dark"
+              },
+              {
+                "label": "Gray 300",
+                "value": "ys-ui-text-gray-main"
+              },
+              {
+                "label": "Gray 400",
+                "value": "ys-ui-text-gray-light"
+              },
+              {
+                "label": "Gray 500",
+                "value": "ys-ui-text-gray-lighter"
+              }
+            ]
+          },
+          {
+            "name": "Background color",
+            "type": "behaviour",
+            "attr": "class",
+            "value": "ys-ui-box-gray-darker",
+            "optionsType": "select",
+            "options": [
+              {
+                "label": "Green 100",
+                "value": "ys-ui-box-green-darker"
+              },
+              {
+                "label": "Green 200",
+                "value": "ys-ui-box-green-dark"
+              },
+              {
+                "label": "Green 300",
+                "value": "ys-ui-box-green-main"
+              },
+              {
+                "label": "Green 400",
+                "value": "ys-ui-box-green-light"
+              },
+              {
+                "label": "Green 500",
+                "value": "ys-ui-box-green-lighter"
+              },
+              {
+                "label": "Yellow 100",
+                "value": "ys-ui-box-yellow-darker"
+              },
+              {
+                "label": "Yellow 200",
+                "value": "ys-ui-box-yellow-dark"
+              },
+              {
+                "label": "Yellow 300",
+                "value": "ys-ui-box-yellow-main"
+              },
+              {
+                "label": "Yellow 400",
+                "value": "ys-ui-box-yellow-light"
+              },
+              {
+                "label": "Yellow 500",
+                "value": "ys-ui-box-yellow-lighter"
+              },
+              {
+                "label": "Blue 100",
+                "value": "ys-ui-box-blue-darker"
+              },
+              {
+                "label": "Blue 200",
+                "value": "ys-ui-box-blue-dark"
+              },
+              {
+                "label": "Blue 300",
+                "value": "ys-ui-box-blue-main"
+              },
+              {
+                "label": "Blue 400",
+                "value": "ys-ui-box-blue-light"
+              },
+              {
+                "label": "Blue 500",
+                "value": "ys-ui-box-blue-lighter"
+              },
+
+              {
+                "label": "Red 100",
+                "value": "ys-ui-box-red-darker"
+              },
+              {
+                "label": "Red 200",
+                "value": "ys-ui-box-red-dark"
+              },
+              {
+                "label": "Red 300",
+                "value": "ys-ui-box-red-main"
+              },
+              {
+                "label": "Red 400",
+                "value": "ys-ui-box-red-light"
+              },
+              {
+                "label": "Red 500",
+                "value": "ys-ui-box-red-lighter"
+              },
+
+              {
+                "label": "Gray 100",
+                "value": "ys-ui-box-gray-darker"
+              },
+              {
+                "label": "Gray 200",
+                "value": "ys-ui-box-gray-dark"
+              },
+              {
+                "label": "Gray 300",
+                "value": "ys-ui-box-gray-main"
+              },
+              {
+                "label": "Gray 400",
+                "value": "ys-ui-box-gray-light"
+              },
+              {
+                "label": "Gray 500",
+                "value": "ys-ui-box-gray-lighter"
               }
             ]
           },
