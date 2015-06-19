@@ -673,40 +673,71 @@
             ]
           },
           {
+            "name": "Query builder",
+            "children": [],
+            "type": "component",
+            "tagName": "ys-ui-query-builder",
+            "parameters": [
+              {
+                "name": "Model",
+                "attribute": "model",
+                "type": "free-text",
+                "value": "query"
+              }
+            ]
+          },
+          {
             "name": "Query modifiers",
             "subNodes": [
               {
-                "name": "Query builder",
-                "children": [],
+                "name": "And",
+                "tagName": "ys-ui-and",
                 "type": "component",
-                "tagName": "ys-ui-query-builder",
-                "parameters": [
-                  {
-                    "name": "Model",
-                    "attribute": "model",
-                    "type": "free-text",
-                    "value": "query"
-                  }
-                ]
+                "children": []
               },
               {
-                "name": "Where",
-                "tagName": "ys-ui-where",
+                "name": "Like",
+                "tagName": "ys-ui-like",
                 "type": "component",
                 "parameters": [
                   {
-                    "name": "Search Key",
-                    "attribute": "search-key",
+                    "name": "Key",
+                    "attribute": "key",
                     "type": "free-text",
-                    "value": "'searchField'"
+                    "value": ""
                   },
                   {
-                    "name": "Search String",
-                    "attribute": "search-string",
+                    "name": "Value",
+                    "attribute": "value",
                     "type": "free-text",
                     "value": ""
                   }
                 ]
+              },
+              {
+                "name": "Nested",
+                "tagName": "ys-ui-nested",
+                "type": "component",
+                "parameters": [
+                  {
+                    "name": "Path",
+                    "attribute": "path",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Not",
+                "tagName": "ys-ui-not",
+                "type": "component",
+                "children": []
+              },
+              {
+                "name": "Or",
+                "tagName": "ys-ui-or",
+                "type": "component",
+                "children": []
               },
               {
                 "name": "Paging",
@@ -715,13 +746,57 @@
                 "parameters": [
                   {
                     "name": "Items per page",
-                    "attribute": "page-size",
+                    "attribute": "size",
                     "type": "free-text",
                     "value": ""
                   },
                   {
                     "name": "Page index",
-                    "attribute": "page-index",
+                    "attribute": "index",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Where",
+                "tagName": "ys-ui-range",
+                "type": "component",
+                "parameters": [
+                  {
+                    "name": "Key",
+                    "attribute": "key",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Value",
+                    "attribute": "value",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Range",
+                "tagName": "ys-ui-range",
+                "type": "component",
+                "parameters": [
+                  {
+                    "name": "Field",
+                    "attribute": "field",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "From",
+                    "attribute": "from",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "To",
+                    "attribute": "to",
                     "type": "free-text",
                     "value": ""
                   }
@@ -734,13 +809,13 @@
                 "parameters": [
                   {
                     "name": "Sort by ...",
-                    "attribute": "sort-key",
+                    "attribute": "key",
                     "type": "free-text",
                     "value": ""
                   },
                   {
                     "name": "Sort order",
-                    "attribute": "sort-order",
+                    "attribute": "order",
                     "type": "free-text",
                     "value": ""
                   }
