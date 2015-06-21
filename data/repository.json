@@ -6,106 +6,35 @@
         "name": "Layout",
         "subNodes": [
           {
-            "name": "Common",
-            "subNodes": [
+            "name": "Wrapper",
+            "type": "component",
+            "tagName": "div",
+            "children": [],
+            "attributes": [
+              { "class": "ys-ui-wrapper" }
+            ]
+          },
+          {
+            "name": "Group",
+            "type": "component",
+            "tagName": "div",
+            "children": [],
+            "parameters": [
               {
-                "name": "Wrapper",
-                "type": "component",
-                "tagName": "div",
-                "children": [],
-                "attributes": [
-                  { "class": "ys-ui-wrapper" }
-                ]
-              },
-              {
-                "name": "Group",
-                "type": "component",
-                "tagName": "div",
-                "children": [],
-                "parameters": [
+                "name": "Groupping direction",
+                "attribute": "class",
+                "type": "select",
+                "options": [
                   {
-                    "name": "Groupping direction",
-                    "attribute": "class",
-                    "type": "select",
-                    "options": [
-                      {
-                        "label": "Vertical",
-                        "value": "ys-ui-group-vertical"
-                      },
-                      {
-                        "label": "Horizontal",
-                        "value": "ys-ui-group-horizontal"
-                      }
-                    ],
+                    "label": "Vertical",
+                    "value": "ys-ui-group-vertical"
+                  },
+                  {
+                    "label": "Horizontal",
                     "value": "ys-ui-group-horizontal"
                   }
-                ]
-              },
-              {
-                "name": "Typography",
-                "subNodes": [
-                  {
-                    "name": "Line of text",
-                    "type": "component",
-                    "tagName": "span",
-                    "parameters": [
-                      {
-                        "name": "Content",
-                        "nodeAttribute": "innerText",
-                        "type": "free-text",
-                        "value": "Lorem ipsum..."
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Section title",
-                    "type": "component",
-                    "tagName": "span",
-                    "attributes": [
-                      { "class": "ys-ui-section-title" }
-                    ],
-                    "parameters": [
-                      {
-                        "name": "Content",
-                        "nodeAttribute": "innerText",
-                        "type": "free-text",
-                        "value": "Lorem ipsum..."
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Entity title",
-                    "type": "component",
-                    "tagName": "span",
-                    "attributes": [
-                      { "class": "ys-ui-entity-label" }
-                    ],
-                    "parameters": [
-                      {
-                        "name": "Content",
-                        "nodeAttribute": "innerText",
-                        "type": "free-text",
-                        "value": "Lorem ipsum..."
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Hint",
-                    "type": "component",
-                    "tagName": "span",
-                    "attributes": [
-                      { "class": "ys-ui-hint-label" }
-                    ],
-                    "parameters": [
-                      {
-                        "name": "Content",
-                        "nodeAttribute": "innerText",
-                        "type": "free-text",
-                        "value": "Lorem ipsum..."
-                      }
-                    ]
-                  }
-                ]
+                ],
+                "value": "ys-ui-group-horizontal"
               }
             ]
           },
@@ -219,6 +148,72 @@
                     "value": "ys-ui-col-1"
                   }
                 ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Typography",
+        "subNodes": [
+          {
+            "name": "Line of text",
+            "type": "component",
+            "tagName": "span",
+            "parameters": [
+              {
+                "name": "Content",
+                "nodeAttribute": "innerText",
+                "type": "free-text",
+                "value": "Lorem ipsum..."
+              }
+            ]
+          },
+          {
+            "name": "Section title",
+            "type": "component",
+            "tagName": "span",
+            "attributes": [
+              { "class": "ys-ui-section-title" }
+            ],
+            "parameters": [
+              {
+                "name": "Content",
+                "nodeAttribute": "innerText",
+                "type": "free-text",
+                "value": "Lorem ipsum..."
+              }
+            ]
+          },
+          {
+            "name": "Entity title",
+            "type": "component",
+            "tagName": "span",
+            "attributes": [
+              { "class": "ys-ui-entity-label" }
+            ],
+            "parameters": [
+              {
+                "name": "Content",
+                "nodeAttribute": "innerText",
+                "type": "free-text",
+                "value": "Lorem ipsum..."
+              }
+            ]
+          },
+          {
+            "name": "Hint",
+            "type": "component",
+            "tagName": "span",
+            "attributes": [
+              { "class": "ys-ui-hint-label" }
+            ],
+            "parameters": [
+              {
+                "name": "Content",
+                "nodeAttribute": "innerText",
+                "type": "free-text",
+                "value": "Lorem ipsum..."
               }
             ]
           }
@@ -631,6 +626,227 @@
         "name": "Data access",
         "subNodes": [
           {
+            "name": "Query builder",
+            "type": "component",
+            "tagName": "ys-ui-query-builder",
+            "children": [],
+            "parameters": [
+              {
+                "name": "Model",
+                "attribute": "model",
+                "type": "free-text",
+                "value": "query"
+              }
+            ]
+          },
+          {
+            "name": "Facets",
+            "subNodes": [
+
+              {
+                "name": "Facet query builder",
+                "children": [],
+                "type": "component",
+                "tagName": "ys-ui-facet-query-builder",
+                "parameters": [
+                  {
+                    "name": "Model",
+                    "attribute": "model",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Facet",
+                "children": [],
+                "type": "component",
+                "tagName": "ys-ui-facet",
+                "parameters": [
+                  {
+                    "name": "ID",
+                    "attribute": "id",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Facet method",
+                    "attribute": "facet-method",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Query field",
+                    "attribute": "query-field",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Select",
+                    "attribute": "select",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Title",
+                    "attribute": "title",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Static Facet",
+                "children": [],
+                "type": "component",
+                "tagName": "ys-ui-static-facet",
+                "parameters": [
+                  {
+                    "name": "ID",
+                    "attribute": "id",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Query field",
+                    "attribute": "query-field",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Select",
+                    "attribute": "select",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Title",
+                    "attribute": "title",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Time frame Facet",
+                "children": [],
+                "type": "component",
+                "tagName": "ys-ui-time-frame-facet",
+                "parameters": [
+                  {
+                    "name": "Query field",
+                    "attribute": "query-field",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Time frames",
+                    "attribute": "time-frames",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "Facet items",
+                "subNodes": [
+                  {
+                    "name": "Where",
+                    "type": "component",
+                    "tagName": "ys-ui-facet-item-where",
+                    "parameters": [
+                      {
+                        "name": "Name",
+                        "attribute": "name",
+                        "type": "free-text",
+                        "value": ""
+                      },
+                      {
+                        "name": "Value",
+                        "attribute": "value",
+                        "type": "free-text",
+                        "value": ""
+                      },
+                      {
+                        "name": "Display name",
+                        "attribute": "display-name",
+                        "type": "free-text",
+                        "value": ""
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Range",
+                    "type": "component",
+                    "tagName": "ys-ui-facet-item-range",
+                    "parameters": [
+                      {
+                        "name": "Name",
+                        "attribute": "name",
+                        "type": "free-text",
+                        "value": ""
+                      },
+                      {
+                        "name": "From",
+                        "attribute": "from",
+                        "type": "free-text",
+                        "value": ""
+                      },
+                      {
+                        "name": "To",
+                        "attribute": "to",
+                        "type": "free-text",
+                        "value": ""
+                      },
+                      {
+                        "name": "Display name",
+                        "attribute": "display-name",
+                        "type": "free-text",
+                        "value": ""
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Facet view",
+                "children": [],
+                "type": "component",
+                "tagName": "div",
+                "attributes": [
+                  { "class": "ys-ui-facet-view" }
+                ],
+                "parameters": [
+                  {
+                    "name": "End Point Url",
+                    "attribute": "end-point-url",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Search index",
+                    "attribute": "searched-index",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Scoped",
+                    "attribute": "scoped",
+                    "type": "select",
+                    "options": [{
+                      "label": "Yes, scoped",
+                      "value": "true"
+                    }, {
+                      "label": "No, not scoped",
+                      "value": "false"
+                    }],
+                    "value": "'true'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "name": "Data Fetchers",
             "subNodes": [
               {
@@ -669,20 +885,38 @@
                     "value": "persons"
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "name": "Query builder",
-            "children": [],
-            "type": "component",
-            "tagName": "ys-ui-query-builder",
-            "parameters": [
+              },
               {
-                "name": "Model",
-                "attribute": "model",
-                "type": "free-text",
-                "value": "query"
+                "name": "End-point source",
+                "type": "component",
+                "tagName": "ys-ui-end-point-source",
+                "children": [],
+                "parameters": [
+                  {
+                    "name": "URL",
+                    "attribute": "end-point-url",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Model",
+                    "attribute": "model",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Max items",
+                    "attribute": "max-items",
+                    "type": "free-text",
+                    "value": ""
+                  },
+                  {
+                    "name": "Query",
+                    "attribute": "query",
+                    "type": "free-text",
+                    "value": ""
+                  }
+                ]
               }
             ]
           },
