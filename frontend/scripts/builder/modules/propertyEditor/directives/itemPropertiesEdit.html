@@ -4,14 +4,15 @@
   <uib-modal-content>
     <form name="propsEditForm">
 
+      <h4 class="margined">Main options set of the element</h4>
       <div ng-repeat="param in elem.parameters" class="uib-form__control">
         <div ng-include="getParamTemplateUrl(param)"></div>
       </div>
 
-      <div ng-if="elem.behaviours">
-        <h4>Added behaviour</h4>
+      <div ng-if="elem.behaviours && elem.behaviours.length">
+        <h4 class="margined">Added behaviour</h4>
         <div ng-repeat="behav in elem.behaviours track by $index" class="uib-form__control">
-          <button class="uib-btn uib-btn--dark" ng-click="removeBehaviour(elem, behav)">
+          <button class="uib-btn uib-btn--dark uib-btn--small" ng-click="removeBehaviour(elem, behav)" title="Remove this behaviour">
             <i class="i-trash"></i>
           </button>
           <strong>{{::behav.name}}</strong>

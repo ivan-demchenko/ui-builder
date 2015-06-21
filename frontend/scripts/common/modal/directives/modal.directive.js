@@ -28,7 +28,7 @@ function ModalDirective(Modal) {
 function HeaderDirective() {
   return new Elem(path.resolve(__dirname, '../templates/header.html'), true, function(scope, elem, attrs) {
     attrs.$observe('label', function(newVal) {
-      elem[0].querySelector('.uib-modal__header__label h3').innerText = newVal;
+      elem[0].querySelector('.uib-modal__header__label h4').innerText = newVal;
     });
     attrs.$observe('subLabel', function(newVal) {
       elem[0].querySelector('.uib-modal__header__label h5').innerText = newVal;
