@@ -17,6 +17,8 @@ function ResultTreeItemDirective($compile, ResultTree) {
     templateUrl: __dirname + '/resultTreeItem.html',
     controller: 'ResultTreeItemController',
     link: function(scope, elem) {
+
+      // TODO: Refactor this hell
       scope.$watch(function() {
         return scope.model.children ? scope.model.children.length : 0;
       }, function(newVal) {

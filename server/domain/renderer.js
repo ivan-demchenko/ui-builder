@@ -8,12 +8,14 @@ var debug = require('debug')('server:domain:renderer'),
     serializeDocument = jsdom.serializeDocument,
     beautifyHtml = require('js-beautify').html;
 
-function setDefaultAttributes(el, attrs) {
-  attrs.forEach(function(attr) {
-    for (var k in attr) {
-      el.setAttribute(k, attr[k]);
-    }
-  });
+function setElementAttrVal($, el, attrName, attrVal) {
+  if (attrName === 'class') {
+    $(el).addClass(attrVal);
+  } else if (attrName === 'innerText') {
+    $(el).text(attrVal);
+  } else {
+    $(el).attr(attrName, attrVal);
+  }
 }
 
 function parameterIsAttribute(par) {
@@ -24,36 +26,43 @@ function parameterIsNodeAttribute(par) {
   return typeof par.nodeAttribute !== 'undefined';
 }
 
-function setElementBehaviours(el, behavioursList, $) {
+function setElementBehaviours($, el, behavioursList) {
   behavioursList.forEach(function(behav) {
-    if (behav.attr === 'class') {
-      $(el).addClass(behav.value);
-    } else {
-      $(el).attr(behav.attr, behav.value);
-    }
+    setElementAttrVal($, el, behav.attr, behav.value);
   });
 }
 
-function setElementParameters(el, params, $) {
-  var domElementAttrs = params
+function setElementParameters($, el, params) {
+  var groupedAttrs = params
   .filter(parameterIsAttribute)
-  .reduce(function(initMap, parameter) {
-    initMap[parameter.attribute] = initMap[parameter.attribute] || [];
-    if (parameter.value.trim()) {
-      initMap[parameter.attribute].push(parameter.value);
+  .reduce(function(resultMap, parameter) {
+    if (parameter.inUse) {
+      resultMap[parameter.attribute] = resultMap[parameter.attribute] || [];
+      var value = parameter.value.trim();
+      if (value) {
+        resultMap[parameter.attribute].push(value);
+      }
     }
-    return initMap;
+    return resultMap;
   }, {});
 
-  for (var k in domElementAttrs) {
-    el.setAttribute(k, domElementAttrs[k].join(' '));
+  for (var attrName in groupedAttrs) {
+    setElementAttrVal($, el, attrName, groupedAttrs[attrName].join(' '));
   }
 
   params
   .filter(parameterIsNodeAttribute)
   .forEach(function(par) {
-    if (par.nodeAttribute === 'innerText') {
-      $(el).text(par.value);
+    if (par.inUse) {
+      setElementAttrVal($, el, par.nodeAttribute, par.value);
+    }
+  });
+}
+
+function setDefaultAttributes($, el, attrs) {
+  attrs.forEach(function(attr) {
+    for (var attrName in attr) {
+      setElementAttrVal($, el, attrName, attr[attrName]);
     }
   });
 }
@@ -62,13 +71,13 @@ function json2html(arrayOfItems, document, root, $) {
   arrayOfItems.forEach(function(rec) {
     var el = document.createElement(rec.tagName);
     if (rec.attributes) {
-      setDefaultAttributes(el, rec.attributes);
+      setDefaultAttributes($, el, rec.attributes);
     }
     if (rec.parameters) {
-      setElementParameters(el, rec.parameters, $);
+      setElementParameters($, el, rec.parameters);
     }
     if (rec.behaviours) {
-      setElementBehaviours(el, rec.behaviours, $);
+      setElementBehaviours($, el, rec.behaviours);
     }
     root.appendChild(el);
     if (rec.children && rec.children.length) {

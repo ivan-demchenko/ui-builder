@@ -12,6 +12,11 @@ function ResultTree($rootScope, Modal) {
    */
   this.dropElement = function(targetElement, dropEvent) {
     var element = JSON.parse(dropEvent.dataTransfer.getData('elementDescription'));
+    if (element.parameters) {
+      element.parameters.forEach(function(par) {
+        par.inUse = true;
+      });
+    }
     if (Array.isArray(targetElement)) {
       targetElement.push(element);
     } else {
