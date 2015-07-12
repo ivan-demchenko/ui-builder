@@ -14,6 +14,10 @@ function Session($q, $http, $location) {
     return $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/s/' + this.session.sharedId;
   };
 
+  this.getEditSettingsUrl = function() {
+    return $location.protocol() + '://' + $location.host() + ':' + $location.port() + '/edit-settings/' + this.session._id;
+  };
+
   this.dropSession = function() {
     this.session = null;
   };
@@ -36,7 +40,7 @@ function Session($q, $http, $location) {
     }.bind(this));
   };
 
-  this.fetchSession = function(id) {
+  this.fetchFullSession = function(id) {
     if (this.session && this.session._id === id) {
       return $q.when(this.session);
     }
@@ -46,8 +50,20 @@ function Session($q, $http, $location) {
     }.bind(this));
   };
 
+  this.fetchSessionInitials = function(id) {
+    return $http.get('/api/session-initials/' + id).then(function(resp) {
+      return resp.data.data;
+    });
+  };
+
   this.updateSession = function(session) {
     return $http.put('/api/session/' + this.session._id, session).then(function(resp) {
+      return resp.data.data;
+    });
+  };
+
+  this.updateSessionInitials = function(sessionInitials, id) {
+    return $http.put('/api/session-initials/' + id, {initial: sessionInitials}).then(function(resp) {
       return resp.data.data;
     });
   };

@@ -15,7 +15,8 @@ function Controller($scope, repository, currentSession, Session, Behavior) {
   this.repoItems = repository;
   this.currentSession = currentSession;
   this.resultingHTML = '';
-  this.currentSessionURL = Session.getShareURL();
+  this.shareSessionURL = Session.getShareURL();
+  this.editSettingsURL = Session.getEditSettingsUrl();
 
   // Every single time anything is changed in the result tree,
   // we save a snapshot. It might be anything, from element added to property

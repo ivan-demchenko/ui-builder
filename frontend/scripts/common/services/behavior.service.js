@@ -52,7 +52,7 @@ function Behavior($location, $rootScope, User, Session) {
       Session.startNew(title, initialSetup);
     },
     continue: function(id) {
-      Session.fetchSession(id).then(function(session) {
+      Session.fetchFullSession(id).then(function(session) {
         $location.path('/builder/' + session._id);
       });
     }

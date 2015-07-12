@@ -7,7 +7,7 @@ function fetchRepositoryItems(Repository) {
 
 /*@ngInject*/
 function fetchSession($route, Session) {
-  return Session.fetchSession($route.current.params.sessionId);
+  return Session.fetchFullSession($route.current.params.sessionId);
 }
 
 /*@ngInject*/

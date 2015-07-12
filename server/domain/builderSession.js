@@ -34,6 +34,25 @@ function allSessions(query) {
   });
 }
 
+module.exports.getSessionInitialsBySessionId = function(req) {
+  debug('Try to get session initials by session id');
+  if (!req.params.sessionId) {
+    throw new Error('Session id has not been provided');
+  }
+  return Q.ninvoke(sessionModel, 'findById', req.params.sessionId).then(function(session) {
+    debug('Session is here');
+    return session.initial;
+  });
+};
+
+module.exports.setSessionInitialsBySessionId = function(req) {
+  debug('Try to get session initials by session id');
+  if (!req.params.sessionId) {
+    throw new Error('Session id has not been provided');
+  }
+  return Q.npost(sessionModel, 'findByIdAndUpdate', [req.params.sessionId, {initial:req.body.initial}]);
+};
+
 module.exports.sessionSnapshotPayloadValid = function(req) {
   debug('Validate session snapshot payload');
   return Q.Promise(function(resolve, reject) {

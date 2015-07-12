@@ -34,6 +34,9 @@ module.exports = function(app, config) {
 
   app.get('/api/session/:sessionId/result/:snapshotId?*', api.renderSession);
   app.get('/s/:shortId', api.renderSession);
+  app.get('/edit-settings/:sessionId', main.indexPage);
+  app.get('/api/session-initials/:sessionId', api.getSessionInitialsBySessionId);
+  app.put('/api/session-initials/:sessionId', api.setSessionInitialsBySessionId);
 
   secureRequest('get', '/api/session', api.getListOfSessions);
   secureRequest('post', '/api/session', api.startNewSession);

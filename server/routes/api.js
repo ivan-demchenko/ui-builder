@@ -20,126 +20,102 @@ module.exports.getSessionById = function(req, res) {
   .then(function(userData) {
     var sessionId = req.params.sessionId.trim() || '';
     debug('Try to get session by id %s', sessionId);
-    sessionDomain.getSessionsById(sessionId, userData._id)
-    .then(
-      responce.success(res, 'Session has been found'),
-      responce.error(res)
-    )
-    .catch(responce.error(res));
+    return sessionDomain
+    .getSessionsById(sessionId, userData._id)
+    .then(responce.success(res, 'Session has been found'))
   }).catch(responce.error('Error'));
 };
 
 module.exports.getListOfSessions = function(req, res) {
   token
   .verify(req.headers)
-  .then(
-    function(userData) {
-      sessionDomain
-      .getSessionsByUserId(userData._id)
-      .then(
-        responce.success(res, 'List is ready'),
-        responce.error(res)
-      )
-      .catch(responce.error(res));
-    },
-    responce.error(res)
-  ).catch(responce.invalidToken(res));
+  .then(function(userData) {
+    return sessionDomain
+    .getSessionsByUserId(userData._id)
+    .then(responce.success(res, 'List is ready'));
+  }).catch(responce.invalidToken(res));
+};
+
+module.exports.getSessionInitialsBySessionId = function(req, res) {
+  return sessionDomain
+  .getSessionInitialsBySessionId(req)
+  .then(responce.success(res, 'Session initials are ready'))
+  .catch(responce.error(res));
+};
+
+module.exports.setSessionInitialsBySessionId = function(req, res) {
+  return sessionDomain
+  .setSessionInitialsBySessionId(req)
+  .then(responce.success(res, 'Session initials has been updated'))
+  .catch(responce.error(res));
 };
 
 module.exports.startNewSession = function(req, res) {
-  token
-  .verify(req.headers)
+  token.verify(req.headers)
   .then(function(userData) {
-    sessionDomain
+    return sessionDomain
     .getNewSessionInitials(req, userData)
     .spread(sessionDomain.startNew)
-    .then(
-      responce.success(res, 'New sesion started'),
-      responce.error(res)
-    )
-    .catch(responce.error(res));
-  }, responce.invalidToken(res));
+    .then(responce.success(res, 'New sesion started'));
+  }).catch(responce.error(res));
 };
 
 module.exports.updateSession = function(req, res) {
   debug('Attempt to update session');
-  token.verify(req.headers).then(
-    function(userData) {
-      sessionDomain.fetchSessionId(req).then(
-        function(sessionId) {
-          sessionDomain
-          .updateSession(sessionId, userData._id, req.body)
-          .then(
-            sendReloadSignal(res, 'The initial code was updated'),
-            responce.error(res)
-          )
-          .catch(responce.error(res));
-        },
-        responce.error(res)
-      )
-      .catch(responce.error(res));
-    },
-    responce.invalidToken(res)
-  );
+  token
+  .verify(req.headers)
+  .then(function(userData) {
+    return sessionDomain
+    .fetchSessionId(req)
+    .then(function(sessionId) {
+      return sessionDomain
+        .updateSession(sessionId, userData._id, req.body)
+        .then(sendReloadSignal(res, 'The initial code was updated'));
+    });
+  }).catch(responce.error(res));
 };
 
 module.exports.appendSnapshotToSession = function(req, res) {
   token
   .verify(req.headers)
   .then(function() {
-    sessionDomain
+    return sessionDomain
     .sessionSnapshotPayloadValid(req)
     .spread(sessionDomain.appendSnapshotToSession)
-    .then(
-      sendReloadSignal(res, 'A new snapshot have been appended'),
-      responce.error(req)
-    );
-  }, responce.invalidToken(res));
+    .then(sendReloadSignal(res, 'A new snapshot have been appended'));
+  }).catch(responce.error(res));
 };
 
 module.exports.getSessionHTML = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(
-    function(sessionId) {
-      sessionDomain
-      .getSessionAsset(sessionId, 'html')
-      .then(responce.sendHTML(res), responce.error(res))
-      .catch(responce.error(res));
-    },
-    responce.error(res)
-  )
+  .then(function(sessionId) {
+    return sessionDomain
+    .getSessionAsset(sessionId, 'html')
+    .then(responce.sendHTML(res));
+  })
   .catch(responce.error(res));
 };
 
 module.exports.getSessionJS = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(
-    function(sessionId) {
-      sessionDomain
-      .getSessionAsset(sessionId, 'js')
-      .then(responce.sendJS(res), responce.error(res))
-      .catch(responce.error(res));
-    },
-    responce.error(res)
-  )
+  .then(function(sessionId) {
+    return sessionDomain
+    .getSessionAsset(sessionId, 'js')
+    .then(responce.sendJS(res));
+  })
   .catch(responce.error(res));
 };
 
 module.exports.getSessionCSS = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(
-    function(sessionId) {
-      sessionDomain
-      .getSessionAsset(sessionId, 'css')
-      .then(responce.sendCSS(res), responce.error(res))
-      .catch(responce.error(res));
-    },
-    responce.error(res)
-  )
-  .catch(responce.error(res));
+  .then(function(sessionId) {
+    return sessionDomain
+    .getSessionAsset(sessionId, 'css')
+    .then(responce.sendCSS(res));
+  }).catch(responce.error(res));
 };
 
 module.exports.renderSession = function(req, res) {
@@ -161,28 +137,23 @@ module.exports.renderSession = function(req, res) {
     debug('We have session and snapshot');
     return renderer.renderSession(session, snapshot);
   })
-  .then(
-    function(resultingHTML) {
-      debug('Sessions has been rendered');
-      return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-    },
-    responce.error(res, 'Problem while generation of result')
-  )
+  .then(function(resultingHTML) {
+    debug('Sessions has been rendered');
+    return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
+  })
   .catch(responce.error(res, 'Unable to generate the result for the session'));
 };
 
 module.exports.renderLatestsSnapshot = function(req, res) {
   var sessionId = req.params.sessionId || '';
 
-  sessionDomain.getSessionsById(sessionId)
+  sessionDomain
+  .getSessionsById(sessionId)
   .then(sessionDomain.getSessionSnapshotById(null))
   .spread(renderer.renderSnapshot)
-  .then(
-    function(resultingHTML) {
-      debug('Got rendering result %s', resultingHTML);
-      res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
-    },
-    responce.error('Unable to generate the result for the session')
-  )
+  .then(function(resultingHTML) {
+    debug('Got rendering result %s', resultingHTML);
+    res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
+  })
   .catch(responce.error(res, 'Unable to generate the result for the session'));
 };
