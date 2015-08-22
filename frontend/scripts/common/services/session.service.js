@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
 /*@ngInject*/
 function Session($q, $http, $location) {
   this.session = null;

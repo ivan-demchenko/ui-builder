@@ -10,8 +10,7 @@ function ResultTree($rootScope, Modal) {
    * @param  {string} position  Specifier where to insert a new element relatively to the target
    * @return {boolean}
    */
-  this.dropElement = function(targetElement, dropEvent) {
-    var element = JSON.parse(dropEvent.dataTransfer.getData('elementDescription'));
+  this.dropElement = function(targetElement, element) {
     if (element.parameters) {
       element.parameters.forEach(function(par) {
         par.inUse = true;

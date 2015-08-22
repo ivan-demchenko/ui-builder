@@ -18,8 +18,10 @@ function ResultTreeDirective($rootScope, ResultTree) {
 
       elem[0].addEventListener('drop', function(e) {
         e.stopPropagation();
+        var dropData;
         if (scope.tree) {
-          ResultTree.dropElement(scope.tree, e);
+          dropData = JSON.parse(e.dataTransfer.getData('elementDescription'));
+          ResultTree.dropElement(scope.tree, dropData);
           $rootScope.$digest();
         }
         return false;

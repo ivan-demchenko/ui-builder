@@ -1,5 +1,7 @@
 'use strict';
 
+var angular = require('angular');
+
 /*@ngInject*/
 function ResultTreeItemDirective($compile, ResultTree) {
   return {
@@ -18,6 +20,8 @@ function ResultTreeItemDirective($compile, ResultTree) {
     controller: 'ResultTreeItemController',
     link: function(scope, elem) {
 
+      scope.elemId = Math.random().toString(16).substr(2);
+
       // TODO: Refactor this hell
       scope.$watch(function() {
         return scope.model.children ? scope.model.children.length : 0;
@@ -33,14 +37,21 @@ function ResultTreeItemDirective($compile, ResultTree) {
         }
       });
 
-      elem[0].addEventListener('dragover', function(e) {
-        e.preventDefault();
-        return false;
+      elem[0].addEventListener('dragstart', function(evt) {
+        evt.stopPropagation();
+        var copy = angular.copy(scope.model);
+        copy.elemId = scope.elemId;
+        evt.dataTransfer.setData('elementDescription', JSON.stringify(copy));
       });
 
       elem[0].addEventListener('drop', function(e) {
         e.stopPropagation();
-        ResultTree.dropElement(scope.model, e);
+        var dropData = JSON.parse(e.dataTransfer.getData('elementDescription'));
+        if (dropData.elemId === scope.elemId) {
+          e.preventDefault();
+          return;
+        }
+        ResultTree.dropElement(scope.model, dropData);
         return false;
       });
     }
