@@ -2,7 +2,7 @@
 
 var Q = require('q'),
     _ = require('lodash'),
-    debug = require('debug')('server:token'),
+    debug = require('debug')('uib:server:token'),
     jsonwebtoken = require('jsonwebtoken'),
     redisClient = require('./redis'),
     configSetup = require('./config'),
@@ -26,24 +26,26 @@ function sign(user) {
 
 function extractFromHeader(headers) {
   return Q.promise(function(resolve, reject) {
-    if (headers && headers.authorization) {
-      var authorization = headers.authorization;
-
-      debug('Extract token from header %s', authorization);
-
-      var part = authorization.split(' ');
-      if (part.length === 2) {
-        return resolve(part[1]);
-      }
+    if (!headers || !headers.authorization) {
       return reject(null);
     }
-    return reject(null);
+    var authorization = headers.authorization;
+
+    debug('Extract token from header %s', authorization);
+
+    var part = authorization.split(' ');
+
+    if (part.length !== 2) {
+      return reject(null);
+    }
+
+    return resolve(part[1]);
   });
 }
 
 function generateStoredData(user, token) {
   if (!token) {
-    throw new Error('Error is null');
+    throw new Error('Tocken has not been provided');
   }
   var data = {
     _id: user._id,
@@ -78,8 +80,13 @@ function retrieve(token) {
   }
   debug('Retrieving data from Redis via token %s', token);
   return redisClient.get(token).then(function(reply) {
+    var data;
     debug('Got reply from Redis %s', reply);
-    var data = JSON.parse(reply);
+    try {
+      data = JSON.parse(reply);
+    } catch (e) {
+      throw e;
+    }
     if (data.token !== token) {
       debug('Tokens are not equal');
       throw new Error('Invalid token');
@@ -97,12 +104,8 @@ function verify(headers) {
 
 function expire(token) {
   debug('Expiring token: %s', token);
-  return Q.fcall(function() {
-    return redisClient.expire(token, 0).then(function() {
-      return redisClient.get(token).then(function(reply) {
-        return _.isNull(reply) ? true : false;
-      });
-    });
+  return redisClient.expire(token, 0).then(function() {
+    return redisClient.get(token).then(_.isNull);
   });
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('server:sessionModel'),
+var debug = require('debug')('uib:server:sessionModel'),
     snapshotModel = require('./snapshot').model,
     snapshotSchema = require('./snapshot').schema,
     mongoose = require('mongoose');

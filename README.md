@@ -14,3 +14,4 @@ Run `grunt` for building and `grunt serve` for preview.
 * `UIB_MNG_HOST` - MongoDB host (for example, `123.123.123.312`). Default: `localhost`
 * `UIB_RDS_HOST` - Redis host. Default: `127.0.0.1`
 * `UIB_RDS_PORT` - Redis port. Default: `6379`
+* `NODE_ENV` - `production` || `development`

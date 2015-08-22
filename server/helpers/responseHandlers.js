@@ -2,6 +2,12 @@
 
 var message = require('./responseMessages');
 
+function sendResponce(type, res) {
+  return function(code) {
+    return res.set('Content-Type', 'text/' + type).send(code);
+  };
+}
+
 module.exports.error = function(responceObject) {
   return function(reason) {
     return responceObject
@@ -27,19 +33,13 @@ module.exports.success = function(responceObject, successMessage) {
 };
 
 module.exports.sendHTML = function(res) {
-  return function(code) {
-    return res.set('Content-Type', 'text/html').send(code);
-  };
+  return sendResponce('html', res);
 };
 
 module.exports.sendJS = function(res) {
-  return function(code) {
-    return res.set('Content-Type', 'text/javascript').send(code);
-  };
+  return sendResponce('javascript', res);
 };
 
 module.exports.sendCSS = function(res) {
-  return function(code) {
-    return res.set('Content-Type', 'text/css').send(code);
-  };
+  return sendResponce('css', res);
 };

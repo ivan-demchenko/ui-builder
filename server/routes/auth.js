@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('server:routes:auth'),
+var debug = require('debug')('uib:server:routes:auth'),
     authDomain = require('../domain/auth'),
     token = require('../token'),
     responce = require('../helpers/responseHandlers.js');

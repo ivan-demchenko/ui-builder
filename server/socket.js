@@ -1,15 +1,14 @@
 'use strict';
 
-var debug = require('debug')('server:websocket'),
+var debug = require('debug')('uib:server:websocket'),
+    _ = require('lodash'),
     WebSocketServer = require('ws').Server,
     wss = null,
     clients = [];
 
-function notifyClient(msg) {
-  return function(client) {
-    client.send(msg);
-  };
-}
+var notifyClient = _.curry(function(msg, client) {
+  client.send(msg);
+});
 
 function clientIsActive(client) {
   return client.readyState !== 3;
@@ -30,8 +29,8 @@ module.exports.broadcast = function(msg) {
   }
 
   debug('Broadcasting %s message', msg);
-  debug('Number of clients', clients.length);
+  debug('Filter clients. Clients before filtering: %s', clients.length);
   clients = clients.filter(clientIsActive);
-  debug('Number of active clients', clients.length);
+  debug('Number of active clients %s', clients.length);
   clients.forEach(notifyClient(msg));
 };

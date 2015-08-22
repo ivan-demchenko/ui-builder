@@ -1,7 +1,7 @@
 'use strict';
 
 var env = process.env.NODE_ENV || 'production';
-var debug = require('debug')('server:domain:renderer'),
+var debug = require('debug')('uib:server:domain:renderer'),
     Q = require('q'),
     jsdom = require('node-jsdom'),
     config = require('../config')(env),

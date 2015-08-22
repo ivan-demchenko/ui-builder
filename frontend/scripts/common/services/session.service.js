@@ -33,8 +33,8 @@ function Session($q, $http, $location) {
       title: title,
       initialSetup: initialSetup
     }).then(function(resp) {
-      if (angular.isObject(resp.data.data)) {
-        this.session = resp.data.data;
+      if (resp.data.data) {
+        this.session = resp.data.data[0];
         return $location.path('builder/' + this.session._id);
       }
     }.bind(this));

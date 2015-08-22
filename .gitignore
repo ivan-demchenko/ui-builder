@@ -8,3 +8,4 @@ test/coverage
 .tmp
 .sass-cache
 bower_components
+tmp

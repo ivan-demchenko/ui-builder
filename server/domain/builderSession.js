@@ -1,6 +1,7 @@
 'use strict';
 
-var debug = require('debug')('server:domain:builderSession'),
+var debug = require('debug')('uib:server:domain:builderSession'),
+    _ = require('lodash'),
     Q = require('q'),
     sessionModel = require('../models/session');
 
@@ -10,28 +11,12 @@ function tail(arr) {
 
 function oneSession(query) {
   debug('Find one session by query %s', JSON.stringify(query));
-  return Q.Promise(function(resolve, reject) {
-    sessionModel.findOne(query).then(function(res) {
-      if (res) {
-        resolve(res);
-      } else {
-        reject(new Error('Session has not been found'));
-      }
-    });
-  });
+  return Q.ninvoke(sessionModel, 'findOne', query);
 }
 
 function allSessions(query) {
   debug('All sessions by %s', JSON.stringify(query));
-  return Q.Promise(function(resolve, reject) {
-    sessionModel.find(query).then(function(res) {
-      if (res) {
-        resolve(res);
-      } else {
-        reject(new Error('Sessions list can not be build'));
-      }
-    });
-  });
+  return Q.ninvoke(sessionModel, 'find', query);
 }
 
 module.exports.getSessionInitialsBySessionId = function(req) {
@@ -53,31 +38,27 @@ module.exports.setSessionInitialsBySessionId = function(req) {
   return Q.npost(sessionModel, 'findByIdAndUpdate', [req.params.sessionId, {initial:req.body.initial}]);
 };
 
-module.exports.sessionSnapshotPayloadValid = function(req) {
+module.exports.validateSessionSnapshotPayload = function(req) {
   debug('Validate session snapshot payload');
-  return Q.Promise(function(resolve, reject) {
-    var sessionId = req.params.sessionId;
-    if (!sessionId) {
-      return reject(new Error('Session has not been found'));
-    }
+  var sessionId = req.params.sessionId;
+  if (!sessionId) {
+    throw new Error('Session has not been found');
+  }
 
-    if (typeof req.body.tree === 'undefined') {
-      return reject(new Error('Tree has not been provided for a new snapshot'));
-    }
+  if (typeof req.body.tree === 'undefined') {
+    throw new Error('Tree has not been provided for a new snapshot');
+  }
 
-    return resolve([sessionId, (req.body.tree.trim() || '')]);
+  return [sessionId, (req.body.tree.trim() || '')];
+};
+
+module.exports.getSessionSnapshotById = _.curry(function(snapshotId, session) {
+  debug('get snapshot by id %s for session %s', snapshotId, session.id);
+  return Q.promise(function(resolve) {
+    var snapshot = snapshotId ? session.snapshots.id(snapshotId) : tail(session.snapshots);
+    return resolve([session, snapshot]);
   });
-};
-
-module.exports.getSessionSnapshotById = function(snapshotId) {
-  return function(session) {
-    debug('get snapshot by id %s for session %s', snapshotId, session.id);
-    return Q.promise(function(resolve) {
-      var snapshot = snapshotId ? session.snapshots.id(snapshotId) : tail(session.snapshots);
-      return resolve([session, snapshot]);
-    });
-  };
-};
+});
 
 module.exports.getSessionsBySharedId = function(sharedId) {
   debug('Find a session by shared id %s', sharedId);
@@ -91,39 +72,27 @@ module.exports.getSessionsById = function(sessionId) {
 
 module.exports.getNewSessionInitials = function(req, userData) {
   debug('Prepare Initials for the new session');
-  return Q.Promise(function(resolve) {
-    var title = req.body.title.trim() || '';
-    var initial = {
-      html: req.body.initialSetup.html.trim() || '',
-      css: req.body.initialSetup.css.trim() || '',
-      js: req.body.initialSetup.js.trim() || ''
-    };
-    resolve([userData._id, title, initial]);
-  });
+  var title = req.body.title.trim() || '';
+  var initial = {
+    html: req.body.initialSetup.html.trim() || '',
+    css: req.body.initialSetup.css.trim() || '',
+    js: req.body.initialSetup.js.trim() || ''
+  };
+  return [userData._id, title, initial];
 };
 
 module.exports.startNew = function(userId, title, initialCode) {
   debug('Starting a new builder session');
-  return Q.promise(function(resolve, reject) {
-    var sharedId = Math.random().toString(16).substr(2);
-    var newSession = new sessionModel({
-      sharedId: sharedId,
-      owner: userId,
-      title: title,
-      initial: initialCode,
-      snapshots: []
-    });
 
-    newSession.save(function(err) {
-      if (err) {
-        return reject(new Error(err));
-      }
-
-      debug('The new builder session has been saved to DB: %s', newSession._id);
-
-      resolve(newSession);
-    });
+  var newSession = new sessionModel({
+    sharedId: Math.random().toString(16).substr(2),
+    owner: userId,
+    title: title,
+    initial: initialCode,
+    snapshots: []
   });
+
+  return Q.ninvoke(newSession, 'save');
 };
 
 module.exports.fetchSessionId = function(req) {
@@ -143,14 +112,7 @@ module.exports.updateSession = function(sessionId, ownerId, newSessionData) {
   delete data._id;
   delete data.__v;
   var query = { '_id': sessionId, 'owner': ownerId };
-  return Q.promise(function(resolve) {
-    sessionModel.findOneAndUpdate(query, newSessionData, {}, function(err, session) {
-      if (err) {
-        throw new Error(err);
-      }
-      resolve(session);
-    });
-  });
+  return Q.ninvoke(sessionModel, 'findOneAndUpdate', query, newSessionData, {});
 };
 
 module.exports.getSessionsByUserId = function(userId) {

@@ -1,39 +1,42 @@
 'use strict';
 
-var debug = require('debug')('server:routes:api'),
+var debug = require('debug')('uib:server:routes:api'),
+    _ = require('lodash'),
     ws = require('../socket'),
     token = require('../token'),
     sessionDomain = require('../domain/builderSession'),
     renderer = require('../domain/renderer'),
     responce = require('../helpers/responseHandlers.js');
 
-function sendReloadSignal(res, message) {
-  return function(data) {
-    ws.broadcast('reload');
-    responce.success(res, message)(data);
-  };
+var sendReloadSignal = _.curry(function(res, message, data) {
+  ws.broadcast('reload');
+  responce.success(res, message)(data);
+});
+
+function checkTokenValidity(headers) {
+  return token.verify(headers);
 }
 
+var getSessionAsset = _.curry(function(type, sessionId) {
+  return sessionDomain.getSessionAsset(sessionId, type);
+});
+
 module.exports.getSessionById = function(req, res) {
-  token
-  .verify(req.headers)
-  .then(function(userData) {
+  checkTokenValidity(req.headers).then(function(userData) {
     var sessionId = req.params.sessionId.trim() || '';
     debug('Try to get session by id %s', sessionId);
-    return sessionDomain
-    .getSessionsById(sessionId, userData._id)
-    .then(responce.success(res, 'Session has been found'))
-  }).catch(responce.error('Error'));
+    return sessionDomain.getSessionsById(sessionId, userData._id);
+  })
+  .then(responce.success(res, 'Session has been found'))
+  .catch(responce.error('Error'));
 };
 
 module.exports.getListOfSessions = function(req, res) {
-  token
-  .verify(req.headers)
-  .then(function(userData) {
-    return sessionDomain
-    .getSessionsByUserId(userData._id)
-    .then(responce.success(res, 'List is ready'));
-  }).catch(responce.invalidToken(res));
+  checkTokenValidity(req.headers).then(function(userData) {
+    return sessionDomain.getSessionsByUserId(userData._id);
+  })
+  .then(responce.success(res, 'List is ready'))
+  .catch(responce.invalidToken(res));
 };
 
 module.exports.getSessionInitialsBySessionId = function(req, res) {
@@ -51,71 +54,56 @@ module.exports.setSessionInitialsBySessionId = function(req, res) {
 };
 
 module.exports.startNewSession = function(req, res) {
-  token.verify(req.headers)
-  .then(function(userData) {
-    return sessionDomain
-    .getNewSessionInitials(req, userData)
-    .spread(sessionDomain.startNew)
-    .then(responce.success(res, 'New sesion started'));
-  }).catch(responce.error(res));
+  checkTokenValidity(req.headers).then(function(userData) {
+    return sessionDomain.getNewSessionInitials(req, userData);
+  })
+  .spread(sessionDomain.startNew)
+  .then(responce.success(res, 'New sesion started'))
+  .catch(responce.error(res));
 };
 
 module.exports.updateSession = function(req, res) {
   debug('Attempt to update session');
-  token
-  .verify(req.headers)
-  .then(function(userData) {
-    return sessionDomain
-    .fetchSessionId(req)
-    .then(function(sessionId) {
-      return sessionDomain
-        .updateSession(sessionId, userData._id, req.body)
-        .then(sendReloadSignal(res, 'The initial code was updated'));
+  checkTokenValidity(req.headers).then(function(userData) {
+    return sessionDomain.fetchSessionId(req).then(function(sessionId) {
+      return sessionDomain.updateSession(sessionId, userData._id, req.body);
     });
-  }).catch(responce.error(res));
+  })
+  .then(sendReloadSignal(res, 'The initial code was updated'))
+  .catch(responce.error(res));
 };
 
 module.exports.appendSnapshotToSession = function(req, res) {
-  token
-  .verify(req.headers)
-  .then(function() {
-    return sessionDomain
-    .sessionSnapshotPayloadValid(req)
-    .spread(sessionDomain.appendSnapshotToSession)
-    .then(sendReloadSignal(res, 'A new snapshot have been appended'));
-  }).catch(responce.error(res));
+  checkTokenValidity(req.headers).then(function() {
+    return sessionDomain.validateSessionSnapshotPayload(req);
+  })
+  .spread(sessionDomain.appendSnapshotToSession)
+  .then(sendReloadSignal(res, 'A new snapshot have been appended'))
+  .catch(responce.error(res));
 };
 
 module.exports.getSessionHTML = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(function(sessionId) {
-    return sessionDomain
-    .getSessionAsset(sessionId, 'html')
-    .then(responce.sendHTML(res));
-  })
+  .then(getSessionAsset('html'))
+  .then(responce.sendHTML(res))
   .catch(responce.error(res));
 };
 
 module.exports.getSessionJS = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(function(sessionId) {
-    return sessionDomain
-    .getSessionAsset(sessionId, 'js')
-    .then(responce.sendJS(res));
-  })
+  .then(getSessionAsset('js'))
+  .then(responce.sendJS(res))
   .catch(responce.error(res));
 };
 
 module.exports.getSessionCSS = function(req, res) {
   sessionDomain
   .fetchSessionId(req)
-  .then(function(sessionId) {
-    return sessionDomain
-    .getSessionAsset(sessionId, 'css')
-    .then(responce.sendCSS(res));
-  }).catch(responce.error(res));
+  .then(getSessionAsset('css'))
+  .then(responce.sendCSS(res))
+  .catch(responce.error(res));
 };
 
 module.exports.renderSession = function(req, res) {
@@ -133,10 +121,7 @@ module.exports.renderSession = function(req, res) {
 
   sessionPromise
   .then(sessionDomain.getSessionSnapshotById(snapshotId))
-  .spread(function(session, snapshot) {
-    debug('We have session and snapshot');
-    return renderer.renderSession(session, snapshot);
-  })
+  .spread(renderer.renderSession)
   .then(function(resultingHTML) {
     debug('Sessions has been rendered');
     return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);

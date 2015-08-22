@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('models:user');
+var debug = require('debug')('uib:models:user');
 var Q = require('q');
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
@@ -30,17 +30,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.methods.comparePassword = function(password) {
   debug('compearing passwords');
-  return Q.promise(function(resolve, reject) {
-    bcrypt.compare(password, this.password, function(err, isMatch) {
-        if (err) {
-          return reject(err);
-        }
-        if (!isMatch) {
-          throw new Error('Passwords do not match');
-        }
-        resolve(isMatch);
-    });
-  }.bind(this));
+  return Q.ninvoke(bcrypt, 'compare', password, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

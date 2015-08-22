@@ -2,7 +2,7 @@
 
 var Q = require('q'),
     redis = require('redis'),
-    debug = require('debug')('server:redis'),
+    debug = require('debug')('uib:server:redis'),
     env = process.env.NODE_ENV || 'production',
     config = require('./config')(env),
     redisClient = redis.createClient(config.redis.port, config.redis.host, config.redis.options);

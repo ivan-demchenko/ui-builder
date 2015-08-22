@@ -2,7 +2,7 @@
 
 var socket = require('ws'),
     host = window.location.hostname,
-    ws = new socket('ws://' + host + '/ws');
+    ws = new socket('ws://' + host + ':3001/ws');
 
 ws.onopen = function() {
     console.log('connected!');

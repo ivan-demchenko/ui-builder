@@ -1,5 +1,6 @@
 'use strict';
 
+var debug = require('debug')('uib:app');
 var expressSetup = require('./server/express');
 var socketServer = require('./server/socket');
 var mongoClient = require('./server/mongo');
@@ -20,5 +21,5 @@ routesSetup(expressApp, config);
 var runner = expressApp.listen(config.httpServer.port, function() {
   var host = runner.address().address;
   var port = runner.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
+  debug('Server: http://%s:%s', host, port);
 });

@@ -2,22 +2,12 @@
 
 var Q = require('q'),
     User = require('../models/user'),
-    debug = require('debug')('server:domain:auth'),
+    debug = require('debug')('uib:server:domain:auth'),
     token = require('../token');
 
 function findUser(username) {
   debug('Attempt to find a user by username %s ', username);
-  return Q.Promise(function(resolve, reject) {
-    User.findOne({username: username}).then(function(res) {
-      if (res) {
-        debug('... User has been found');
-        resolve(res);
-      } else {
-        debug('... User has not been found');
-        reject(null);
-      }
-    });
-  });
+  return Q.ninvoke(User, 'findOne', {username: username});
 }
 
 function addUser(username, password, cb) {
@@ -81,9 +71,13 @@ module.exports.registerUser = function(username, password) {
 module.exports.logUserIn = function(username, password) {
   debug('Try to log user in');
 
-  return findUser(username).then(function(user) {
+  return findUser(username)
+  .then(function(user) {
     debug('User has been found, compare passwords');
-    return user.comparePassword(password).then(function() {
+    return user.comparePassword(password).then(function(match) {
+      if (!match) {
+        throw new Error('Passwords do not match');
+      }
       return token.create(user);
     });
   });

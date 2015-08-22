@@ -2,10 +2,6 @@
 
 var env = process.env;
 
-function valOrNUll(val) {
-  return val ? val : null;
-}
-
 module.exports = {
   token: {
     exp: (60 * 60),
@@ -19,12 +15,12 @@ module.exports = {
     port: env.UIB_SRV_PORT || 3000
   },
   mongo: {
-    host: 'mongodb://' + (env.UIB_MNG_HOST || valOrNUll(env.MONGO_PORT_27017_TCP_ADDR) || 'localhost') + '/uibuilder',
+    host: 'mongodb://' + (env.UIB_MNG_HOST || 'localhost') + '/uibuilder',
     options: {}
   },
   redis: {
-    host: env.UIB_RDS_HOST || env.UIB_REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
-    port: env.UIB_RDS_PORT || env.UIB_REDIS_PORT_6379_TCP_PORT || 6379,
+    host: env.UIB_RDS_HOST || '127.0.0.1',
+    port: env.UIB_RDS_PORT || 6379,
     options: {}
   }
 };
