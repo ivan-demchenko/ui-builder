@@ -12,6 +12,16 @@ function Controller($scope, repository, currentSession, Session, Behavior) {
 
   $scope.$on('$destroy', Behavior.builder.turnOff);
 
+  this.sizeTable = [
+    { width: '100%', height: '100%', name: 'None' },
+    { width: '768px', height: '1024px', name: 'iPad (portrate)' },
+    { width: '1024px', height: '769px',  name: 'iPad (landscape)'},
+    { width: '320px', height: '480px', name: 'iPhone 4' },
+    { width: '320px', height: '568px', name: 'iPhone 5' },
+    { width: '375px', height: '667px', name: 'iPhone 6' },
+    { width: '360px', height: '640px', name: 'Nexus 5' }
+  ];
+  this.canvasSize = this.sizeTable[0].name;
   this.repoItems = repository;
   this.currentSession = currentSession;
   this.resultingHTML = '';

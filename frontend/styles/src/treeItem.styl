@@ -3,7 +3,6 @@
   list-style none
   padding 0.3rem 0 0.3rem 0.3rem
   min-height 1.7rem
-  display flex
   justify-content center
   transition .3s background
 
@@ -17,8 +16,7 @@
     @extend .flex-prior
 
   &__aside
-    @extend .flex
-    @extend .no-shrink
+    @extend .flex, .no-shrink
 
     .uib-btn
       padding .1rem
