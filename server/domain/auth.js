@@ -1,6 +1,7 @@
 'use strict';
 
 var Q = require('q'),
+    _ = require('lodash'),
     User = require('../models/user'),
     debug = require('debug')('uib:server:domain:auth'),
     token = require('../token');
@@ -42,16 +43,15 @@ module.exports.registerPayloadCorrect = function(req) {
 
 module.exports.loginPayloadCorrect = function(req) {
   debug('Check login payload');
-  return Q.Promise(function(resolve, reject) {
-    var username = req.body.username.trim() || '';
-    var password = req.body.password.trim() || '';
 
-    if (username === '' || password === '') {
-      return reject(new Error('Login data has not been provided'));
-    }
+  var username = req.body.username.trim() || '';
+  var password = req.body.password.trim() || '';
 
-    resolve([username, password]);
-  });
+  if (!username || !password) {
+    throw new Error('Please, enter username and password');
+  }
+
+  return [username, password];
 };
 
 
@@ -60,7 +60,7 @@ module.exports.registerUser = function(username, password) {
 
   return findUser(username).then(
     function() {
-      throw new Error('User already exists.');
+      throw new Error('This user name is already taken, I am afraid');
     },
     function() {
       return Q.nfcall(addUser, username, password);
@@ -71,13 +71,20 @@ module.exports.registerUser = function(username, password) {
 module.exports.logUserIn = function(username, password) {
   debug('Try to log user in');
 
-  return findUser(username)
-  .then(function(user) {
+  return findUser(username).then(function(user) {
+    if (_.isNull(user)) {
+      throw new Error('Looks like there is no such user');
+    }
+
     debug('User has been found, compare passwords');
+
     return user.comparePassword(password).then(function(match) {
       if (!match) {
-        throw new Error('Passwords do not match');
+        throw new Error('You have entered incorrect password');
       }
+
+      debug('Passwords do match! So we can generate token now!');
+
       return token.create(user);
     });
   });

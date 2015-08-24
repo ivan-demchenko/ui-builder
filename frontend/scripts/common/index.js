@@ -4,6 +4,7 @@ var angular = require('angular');
 
 module.exports = angular.module('uiBuilderApp.common', [
     require('./modal').name,
+    require('./notifications').name,
     require('./tabs').name
   ])
   .directive('uibAction', require('./directives/action/action.directive'))

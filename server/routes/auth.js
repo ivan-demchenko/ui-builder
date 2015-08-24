@@ -1,6 +1,7 @@
 'use strict';
 
 var debug = require('debug')('uib:server:routes:auth'),
+    Q = require('q'),
     authDomain = require('../domain/auth'),
     token = require('../token'),
     responce = require('../helpers/responseHandlers.js');
@@ -18,11 +19,10 @@ module.exports.register = function(req, res) {
 module.exports.login = function(req, res) {
   debug('Attempt to login');
 
-  authDomain
-  .loginPayloadCorrect(req)
+  Q.fcall(authDomain.loginPayloadCorrect, req)
   .spread(authDomain.logUserIn)
   .then(responce.success(res, 'Welcome'))
-  .catch(responce.error(res, 'Error while logging user in'));
+  .catch(responce.error(res));
 };
 
 module.exports.logout = function(req, res) {
@@ -31,5 +31,5 @@ module.exports.logout = function(req, res) {
   token.verify(req.headers)
   .then(authDomain.logUserOut)
   .then(responce.success(res, 'Logout success'))
-  .catch(responce.error(res, 'Logout failed'));
+  .catch(responce.error(res));
 };

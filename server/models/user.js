@@ -29,7 +29,10 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.methods.comparePassword = function(password) {
-  debug('compearing passwords');
+  if (!password) {
+    throw new Error('No password for comparison has been provided');
+  }
+  debug('Comparing passwords');
   return Q.ninvoke(bcrypt, 'compare', password, this.password);
 };
 

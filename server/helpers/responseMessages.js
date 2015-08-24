@@ -1,13 +1,14 @@
 'use strict';
 
 function Message(message, severity, data) {
-  this.severity = severity;
   this.message = message;
+  this.severity = severity;
   this.data = data;
 }
 
 module.exports.error = function(errorObj) {
-  return new Message(errorObj ? errorObj.message : 'Error', 'error', errorObj);
+  var errorMsg = errorObj ? errorObj.message : 'Oops, something went wrong...';
+  return new Message(errorMsg, 'error', errorObj);
 };
 
 module.exports.success = function(message, data) {

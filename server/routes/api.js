@@ -35,7 +35,7 @@ module.exports.getListOfSessions = function(req, res) {
   checkTokenValidity(req.headers).then(function(userData) {
     return sessionDomain.getSessionsByUserId(userData._id);
   })
-  .then(responce.success(res, 'List is ready'))
+  .then(responce.success(res, 'Here is your list of sessions'))
   .catch(responce.invalidToken(res));
 };
 
@@ -116,7 +116,7 @@ module.exports.renderSession = function(req, res) {
     sessionPromise = sessionDomain.getSessionsById(req.params.sessionId);
   } else {
     debug('Session id is not specified!');
-    return responce.error(res, 'Sessions id is not specified');
+    return responce.error(res);
   }
 
   sessionPromise
@@ -126,7 +126,7 @@ module.exports.renderSession = function(req, res) {
     debug('Sessions has been rendered');
     return res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
   })
-  .catch(responce.error(res, 'Unable to generate the result for the session'));
+  .catch(responce.error(res));
 };
 
 module.exports.renderLatestsSnapshot = function(req, res) {
@@ -140,5 +140,5 @@ module.exports.renderLatestsSnapshot = function(req, res) {
     debug('Got rendering result %s', resultingHTML);
     res.status(200).set('Content-Type', 'text/html').send(resultingHTML);
   })
-  .catch(responce.error(res, 'Unable to generate the result for the session'));
+  .catch(responce.error(res));
 };

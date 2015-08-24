@@ -1,45 +1,39 @@
 'use strict';
 
 /*ngInject*/
-function Behavior($location, $rootScope, User, Session) {
+function Behavior($location, $rootScope, User, Session, Notifications) {
   this.auth = {
     login: {
       success: function(response) {
-        console.log('>> login successful');
-        // TODO: Show success message
-        console.info(response.data.message);
+        Notifications.notify(response.data.severity, response.data.message);
         User.setLoggedIn(response);
         $location.path('/');
       },
       error: function(reason) {
-        console.log('>> login failed');
-        // TODO: Show error message
-        console.error(reason);
+        Notifications.notify(reason.data.severity, reason.data.message);
       }
     },
 
     registration: {
       success: function(response) {
-        window.alert(response.data.message);
+        Notifications.notify(response.data.severity, response.data.message);
         $location.path('login');
       },
 
       error: function(reason) {
-        window.alert(reason.data.message);
+        Notifications.notify(reason.data.severity, reason.data.message);
       }
     },
 
     logout: {
       success: function(response) {
-        // TODO: Show success message
-        console.info(response.data.message);
+        Notifications.notify(response.data.severity, response.data.message);
         User.loggedOut();
         $location.path('/login');
       },
 
       error: function(reason) {
-        // TODO: Show error message
-        console.error(reason);
+        Notifications.notify(reason.data.severity, reason.data.message);
       }
     }
   };

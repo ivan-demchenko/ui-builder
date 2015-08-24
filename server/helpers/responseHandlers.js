@@ -1,6 +1,8 @@
 'use strict';
 
-var message = require('./responseMessages');
+var message = require('./responseMessages'),
+    debug = require('debug')('uib:helper:response'),
+    _ = require('lodash');
 
 function sendResponce(type, res) {
   return function(code) {
@@ -8,27 +10,23 @@ function sendResponce(type, res) {
   };
 }
 
-module.exports.error = function(responceObject) {
-  return function(reason) {
-    return responceObject
-      .status(500)
-      .json(message.error(reason));
-  };
-};
+module.exports.error = _.curry(function(responceObject, data) {
+  return responceObject
+    .status(500)
+    .json(message.error(data));
+});
+
+module.exports.success = _.curry(function(responceObject, successMessage, data) {
+  return responceObject
+    .status(200)
+    .json(message.success(successMessage, data));
+});
 
 module.exports.invalidToken = function(responceObject) {
   return function() {
     return responceObject
       .status(401)
       .json(message.error(new Error('Invalid token')));
-  };
-};
-
-module.exports.success = function(responceObject, successMessage) {
-  return function(data) {
-    return responceObject
-      .status(200)
-      .json(message.success(successMessage, data));
   };
 };
 

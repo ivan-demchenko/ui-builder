@@ -16,6 +16,7 @@ function jwtVerify(token) {
 }
 
 function sign(user) {
+  debug('Signing with JWT');
   return Q.fcall(function() {
     var token = jsonwebtoken.sign({ _id: user._id }, config.token.secret, {
       expiresInMinutes: config.token.exp / 60
@@ -27,7 +28,7 @@ function sign(user) {
 function extractFromHeader(headers) {
   return Q.promise(function(resolve, reject) {
     if (!headers || !headers.authorization) {
-      return reject(null);
+      return reject(new Error('Authorization header has not been provided'));
     }
     var authorization = headers.authorization;
 
@@ -36,7 +37,7 @@ function extractFromHeader(headers) {
     var part = authorization.split(' ');
 
     if (part.length !== 2) {
-      return reject(null);
+      return reject(new Error('Authorization header is corrupted'));
     }
 
     return resolve(part[1]);
@@ -45,8 +46,11 @@ function extractFromHeader(headers) {
 
 function generateStoredData(user, token) {
   if (!token) {
-    throw new Error('Tocken has not been provided');
+    throw new Error('Token has not been provided');
   }
+
+  debug('Generating user-token data to store');
+
   var data = {
     _id: user._id,
     username: user.username,
@@ -59,13 +63,14 @@ function generateStoredData(user, token) {
 }
 
 function create(user) {
-  debug('Create a new token');
   if (_.isNull(user)) {
-    throw new Error('User is null');
+    throw new Error('User data has not beed provided');
   }
+  debug('Create a new token for the user');
   return sign(user)
   .spread(generateStoredData)
   .spread(function(data, token) {
+    debug('Received token and data to be stored');
     return redisClient.set(token, JSON.stringify(data)).then(function() {
       return redisClient.expire(token, config.token.exp).then(function() {
         return data;
@@ -76,7 +81,7 @@ function create(user) {
 
 function retrieve(token) {
   if (_.isNull(token)) {
-    throw new Error('token_invalid');
+    throw new Error('Your access token is outdated, you need to relogin.');
   }
   debug('Retrieving data from Redis via token %s', token);
   return redisClient.get(token).then(function(reply) {
@@ -85,11 +90,11 @@ function retrieve(token) {
     try {
       data = JSON.parse(reply);
     } catch (e) {
-      throw e;
+      throw new Error('Error happened while checking token');
     }
     if (data.token !== token) {
       debug('Tokens are not equal');
-      throw new Error('Invalid token');
+      throw new Error('Your access token is invalid. Please, relogin');
     }
     debug('Tokens are equal, yours one is fine');
     return data;
