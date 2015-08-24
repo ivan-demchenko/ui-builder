@@ -9,8 +9,7 @@ var debug = require('debug')('uib:server:routes:auth'),
 module.exports.register = function(req, res) {
   debug('Attempt to register');
 
-  authDomain
-  .registerPayloadCorrect(req)
+  Q.fcall(authDomain.registerPayloadCorrect, req)
   .spread(authDomain.registerUser)
   .then(responce.success(res, 'You have registered, now you can login'))
   .catch(responce.error(res));

@@ -24,21 +24,20 @@ function addUser(username, password, cb) {
 
 module.exports.registerPayloadCorrect = function(req) {
   debug('Check register payload');
-  return Q.Promise(function(resolve, reject) {
-    var username = req.body.username.trim() || '';
-    var password = req.body.password.trim() || '';
-    var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
 
-    if (username === '' || password === '' || passwordConfirmation === '') {
-      return reject(new Error('Login data is not provided'));
-    }
+  var username = req.body.username.trim() || '';
+  var password = req.body.password.trim() || '';
+  var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
 
-    if (password !== passwordConfirmation) {
-      return reject(new Error('Login data is not provided'));
-    }
+  if (username === '' || password === '' || passwordConfirmation === '') {
+    return new Error('Data is not provided');
+  }
 
-    resolve([username, password]);
-  });
+  if (password !== passwordConfirmation) {
+    throw new Error('Password and password confirmation do not match');
+  }
+
+  return [username, password];
 };
 
 module.exports.loginPayloadCorrect = function(req) {
