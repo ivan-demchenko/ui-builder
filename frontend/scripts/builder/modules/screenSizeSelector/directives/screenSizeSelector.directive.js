@@ -5,12 +5,11 @@ function ScreenSizeSelectorDirective() {
     restrict: 'E',
     replace: true,
     scope: {
-      model: '=',
-      sizeTable: '='
+      selectedSize: '=',
+      presets: '=',
+      rotated: '='
     },
-    templateUrl: __dirname + '/screenSizeSelector.html',
-    controller: 'screenSizeSelectorController',
-    controllerAs: 'sss'
+    templateUrl: __dirname + '/screenSizeSelector.html'
   };
 }
 

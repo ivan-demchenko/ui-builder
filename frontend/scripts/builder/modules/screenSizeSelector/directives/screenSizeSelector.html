@@ -1,3 +1,9 @@
 <div class="uib-screen-size-selector">
-  <select ng-model="model" ng-options="item as item.name for item in sizeTable track by item.name"></select>
+  <label for="screen-size-selector">
+    Screen size:&nbsp;
+    <select id="screen-size-selector" ng-model="selectedSize" ng-options="preset as preset.name for preset in presets"></select>
+  </label>
+  <label for="screen-rotated">
+    Screen is rotated <input type="checkbox" id="screen-rotated" ng-model="rotated">
+  </label>
 </div>

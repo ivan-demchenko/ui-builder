@@ -1,10 +1,14 @@
 <div class="uib-app-wrapper">
-  <uib-repo-items-tree tree="builder.repoItems.componentsTree"></uib-repo-items-tree>
-  <uib-result-tree tree="builder.resultTree"></uib-result-tree>
+  <div class="scrollable">
+    <uib-repo-items-tree tree="builder.repoItems.componentsTree"></uib-repo-items-tree>
+  </div>
+  <div class="scrollable">
+    <uib-result-tree tree="builder.resultTree"></uib-result-tree>
+  </div>
   <div class="uib-container">
     <uib-tabs>
       <uib-tab name="Canvas" icon="i-canvas">
-        <uib-workbench canvas-size="builder.canvasSize" size-table="builder.sizeTable"></uib-workbench>
+        <uib-workbench></uib-workbench>
       </uib-tab>
       <uib-tab name="Canvas settings" icon="i-code">
         <div class="no-shrink">

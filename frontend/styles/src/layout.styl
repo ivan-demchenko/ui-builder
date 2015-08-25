@@ -1,4 +1,5 @@
 body
+  size 100%
   @extend .flex-col
 
 .uib-app-logo
@@ -8,9 +9,10 @@ body
   text-decoration none
   text-transform uppercase
 
-.uib-app-wrapper
+.uib-app-wrapper,
+.app-view
   @extend .flex, .flex-prior
-  height 100%
+  min-height 0%
 
 .uib-app-main
   background minorBackground
@@ -20,3 +22,10 @@ body
 .uib-container
   @extend .flex-col
   flex-grow 1
+
+.header
+  @extend .flex, .no-shrink
+  background headerBackground
+  color headerTextColor
+  box-shadow 0 2px 3px rgba(0,0,0,0.25)
+  z-index 2

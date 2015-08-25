@@ -1,20 +1,15 @@
 .uib-tree
-  @extend .animated
   max-width sideBarSize
-  min-width sideBarSize
   background minorBackground
   font-size .85rem
   margin 0
   padding 0
-  overflow auto
 
   &.uib-extended
     max-width (sideBarSize * 3)
     min-width (sideBarSize * 3)
 
   & &
-    overflow hidden
-    max-width initial
-    min-width initial
+    min-width 0%
     padding 0 0 0 .5rem
     background-color rgba(0, 0, 0, .03)

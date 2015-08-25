@@ -1,16 +1,16 @@
 'use strict';
 
-function WorkbenchDirective() {
+/* ngInject */
+function WorkbenchDirective(WorkbenchSrvs) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: __dirname + '/workbench.html',
-    scope: {
-      canvasSize: '=',
-      sizeTable: '='
-    },
-    controller: 'WorkbenchController',
-    controllerAs: 'wb'
+    link: function(scope) {
+      scope.presets = WorkbenchSrvs.presets;
+      scope.selectedSize = WorkbenchSrvs.selectedSize;
+      scope.isRotated = WorkbenchSrvs.isRotated;
+    }
   };
 }
 

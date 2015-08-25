@@ -6,17 +6,28 @@ function CanvasDirective($rootScope, Session) {
     restrict: 'E',
     replace: true,
     scope: {
-      size: '='
+      size: '=',
+      isRotated: '='
     },
     templateUrl: __dirname + '/uiCanvas.html',
     link: function(scope, elem) {
       var iframe = elem[0].querySelector('iframe');
+      var holder = elem[0].querySelector('.uib-canvas__holder');
       iframe.src = Session.getResultingURL();
 
       scope.$watch('size', function(newVal, oldVal) {
         if (newVal !== oldVal) {
-          iframe.width = newVal.width;
-          iframe.height = newVal.height;
+          holder.style.width = newVal.width;
+          holder.style.height = newVal.height;
+          iframe.contentWindow.location.reload();
+        }
+      });
+
+      scope.$watch('isRotated', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          var t = holder.style.width;
+          holder.style.width = holder.style.height;
+          holder.style.height = t;
           iframe.contentWindow.location.reload();
         }
       });

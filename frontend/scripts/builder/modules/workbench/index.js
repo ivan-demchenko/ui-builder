@@ -6,5 +6,5 @@ module.exports = angular.module('uiBuilderApp.workbench', [
   require('../canvas').name,
   require('../screenSizeSelector').name
 ])
-  .controller('WorkbenchController', require('./controllers/workbench.controller'))
+  .service('WorkbenchSrvs', require('./services/workbench.service'))
   .directive('uibWorkbench', require('./directives/workbench.directive'));
