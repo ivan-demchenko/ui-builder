@@ -22,9 +22,9 @@ function ResultTree($rootScope, Modal) {
       if (element.type === 'component') {
         targetElement.children.push(element);
       }
-      if (element.type === 'behaviour') {
-        targetElement.behaviours = targetElement.behaviours || [];
-        targetElement.behaviours.push(element);
+      if (element.type === 'behavior') {
+        targetElement.behaviors = targetElement.behaviors || [];
+        targetElement.behaviors.push(element);
       }
     }
     $rootScope.$digest();

@@ -26,8 +26,8 @@ function parameterIsNodeAttribute(par) {
   return typeof par.nodeAttribute !== 'undefined';
 }
 
-function setElementBehaviours($, el, behavioursList) {
-  behavioursList.forEach(function(behav) {
+function setElementBehaviors($, el, behaviorsList) {
+  behaviorsList.forEach(function(behav) {
     setElementAttrVal($, el, behav.attr, behav.value);
   });
 }
@@ -76,8 +76,8 @@ function json2html(arrayOfItems, document, root, $) {
     if (rec.parameters) {
       setElementParameters($, el, rec.parameters);
     }
-    if (rec.behaviours) {
-      setElementBehaviours($, el, rec.behaviours);
+    if (rec.behaviors) {
+      setElementBehaviors($, el, rec.behaviors);
     }
     root.appendChild(el);
     if (rec.children && rec.children.length) {
