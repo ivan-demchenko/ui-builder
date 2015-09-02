@@ -53,18 +53,16 @@ module.exports.loginPayloadCorrect = function(req) {
   return [username, password];
 };
 
-
 module.exports.registerUser = function(username, password) {
   debug('Attempt to register a new user: %s', username);
 
-  return findUser(username).then(
-    function() {
-      throw new Error('This user name is already taken, I am afraid');
-    },
-    function() {
+  return findUser(username).then(function(user) {
+    if (_.isNull(user)) {
+      debug('No such user, will add a new one!');
       return Q.nfcall(addUser, username, password);
     }
-  );
+    throw new Error('This user name is already taken, I am afraid');
+  });
 };
 
 module.exports.logUserIn = function(username, password) {

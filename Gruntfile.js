@@ -23,6 +23,20 @@ module.exports = function(grunt) {
     // Project settings
     yeoman: appConfig,
 
+    env: {
+      dev: {
+        NODE_ENV: 'development',
+        DEBUG: 'uib:*',
+        UIB_MNG_HOST: 'mongo',
+        UIB_RDS_HOST: 'redis'
+      },
+      prod: {
+        NODE_ENV: 'production',
+        UIB_MNG_HOST: 'mongo',
+        UIB_RDS_HOST: 'redis'
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
@@ -30,65 +44,50 @@ module.exports = function(grunt) {
           '<%= yeoman.app %>/scripts/**/*.js',
           '!<%= yeoman.app %>/scripts/**/*.spec.js'
         ],
-        tasks: ['newer:jshint', 'browserify:app']
+        tasks: ['newer:jshint', 'browserify:app'],
+        options: {
+          livereload: true
+        }
       },
       ws: {
         files: ['<%= yeoman.app %>/uib-socket-client.js'],
-        tasks: ['browserify:ws']
+        tasks: ['browserify:ws'],
+        options: {
+          livereload: true
+        }
       },
       jsTest: {
         files: [
           '<%= yeoman.app %>/**/*.spec.js',
           '<%= yeoman.app %>/test/mock/**/*.js'
         ],
-        tasks: ['browserify:app', 'newer:jshint', 'karma']
+        tasks: ['browserify:app', 'newer:jshint', 'karma'],
+        options: {
+          livereload: true
+        }
       },
       fontIcons: {
         files: [
           '<%= yeoman.app %>/styles/icons/*.css',
           '<%= yeoman.app %>/styles/font/*.{eot,svg,ttf,woff}'
         ],
-        tasks: ['newer:copy:dev', 'stylus']
+        tasks: ['newer:copy:dev', 'stylus'],
+        options: {
+          livereload: true
+        }
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/**/*.styl'],
-        tasks: ['stylus']
+        tasks: ['stylus'],
+        options: {
+          livereload: true
+        }
       },
       templates: {
         files: ['<%= yeoman.app %>/**/*.html'],
-        tasks: ['html2js:all', 'browserify']
-      },
-      livereload: {
+        tasks: ['html2js:all', 'browserify'],
         options: {
-          livereload: '<%= connect.options.livereload %>'
-        },
-        files: [
-          '<%= yeoman.app %>/**/*.html',
-          '.tmp/styles/**/*.css'
-        ]
-      }
-    },
-
-    // The actual grunt server settings
-    connect: {
-      options: {
-        port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost'
-      },
-      test: {
-        options: {
-          port: 9001,
-          middleware: function(connect) {
-            return [
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
-              connect.static(appConfig.app)
-            ];
-          }
+          livereload: true
         }
       }
     },
@@ -200,7 +199,6 @@ module.exports = function(grunt) {
           dest: '.tmp/font',
           src: ['*.*']
         }, {
-          '.tmp/scripts/uib-socket.client.js': '<%= yeoman.app %>/uib-socket-client.js',
           '.tmp/internal/jquery.js': '<%= yeoman.app %>/internal/jquery.js'
         }]
       },
@@ -239,16 +237,50 @@ module.exports = function(grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    nodemon: {
+      dev: {
+        script: 'app.js',
+        options: {
+          nodeArgs: ['--debug'],
+          ext: 'js, html',
+          watch: ['server', 'data']
+        }
+      }
+    },
+
+    'node-inspector': {
+      debug: {
+        options: {
+          'web-port': 1337,
+          'web-host': 'localhost',
+          'debug-port': 5858,
+          'save-live-edit': true,
+          'no-preload': true,
+          'stack-trace-limit': 50,
+          'hidden': []
+        }
+      }
+    },
+
+    concurrent: {
+      dev: ['nodemon', 'watch', 'node-inspector'],
+      options: {
+        logConcurrentOutput: true
+      }
     }
+
   });
 
   grunt.registerTask('serve', [
+    'env:dev',
     'clean:server',
     'copy:dev',
     'stylus:dev',
     'html2js',
     'browserify',
-    'watch'
+    'concurrent:dev'
   ]);
 
   grunt.registerTask('test', [

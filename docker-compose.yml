@@ -1,5 +1,27 @@
+app:
+  build: .
+  links:
+    - mongo
+    - redis
+  ports:
+    - "3000:3000"
+  volumes:
+    - ./data/:/app/data/
+    - ./emails/:/app/emails/
+    - ./frontend/:/app/frontend/
+    - ./server/:/app/server/
+    - ./views/:/app/views/
+    - ./Gruntfile.js:/app/Gruntfile.js
+  ports:
+    - "3000:3000"
+    - "3001:3001"
+
 mongo:
   image: mongo
+  ports:
+    - "27017:27017"
 
 redis:
   image: redis
+  ports:
+    - "6379:6379"

@@ -1,16 +1,18 @@
 FROM node
+MAINTAINER Ivan Demchenko <raqy.style@gmail.com>
 
-RUN mkdir -p /app
+RUN npm install -g grunt-cli bower
+
+RUN mkdir /app
+
+ADD package.json /app/package.json
+RUN cd /app && npm install
+
+ADD bower.json /app/bower.json
+RUN cd /app && bower install --config.interactive=false --allow-root
 
 ADD . /app
 
 WORKDIR /app
-
-RUN npm i -g grunt-cli bower
-RUN npm i
-RUN bower install --allow-root
-RUN grunt serve
-
-EXPOSE 3000
-
-CMD ["node", "/app/app.js"]
+EXPOSE 3000 35729
+CMD ["grunt", "serve"]
