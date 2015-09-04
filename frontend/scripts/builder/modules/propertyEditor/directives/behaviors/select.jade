@@ -1,0 +1,4 @@
+.uib-form__control
+  label.uib-prop__value(ng-repeat='opt in behav.options track by $index')
+    input(type='radio', ng-model='behav.value', ng-value='opt.value')
+    span.uib-prop__label {{::opt.label}}

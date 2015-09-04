@@ -1,0 +1,4 @@
+li.uib-tree__item
+  span.uib-repository__item(draggable='true', ng-class='model | repoItemClassifier')
+    i.i-elem(ng-if='model.tagName')
+    | {{::model.name}}

@@ -1,0 +1,6 @@
+input(type='checkbox', ng-model='param.inUse')
+label {{::param.name}}
+.uib-form__control
+  label.uib-prop__value(ng-repeat='opt in param.options')
+    input(type='radio', ng-model='param.value', ng-value='opt.value')
+    span.uib-prop__label {{::opt.label}}

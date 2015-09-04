@@ -1,0 +1,20 @@
+.uib-app-wrapper
+  .uib-container
+    .uib-pane
+      h1 Prepare a new Session
+      .uib-pane.uib-pane--small
+        h4 This is the inital session setup
+      .uib-pane.uib-pane--small
+        input(type='text', ng-model='sessionStarter.title', placeholder='Awesome name for your new masterpiece')
+      .flex-row
+        .uib-pane.uib-pane--small
+          h4.uib-pane__title Inital HTML
+          textarea(ng-model='sessionStarter.initials.html')
+        .uib-pane.uib-pane--small
+          h4.uib-pane__title Inital CSS
+          textarea(ng-model='sessionStarter.initials.css')
+        .uib-pane.uib-pane--small
+          h4.uib-pane__title Inital JS
+          textarea(ng-model='sessionStarter.initials.js')
+      .uib-pane.uib-pane--small
+        button.uib-btn.uib-btn--dark(ng-click='sessionStarter.start()') Start new session

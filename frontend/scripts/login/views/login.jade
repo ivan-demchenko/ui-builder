@@ -1,0 +1,20 @@
+.uib-wrapper--app
+  .uib-pane
+    .uib-pane.uib-pane--small
+      h1.uib-pane__title Login
+
+    .uib-pane.uib-pane--small
+      h3
+        | No account?
+        a(href='registration') Register
+
+    .uib-pane.uib-pane--small
+      form#loginForm(name='loginForm', ng-submit='login.logUserIn()', novalidate='')
+        .uib-form__control
+          label(for='username-login') Your email
+          input#username-login(type='email', name='login', ng-model='login.loginData.username', pattern='[^\s]+@[^\s]+\.[\w]{2,}')
+        .uib-form__control
+          label(for='username-password') Your password
+          input#username-password(type='password', name='password', ng-model='login.loginData.password')
+        .uib-form__control
+          input.uib-btn.uib-btn--dark(type='submit', value='Log me in')

@@ -9,7 +9,13 @@ body
   text-decoration none
   text-transform uppercase
 
-.uib-app-wrapper,
+.uib-wrapper
+  &--repository,
+  &--resulting-tree
+    @extend .flex-col
+    width sideBarSize
+
+.uib-wrapper--app,
 .app-view
   @extend .flex, .flex-prior
   min-height 0%

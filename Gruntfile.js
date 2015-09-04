@@ -84,8 +84,8 @@ module.exports = function(grunt) {
         }
       },
       templates: {
-        files: ['<%= yeoman.app %>/**/*.html'],
-        tasks: ['html2js:all', 'browserify'],
+        files: ['<%= yeoman.app %>/**/*.jade'],
+        tasks: ['newer:jade:frontend', 'html2js:all', 'browserify'],
         options: {
           livereload: true
         }
@@ -127,14 +127,26 @@ module.exports = function(grunt) {
       }
     },
 
+    jade: {
+      frontend: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/',
+          src: ['**/*.jade'],
+          dest: '.tmp',
+          ext: '.html'
+        }]
+      }
+    },
+
     html2js: {
       options: {
-        base: './',
+        base: '.tmp',
         module: 'uib-templates',
         fileHeaderString: 'module.exports =',
         singleModule: true,
         rename: function(moduleName) {
-          return '/' + moduleName;
+          return '/frontend/' + moduleName;
         },
         htmlmin: {
           collapseBooleanAttributes: true,
@@ -143,7 +155,7 @@ module.exports = function(grunt) {
         }
       },
       all: {
-        src: ['<%= yeoman.app %>/**/*.html'],
+        src: ['.tmp/**/*.html'],
         dest: '.tmp/scripts/uib-templates.js'
       }
     },
@@ -273,11 +285,18 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerTask('tmpls', [
+    'clean:server',
+    'jade',
+    'html2js'
+  ]);
+
   grunt.registerTask('serve', [
     'env:dev',
     'clean:server',
     'copy:dev',
     'stylus:dev',
+    'jade',
     'html2js',
     'browserify',
     'concurrent:dev'
@@ -293,6 +312,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [
     'clean:dist',
+    'jade',
     'html2js',
     'browserify',
     'stylus:dist',

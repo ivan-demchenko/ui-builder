@@ -1,0 +1,15 @@
+li.uib-tree__item
+  .flex-row.uib-result-tree__item__label
+    aside.uib-tree__item__aside
+      i.i-up(ng-show='canMoveUp()', ng-click='moveUp()')
+      i.i-down(ng-show='canMoveDown()', ng-click='moveDown()')
+
+    .uib-tree__item__label
+      span.uib-elem-tag-name {{model.name}}
+
+    aside.uib-tree__item__aside
+      a.uib-btn(href='#', ng-click='editElem()', ng-if='isEditable()')
+        i.i-wrench
+
+      a.uib-btn(href='#', ng-click='remove()')
+        i.i-trash

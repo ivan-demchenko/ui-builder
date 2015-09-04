@@ -1,0 +1,13 @@
+.uib-app-wrapper
+  .uib-container
+    .uib-pane
+      h1 Your gallery
+
+      ul.uib-gallery.uib-pane--small
+        li.uib-gallery__item(ng-repeat='item in gallery.items track by $index')
+          h3.uib-gallery__item__title {{::item.title || &apos;Untitled&apos;}}
+          h6 {{::item.created | date}}
+          button.uib-btn.uib-btn--dark.uib-btn--small(ng-click='gallery.continue(item._id)') Continue
+
+      .uib-pane--small
+        button.uib-btn.uib-btn--dark(ng-click='gallery.startNewSession()') Add a new masterpiece to your gallery!

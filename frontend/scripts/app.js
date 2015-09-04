@@ -10,6 +10,7 @@ var angular = require('angular');
  *
  * Main module of the application.
  */
+
 angular.module('uiBuilderApp', [
     require('angular-route'),
     require('../../.tmp/scripts/uib-templates').name,

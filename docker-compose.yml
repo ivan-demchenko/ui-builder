@@ -5,6 +5,8 @@ app:
     - redis
   ports:
     - "3000:3000"
+    - "3001:3001"
+    - "35729:35729"
   volumes:
     - ./data/:/app/data/
     - ./emails/:/app/emails/

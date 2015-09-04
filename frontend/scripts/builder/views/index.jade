@@ -1,0 +1,30 @@
+.uib-wrapper-app
+  .uib-wrapper--repository.scrollable
+    uib-repo-items-tree(tree='builder.repoItems.componentsTree')
+
+  .uib-wrapper--resulting-tree.scrollable
+    uib-result-tree(tree='builder.resultTree')
+
+  .uib-container
+    uib-tabs
+      uib-tab(name='Canvas', icon='i-canvas')
+        uib-workbench
+      uib-tab(name='Canvas settings', icon='i-code')
+        .no-shrink
+          span Share edit settings page
+          input(type='text', value='{{::builder.editSettingsURL}}')
+        span HTML
+        textarea.flex-prior(ng-model='builder.currentSession.initial.html')
+        span JS
+        textarea.flex-prior(ng-model='builder.currentSession.initial.js')
+        span CSS
+        textarea.flex-prior(ng-model='builder.currentSession.initial.css')
+        button.uib-btn.uib-btn--dark(ng-click='builder.updateSession()') Save changes
+      uib-tab(name='Result', icon='i-result')
+        .no-shrink
+          span Share view link
+          input(type='text', value='{{::builder.shareSessionURL}}')
+        span.no-shrink Resulting code
+        textarea.flex-prior(ng-model='builder.resultingHTML', rows='8')
+        button.uib-btn.uib-btn--dark(ng-click='builder.fetchResult()') Get the result
+uib-item-properties-edit(data='builder.editableElement')

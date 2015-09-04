@@ -1,0 +1,14 @@
+.uib-app-wrapper
+  .uib-container
+    uib-tabs
+      uib-tab(name='Canvas settings', icon='i-code')
+        span HTML
+        textarea.flex-prior(ng-model='editSettingsCtrl.sessionInitials.html')
+
+        span JS
+        textarea.flex-prior(ng-model='editSettingsCtrl.sessionInitials.js')
+
+        span CSS
+        textarea.flex-prior(ng-model='editSettingsCtrl.sessionInitials.css')
+
+        button.uib-btn.uib-btn--dark(ng-click='editSettingsCtrl.updateSession()') Save changes

@@ -1,0 +1,6 @@
+.uib-tabs
+  .uib-tabs__row
+    .uib-tab__button(ng-repeat='tab in tabs track by $index', ng-click='selectTab(tab)', ng-class='{selected:tab.selected}')
+      i(class='{{::tab.icon}}')
+      span.uib-tab__name {{::tab.name}}
+  .uib-tab__content(ng-transclude='')
