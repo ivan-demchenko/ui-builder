@@ -6,16 +6,16 @@ var Q = require('q'),
     debug = require('debug')('uib:server:domain:auth'),
     token = require('../token');
 
-function findUser(username) {
-  debug('Attempt to find a user by username %s ', username);
-  return Q.ninvoke(User, 'findOne', {username: username});
+function findUser(email) {
+  debug('Attempt to find a user by email %s ', email);
+  return Q.ninvoke(User, 'findOne', {email: email});
 }
 
-function addUser(username, password, cb) {
-  debug('Adding a new user %s', username);
+function addUser(email, password, cb) {
+  debug('Adding a new user %s', email);
 
   var newUser = new User({
-    username: username,
+    email: email,
     password: password
   });
 
@@ -25,50 +25,50 @@ function addUser(username, password, cb) {
 module.exports.registerPayloadCorrect = function(req) {
   debug('Check register payload');
 
-  var username = req.body.username.trim() || '';
-  var password = req.body.password.trim() || '';
-  var passwordConfirmation = req.body.passwordConfirmation.trim() || '';
+  var email = req.body.email ? req.body.email.trim() : '';
+  var password = req.body.password ? req.body.password.trim() : '';
+  var passwordConfirmation = req.body.passwordConfirmation ? req.body.passwordConfirmation.trim() : '';
 
-  if (username === '' || password === '' || passwordConfirmation === '') {
-    return new Error('Data is not provided');
+  if (!email || !password || !passwordConfirmation) {
+    return new Error('Please enter all the data');
   }
 
   if (password !== passwordConfirmation) {
     throw new Error('Password and password confirmation do not match');
   }
 
-  return [username, password];
+  return [email, password];
 };
 
 module.exports.loginPayloadCorrect = function(req) {
   debug('Check login payload');
 
-  var username = req.body.username.trim() || '';
-  var password = req.body.password.trim() || '';
+  var email = req.body.email ? req.body.email.trim() : '';
+  var password = req.body.password ? req.body.password.trim() : '';
 
-  if (!username || !password) {
-    throw new Error('Please, enter username and password');
+  if (!email || !password) {
+    throw new Error('Please, enter email and password');
   }
 
-  return [username, password];
+  return [email, password];
 };
 
-module.exports.registerUser = function(username, password) {
-  debug('Attempt to register a new user: %s', username);
+module.exports.registerUser = function(email, password) {
+  debug('Attempt to register a new user: %s', email);
 
-  return findUser(username).then(function(user) {
+  return findUser(email).then(function(user) {
     if (_.isNull(user)) {
       debug('No such user, will add a new one!');
-      return Q.nfcall(addUser, username, password);
+      return Q.nfcall(addUser, email, password);
     }
     throw new Error('This user name is already taken, I am afraid');
   });
 };
 
-module.exports.logUserIn = function(username, password) {
+module.exports.logUserIn = function(email, password) {
   debug('Try to log user in');
 
-  return findUser(username).then(function(user) {
+  return findUser(email).then(function(user) {
     if (_.isNull(user)) {
       throw new Error('Looks like there is no such user');
     }

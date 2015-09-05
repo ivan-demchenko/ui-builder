@@ -1,4 +1,4 @@
-.uib-app-wrapper
+.uib-wrapper--app
   .uib-pane
     .uib-pane.uib-pane--small
       h1.uib-pane__title Register
@@ -6,8 +6,8 @@
     .uib-pane.uib-pane--small
       form#registerForm(name='registerForm', ng-submit='login.registerNewUser()', novalidate='')
         .uib-form__control
-          label(for='reg-username') Email
-          input#reg-username(type='email', name='login', ng-model='login.registerData.username', pattern='[^\s]+@[^\s]+\.[\w]{2,}')
+          label(for='reg-email') Email
+          input#reg-email(type='email', name='email', ng-model='login.registerData.email')
         .uib-form__control
           label(for='reg-password') Password
           input#reg-password(type='password', name='password', ng-model='login.registerData.password')

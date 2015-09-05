@@ -1,11 +1,11 @@
 'use strict';
 
-var debug = require('debug')('uib:app');
-var expressSetup = require('./server/express');
-var socketServer = require('./server/socket');
-var mongoClient = require('./server/mongo');
-var configSetup = require('./server/config');
-var routesSetup = require('./server/routes');
+var debug = require('debug')('uib:app'),
+    configSetup = require('./config'),
+    expressSetup = require('./server/express'),
+    socketServer = require('./server/socket'),
+    mongoClient = require('./server/mongo'),
+    routesSetup = require('./server/routes');
 
 var env = process.env.NODE_ENV || 'production';
 

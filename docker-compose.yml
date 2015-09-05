@@ -9,6 +9,7 @@ app:
     - "35729:35729"
   volumes:
     - ./data/:/app/data/
+    - ./config/:/app/config/
     - ./emails/:/app/emails/
     - ./frontend/:/app/frontend/
     - ./server/:/app/server/
@@ -17,6 +18,8 @@ app:
   ports:
     - "3000:3000"
     - "3001:3001"
+    - "35729:35729"
+    - "1337:1337"
 
 mongo:
   image: mongo

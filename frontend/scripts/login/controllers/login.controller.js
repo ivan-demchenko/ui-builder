@@ -4,12 +4,12 @@
 function LoginController(LoginService) {
 
   this.loginData = {
-    username: '',
+    email: '',
     password: ''
   };
 
   this.registerData = {
-    username: '',
+    email: '',
     password: '',
     passwordConfirmation: ''
   };

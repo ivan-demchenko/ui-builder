@@ -5,7 +5,7 @@ var Q = require('q'),
     debug = require('debug')('uib:server:token'),
     jsonwebtoken = require('jsonwebtoken'),
     redisClient = require('./redis'),
-    configSetup = require('./config'),
+    configSetup = require('../config'),
     config = configSetup(process.env.NODE_ENV || 'production');
 
 function jwtVerify(token) {
@@ -53,7 +53,7 @@ function generateStoredData(user, token) {
 
   var data = {
     _id: user._id,
-    username: user.username,
+    email: user.email,
     token: token
   };
   var decoded = jsonwebtoken.decode(token);

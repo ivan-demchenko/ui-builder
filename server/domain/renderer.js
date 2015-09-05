@@ -4,18 +4,14 @@ var env = process.env.NODE_ENV || 'production';
 var debug = require('debug')('uib:server:domain:renderer'),
     Q = require('q'),
     jsdom = require('node-jsdom'),
-    config = require('../config')(env),
+    config = require('../../config')(env),
     serializeDocument = jsdom.serializeDocument,
     beautifyHtml = require('js-beautify').html;
 
 function setElementAttrVal($, el, attrName, attrVal) {
-  if (attrName === 'class') {
-    $(el).addClass(attrVal);
-  } else if (attrName === 'innerText') {
-    $(el).text(attrVal);
-  } else {
-    $(el).attr(attrName, attrVal);
-  }
+  return attrName === 'class'     ? $(el).addClass(attrVal) :
+         attrName === 'innerText' ? $(el).text(attrVal) :
+         $(el).attr(attrName, attrVal);
 }
 
 function parameterIsAttribute(par) {
@@ -27,13 +23,13 @@ function parameterIsNodeAttribute(par) {
 }
 
 function setElementBehaviors($, el, behaviorsList) {
-  behaviorsList.forEach(function(behav) {
-    setElementAttrVal($, el, behav.attr, behav.value);
+  behaviorsList.forEach(function(behavItem) {
+    setElementAttrVal($, el, behavItem.attr, behavItem.value);
   });
 }
 
 function setElementParameters($, el, params) {
-  var groupedAttrs = params
+  var reGroupedAttrs = params
   .filter(parameterIsAttribute)
   .reduce(function(resultMap, parameter) {
     if (parameter.inUse) {
@@ -46,8 +42,8 @@ function setElementParameters($, el, params) {
     return resultMap;
   }, {});
 
-  for (var attrName in groupedAttrs) {
-    setElementAttrVal($, el, attrName, groupedAttrs[attrName].join(' '));
+  for (var attrName in reGroupedAttrs) {
+    setElementAttrVal($, el, attrName, reGroupedAttrs[attrName].join(' '));
   }
 
   params
@@ -99,14 +95,30 @@ function getRendererEnv(sessionHTML) {
   });
 }
 
+function appendJS(env, url) {
+  var socketClientScript = env.document.createElement('script');
+  socketClientScript.type = 'text/javascript';
+  socketClientScript.charset = 'UTF-8';
+  socketClientScript.src = url;
+  env.document.head.appendChild(socketClientScript);
+}
+
+function appendCSS(env, url) {
+  var style = env.document.createElement('link');
+  style.rel = 'stylesheet';
+  style.type = 'text/css';
+  style.href = url;
+  env.document.head.appendChild(style);
+}
+
 module.exports.renderSnapshot = function(session, snapshot) {
   debug('Attempt to render snapshot');
   return Q.promise(function(resolve) {
     if (!snapshot) {
       debug('Snapshot is missing');
-      return resolve('');
+      return resolve('<!-- session is empty -->');
     }
-    debug('Snapshot is here, set up render env');
+    debug('Found a snapshot, set up render env');
     return resolve(getRendererEnv(session.initial.html).then(function(env) {
       json2html(JSON.parse(snapshot.tree), env.document, env.body, env.$);
       return beautifyHtml(serializeDocument(env.body));
@@ -119,33 +131,19 @@ module.exports.renderSession = function(session, snapshot) {
 
   return Q.promise(function(resolve) {
     if (snapshot) {
-      debug('...Using snapshot');
+      debug('Rendering the sesion using snapshot');
       getRendererEnv(session.initial.html).then(function(env) {
-        debug('...environment has been setup');
+        debug('Rendering environment has been setup');
         json2html(JSON.parse(snapshot.tree), env.document, env.body, env.$);
 
-        var style = env.document.createElement('link');
-        style.rel = 'stylesheet';
-        style.type = 'text/css';
-        style.href = '/api/session/' + session._id + '/css';
-        env.document.head.appendChild(style);
-
-        var sessionScript = env.document.createElement('script');
-        sessionScript.type = 'text/javascript';
-        sessionScript.charset = 'UTF-8';
-        sessionScript.src = '/api/session/' + session._id + '/js';
-        env.document.head.appendChild(sessionScript);
-
-        var socketClientScript = env.document.createElement('script');
-        socketClientScript.type = 'text/javascript';
-        socketClientScript.charset = 'UTF-8';
-        socketClientScript.src = '/scripts/uib-socket-client.js';
-        env.document.head.appendChild(socketClientScript);
+        appendCSS(env, '/api/session/' + session._id + '/css');
+        appendJS(env, '/api/session/' + session._id + '/js');
+        appendJS(env, '/scripts/uib-socket-client.js');
 
         resolve(serializeDocument(env.document));
       });
     } else {
-      debug('...Without a snapshot, just session');
+      debug('Rendering the sesion without a snapshot, just session');
       return resolve(getRendererEnv(session.initial.html).then(function(env) {
         return serializeDocument(env.document);
       }));

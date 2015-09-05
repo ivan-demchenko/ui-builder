@@ -4,10 +4,14 @@ body
 
 .uib-app-logo
   @extend .unselectable
-  padding 1rem
+  display inline-block
+  padding basicUnit * 2
   color headerTextColor
   text-decoration none
   text-transform uppercase
+
+  &__icon
+    margin-right basicUnit
 
 .uib-wrapper
   &--repository,

@@ -1,7 +1,6 @@
 'use strict';
 
 var message = require('./responseMessages'),
-    debug = require('debug')('uib:helper:response'),
     _ = require('lodash');
 
 function sendResponce(type, res) {

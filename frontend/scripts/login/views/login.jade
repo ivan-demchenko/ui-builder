@@ -11,10 +11,12 @@
     .uib-pane.uib-pane--small
       form#loginForm(name='loginForm', ng-submit='login.logUserIn()', novalidate='')
         .uib-form__control
-          label(for='username-login') Your email
-          input#username-login(type='email', name='login', ng-model='login.loginData.username', pattern='[^\s]+@[^\s]+\.[\w]{2,}')
+          label(for='email-login') Your email
+          input#email-login(type='email', name='email', ng-model='login.loginData.email')
+
         .uib-form__control
-          label(for='username-password') Your password
-          input#username-password(type='password', name='password', ng-model='login.loginData.password')
+          label(for='email-password') Your password
+          input#email-password(type='password', name='password', ng-model='login.loginData.password')
+
         .uib-form__control
           input.uib-btn.uib-btn--dark(type='submit', value='Log me in')

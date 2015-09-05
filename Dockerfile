@@ -14,5 +14,5 @@ RUN cd /app && bower install --config.interactive=false --allow-root
 ADD . /app
 
 WORKDIR /app
-EXPOSE 3000 35729
+EXPOSE 1337 3000 3001 35729
 CMD ["grunt", "serve"]

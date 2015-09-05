@@ -78,14 +78,14 @@ module.exports = function(grunt) {
       },
       stylus: {
         files: ['<%= yeoman.app %>/styles/**/*.styl'],
-        tasks: ['stylus'],
+        tasks: ['stylus:dev'],
         options: {
           livereload: true
         }
       },
       templates: {
         files: ['<%= yeoman.app %>/**/*.jade'],
-        tasks: ['newer:jade:frontend', 'html2js:all', 'browserify'],
+        tasks: ['newer:jade:frontend', 'html2js:all', 'browserify:app'],
         options: {
           livereload: true
         }
