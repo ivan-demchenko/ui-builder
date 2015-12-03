@@ -27,6 +27,7 @@ module.exports = function(grunt) {
       dev: {
         NODE_ENV: 'development',
         DEBUG: 'uib:*',
+        Q_DEBUG: '1',
         UIB_MNG_HOST: 'mongo',
         UIB_RDS_HOST: 'redis'
       },
@@ -255,41 +256,21 @@ module.exports = function(grunt) {
       dev: {
         script: 'app.js',
         options: {
-          nodeArgs: ['--debug'],
           ext: 'js, html',
-          watch: ['server', 'data']
-        }
-      }
-    },
-
-    'node-inspector': {
-      debug: {
-        options: {
-          'web-port': 1337,
-          'web-host': 'localhost',
-          'debug-port': 5858,
-          'save-live-edit': true,
-          'no-preload': true,
-          'stack-trace-limit': 50,
-          'hidden': []
+          watch: ['server', 'data'],
+          ignore: ['node_modules/**']
         }
       }
     },
 
     concurrent: {
-      dev: ['nodemon', 'watch', 'node-inspector'],
+      dev: ['nodemon', 'watch'],
       options: {
         logConcurrentOutput: true
       }
     }
 
   });
-
-  grunt.registerTask('tmpls', [
-    'clean:server',
-    'jade',
-    'html2js'
-  ]);
 
   grunt.registerTask('serve', [
     'env:dev',

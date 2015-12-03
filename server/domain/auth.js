@@ -30,7 +30,7 @@ module.exports.registerPayloadCorrect = function(req) {
   var passwordConfirmation = req.body.passwordConfirmation ? req.body.passwordConfirmation.trim() : '';
 
   if (!email || !password || !passwordConfirmation) {
-    return new Error('Please enter all the data');
+    throw new Error('Please fill out all the fields');
   }
 
   if (password !== passwordConfirmation) {

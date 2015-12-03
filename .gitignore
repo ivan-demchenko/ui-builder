@@ -9,3 +9,4 @@ test/coverage
 .sass-cache
 bower_components
 tmp
+*.log
