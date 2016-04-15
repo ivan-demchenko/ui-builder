@@ -8,9 +8,6 @@ RUN mkdir /app
 ADD package.json /app/package.json
 RUN cd /app && npm install
 
-ADD bower.json /app/bower.json
-RUN cd /app && bower install --config.interactive=false --allow-root
-
 ADD . /app
 
 WORKDIR /app
