@@ -1,10 +1,12 @@
 'use strict';
 
-var env = process.env;
+var env = process.env,
+    path = require('path');
 
 module.exports = {
+  appRoot: path.join(__dirname, '..'),
   token: {
-    exp: (60 * 60),
+    exp: (60 * 60), // one hour
     secret: 'b0a06e9e-a0a4-461f-b608-d5afbe1ce2ac'
   },
   webSocketsServer: {

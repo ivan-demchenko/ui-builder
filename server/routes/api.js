@@ -1,14 +1,14 @@
 'use strict';
 
 var debug = require('debug')('uib:server:routes:api'),
-    _ = require('lodash'),
+    R = require('ramda'),
     ws = require('../socket'),
     token = require('../token'),
     sessionDomain = require('../domain/builderSession'),
     renderer = require('../domain/renderer'),
     responce = require('../helpers/responseHandlers.js');
 
-var sendReloadSignal = _.curry(function(res, message, data) {
+var sendReloadSignal = R.curry(function(res, message, data) {
   ws.broadcast('reload');
   responce.success(res, message)(data);
 });
@@ -17,7 +17,7 @@ function checkTokenValidity(headers) {
   return token.verify(headers);
 }
 
-var getSessionAsset = _.curry(function(type, sessionId) {
+var getSessionAsset = R.curry(function(type, sessionId) {
   return sessionDomain.getSessionAsset(sessionId, type);
 });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var Q = require('q'),
-    _ = require('lodash'),
+    R = require('ramda'),
     debug = require('debug')('uib:server:token'),
     jsonwebtoken = require('jsonwebtoken'),
     redisClient = require('./redis'),
@@ -19,7 +19,7 @@ function sign(user) {
   debug('Signing with JWT');
   return Q.fcall(function() {
     var token = jsonwebtoken.sign({ _id: user._id }, config.token.secret, {
-      expiresInMinutes: config.token.exp / 60
+      expiresIn: config.token.exp
     });
     return [user, token];
   });
@@ -63,7 +63,7 @@ function generateStoredData(user, token) {
 }
 
 function create(user) {
-  if (_.isNull(user)) {
+  if (R.isNil(user)) {
     throw new Error('User data has not beed provided');
   }
   debug('Create a new token for the user');
@@ -80,7 +80,7 @@ function create(user) {
 }
 
 function retrieve(token) {
-  if (_.isNull(token)) {
+  if (R.isNil(token)) {
     throw new Error('Your access token is outdated, you need to relogin.');
   }
   debug('Retrieving data from Redis via token %s', token);
@@ -110,7 +110,7 @@ function verify(headers) {
 function expire(token) {
   debug('Expiring token: %s', token);
   return redisClient.expire(token, 0).then(function() {
-    return redisClient.get(token).then(_.isNull);
+    return redisClient.get(token).then(R.isNil);
   });
 }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var debug = require('debug')('uib:server:domain:builderSession'),
-    _ = require('lodash'),
+    R = require('ramda'),
     Q = require('q'),
     sessionModel = require('../models/session');
 
@@ -52,7 +52,7 @@ module.exports.validateSessionSnapshotPayload = function(req) {
   return [sessionId, (req.body.tree.trim() || '')];
 };
 
-module.exports.getSessionSnapshotById = _.curry(function(snapshotId, session) {
+module.exports.getSessionSnapshotById = R.curry(function(snapshotId, session) {
   debug('get snapshot by id %s for session %s', snapshotId, session.id);
   return Q.promise(function(resolve) {
     var snapshot = snapshotId ? session.snapshots.id(snapshotId) : tail(session.snapshots);

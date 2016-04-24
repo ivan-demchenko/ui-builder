@@ -1,7 +1,7 @@
 'use strict';
 
 var Q = require('q'),
-    _ = require('lodash'),
+    R = require('ramda'),
     User = require('../models/user'),
     debug = require('debug')('uib:server:domain:auth'),
     token = require('../token');
@@ -57,7 +57,7 @@ module.exports.registerUser = function(email, password) {
   debug('Attempt to register a new user: %s', email);
 
   return findUser(email).then(function(user) {
-    if (_.isNull(user)) {
+    if (R.isNil(user)) {
       debug('No such user, will add a new one!');
       return Q.nfcall(addUser, email, password);
     }
@@ -69,7 +69,7 @@ module.exports.logUserIn = function(email, password) {
   debug('Try to log user in');
 
   return findUser(email).then(function(user) {
-    if (_.isNull(user)) {
+    if (R.isNil(user)) {
       throw new Error('Looks like there is no such user');
     }
 

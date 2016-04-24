@@ -4,15 +4,15 @@ var debug = require('debug')('uib:server:routes:auth'),
     Q = require('q'),
     authDomain = require('../domain/auth'),
     token = require('../token'),
-    responce = require('../helpers/responseHandlers'),
-    mailSender = require('../helpers/mailSender');
+    responce = require('../helpers/responseHandlers');
+    // mailSender = require('../helpers/mailSender');
 
 module.exports.register = function(req, res) {
   debug('Attempt to register');
 
   Q.fcall(authDomain.registerPayloadCorrect, req)
   .spread(authDomain.registerUser)
-  .then(mailSender.sendWelcomeEmail)
+  // .then(mailSender.sendWelcomeEmail)
   .then(responce.success(res, 'You have registered, now you can login'))
   .catch(responce.error(res));
 };

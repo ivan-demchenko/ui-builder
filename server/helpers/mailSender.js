@@ -2,11 +2,16 @@
 
 var d = require('debug')('uib:server:helpers:mailSender'),
     Q = require('q'),
+    config = require('../../config'),
     _ = require('lodash'),
     fs = require('fs'),
     nodemailer = require('nodemailer'),
     path = require('path'),
     mailTransporter = nodemailer.createTransport();
+
+function getEmailTemplateDir(templateName) {
+  return Q.when(path.join(config.appRoot, 'emails', templateName));
+}
 
 function getTemplateContent(path) {
   return Q.nfcall(fs.readFile, path);
@@ -14,7 +19,7 @@ function getTemplateContent(path) {
 
 function generateEmailTemplate(emailTemplateName, templateData) {
   d('Try to render a template %s', emailTemplateName);
-  var templateDir = path.join(__dirname, '../../emails/', emailTemplateName);
+  var templateDir = getEmailTemplateDir(emailTemplateName);
   var templater = new EmailTemplate(templateDir);
   templater.render(templateData, function(res) {
     d('rendering result:', JSON.stringify(res));

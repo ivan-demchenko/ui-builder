@@ -1,9 +1,10 @@
 'use strict';
 
-var _ = require('lodash');
+var R = require('ramda');
 
 module.exports = function(env) {
-  return _.merge(
+  return R.mergeAll([
     require('./common'),
-    require('./' + env) || {});
+    require('./' + env) || {}
+  ]);
 };

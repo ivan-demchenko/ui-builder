@@ -1,7 +1,7 @@
 'use strict';
 
 var message = require('./responseMessages'),
-    _ = require('lodash');
+    R = require('ramda');
 
 function sendResponce(type, res) {
   return function(code) {
@@ -9,13 +9,13 @@ function sendResponce(type, res) {
   };
 }
 
-module.exports.error = _.curry(function(responceObject, data) {
+module.exports.error = R.curry(function(responceObject, data) {
   return responceObject
     .status(500)
     .json(message.error(data));
 });
 
-module.exports.success = _.curry(function(responceObject, successMessage, data) {
+module.exports.success = R.curry(function(responceObject, successMessage, data) {
   return responceObject
     .status(200)
     .json(message.success(successMessage, data));

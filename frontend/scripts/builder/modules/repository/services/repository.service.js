@@ -14,10 +14,7 @@ function RepositoryService($http) {
     if (this.repoInfo) {
       return this.repoInfo;
     }
-    return $http.get('/data/repository.json').then(function(resp) {
-      this.repoInfo = resp.data;
-      return this.repoInfo;
-    }.bind(this));
+    return $http.get('/data/repository.json').then(this.setRepoInto);
   };
 
 }

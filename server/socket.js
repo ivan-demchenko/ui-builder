@@ -1,12 +1,12 @@
 'use strict';
 
 var debug = require('debug')('uib:server:websocket'),
-    _ = require('lodash'),
+    R = require('lodash'),
     WebSocketServer = require('ws').Server,
     wss = null,
     clients = [];
 
-var notifyClient = _.curry(function(msg, client) {
+var notifyClient = R.curry(function(msg, client) {
   client.send(msg);
 });
 
