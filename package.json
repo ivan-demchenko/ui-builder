@@ -9,7 +9,7 @@
   },
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "bcrypt": "^0.8.3",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.14.2",
     "debug": "^2.2.0",
     "express": "^4.12.3",
